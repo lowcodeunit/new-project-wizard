@@ -27,7 +27,13 @@
 .App-link {
   color: #61dafb;
 }
-
+img {
+  max-width: 20%;
+  max-height: 100%;
+}
+.logos {
+  height: 250px;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
