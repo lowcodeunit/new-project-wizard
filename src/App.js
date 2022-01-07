@@ -14,7 +14,7 @@ class HomeComponent extends React.Component{
   constructor(){
     super();
     this.state={
-      currentStep:2,
+      currentStep:0,
       workspace:''
     };
     this.handleStepChange = this.handleStepChange.bind(this);
