@@ -4,13 +4,6 @@ import { Box, Button, Paper } from '@mui/material';
 import { ReactComponent as ReactLogo } from '../recipelogos/reactLogo.svg';
 import { ReactComponent as AngularLogo } from '../recipelogos/angularLogo.svg';
 import { ReactComponent as SvelteLogo } from '../recipelogos/svelteLogo.svg';
-import { TimerSharp } from '@mui/icons-material';
-
-
-
-
-
-
 class RecipeProject extends React.Component {
     constructor(props) {
         super(props);

@@ -1,6 +1,6 @@
 import '../App.css';
 import React from "react";
-import {Box, Button, ButtonGroup, TextField, Menu, MenuItem } from '@mui/material';
+import {Box, Button, ButtonGroup, TextField} from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
@@ -40,13 +40,13 @@ class CustomProject extends React.Component{
 
   incrementStep(){
     console.log("incrementStep " + this.state.step);
-    let newStep = ++this.state.step;
-    this.setState({step: newStep});
+    let newStep = this.state.step;
+    this.setState({step: ++newStep});
   }
   decrementStep(){
     console.log("decrement " + this.state.step);
-    let newStep = --this.state.step;
-    this.setState({step: newStep});
+    let newStep = this.state.step;
+    this.setState({step: ++newStep});
   }
 
   handleProjectNameChange(event) {
