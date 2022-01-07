@@ -6,6 +6,7 @@ import WorkspaceSetup from './components/WorkspaceSetup';
 import CustomProject from './components/CustomProject';
 import RecipeProject from './components/RecipeProject';
 import WelcomePage from './components/WelcomePage';
+import LoadingPage from './components/LoadingPage';
 import CloseIcon from '@mui/icons-material/Close';
 
 
@@ -21,7 +22,8 @@ class HomeComponent extends React.Component{
   }
 
   handleStepChange(){
-    this.setState({currentStep:++this.state.currentStep})
+    let step = this.state.currentStep
+    this.setState({currentStep:++step})
   }
   handleWorkspaceOpen(event){
     this.setState({workspace: event})
@@ -31,7 +33,8 @@ class HomeComponent extends React.Component{
     let content;
     if(this.state.currentStep === 0) {
       content= <WelcomePage onStepChange={this.handleStepChange}></WelcomePage>
-    } else if (this.state.currentStep === 1) {
+    } 
+    else if (this.state.currentStep === 1) {
       if(this.state.workspace === 'custom'){
         console.log("WS ===== "  + this.state.workspace + " ======");
         content = <Box sx={{display:"flex", flexDirection: "row"}}>
@@ -42,7 +45,6 @@ class HomeComponent extends React.Component{
       } else if (this.state.workspace === '') {
         content = <WorkspaceSetup buttonClick={this.handleWorkspaceOpen}></WorkspaceSetup>
       } else {
-      
       content = 
       <Box sx={{display:"flex", flexDirection: "row"}}>
         <WorkspaceSetup buttonClick={this.handleWorkspaceOpen}></WorkspaceSetup>
@@ -50,6 +52,10 @@ class HomeComponent extends React.Component{
         <RecipeProject recipe={this.state.workspace}/>
       </Box>
       }
+    }
+    else if (this.state.currentStep === 2) {
+      content =
+      <LoadingPage/>
     }
     return (
       <div className="App">
