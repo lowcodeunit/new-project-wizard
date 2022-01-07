@@ -1,6 +1,6 @@
 import '../App.css';
 import React from "react";
-import {Box, Button, ButtonGroup, TextField } from '@mui/material';
+import {Box, Button, ButtonGroup, TextField, Menu, MenuItem } from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
@@ -14,12 +14,29 @@ class CustomProject extends React.Component{
     super(props);
     this.state={
         step:0,
-        ProjectName: ''
+        ProjectName: '',
+        anchorEl: null,
+        anchorOriginVertical: 'bottom',
+        anchorOriginHorizontal: 'right',
+        transformOriginVertical: 'top',
+        transformOriginHorizontal: 'right',
+        anchorReference: 'anchorEl',
     };
     this.incrementStep = this.incrementStep.bind(this);
     this.decrementStep = this.decrementStep.bind(this);
     this.handleProjectNameChange = this.handleProjectNameChange.bind(this);
   }
+  handleChange = (event, checked) => {
+    this.setState({ auth: checked });
+  };
+
+  handleMenu = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
 
   incrementStep(){
     console.log("incrementStep " + this.state.step);
@@ -66,7 +83,7 @@ class CustomProject extends React.Component{
           <Box>
             <Box>
                 <p>What is your git organization?</p>
-                <TextField id="outlined-basic" label="Project name" variant="outlined" />
+                <TextField id="outlined-basic" label="Project name v" variant="outlined" />
             </Box>
             <Box>
                 <p>what is your git repository</p>
