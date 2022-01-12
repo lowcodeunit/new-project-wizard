@@ -26,8 +26,8 @@ class WelcomePage extends React.Component{
       return(  
         <Box sx={{pt:2}}>
         <h1>Thank you for Signing Up</h1> 
-        <Box  sx={{ display: 'flex',  justifyContent: 'space-evenly', pt:2}}>   
-            <Paper sx={{p:3}}>
+        <Box  sx={{ display: 'flex', flexDirection:{ xs:'column', sm:'column', md:'row'},  justifyContent: 'space-evenly', pt:2}}>   
+            <Paper sx={{p:3, m:2}}>
                 <Button variant="contained" sx={{mb:2}} onClick={this.authGit}>Connect to Github</Button>
                 <Box sx={{textAlign:"left"}}>
                 <li>Setup Build processes using Github actions</li>
@@ -36,17 +36,18 @@ class WelcomePage extends React.Component{
                 <li>more....</li>
                 </Box>
             </Paper>
-            <Paper sx={{p:2}}>
+            <Paper sx={{p:2, m:2}}>
                 <Button disabled variant="contained" sx={{mb:2}}>
                     Continue Without Github
                 </Button>
                 <Box sx={{textAlign:"left"}}>
+                <li>Coming soon</li>
                 <li>Upload zip files of your own code</li>
                 <li>preview some of our premade templates</li>
                 </Box>
             </Paper>
         </Box>
-        <Box sx={{pt:13}}>
+        <Box sx={{pt:13, display:'flex', flexDirection:{sm:'row', med:'column'}, justifyContent:'center'}}>
             <SettingsIcon sx={{transform:"scale(5.0)", m:5}}/>
             <ArrowRightAltIcon sx={{transform:"scale(5.0)", m:5}}/>
             <DvrIcon sx={{transform:"scale(5.0)", m:5}}/>

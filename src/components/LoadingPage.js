@@ -15,6 +15,11 @@ class LoadingPage extends React.Component{
   }
 
   authGit() {
+    const reidrectUri = window.location.pathname + window.location.search;
+
+    window.location.href = `/.oauth/github?redirectUri=${reidrectUri}`;
+
+    this.ConnectClicked = true;
     this.props.onStepChange()
   }
 

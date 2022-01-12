@@ -1,6 +1,6 @@
 import '../App.css';
 import React from "react";
-import {Box, Button, ButtonGroup, TextField} from '@mui/material';
+import {Box, Button, ButtonGroup, FormControl, Select, InputLabel, MenuItem, TextField} from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
@@ -21,10 +21,29 @@ class CustomProject extends React.Component{
         transformOriginVertical: 'top',
         transformOriginHorizontal: 'right',
         anchorReference: 'anchorEl',
+        orgs:[],
+        selectedOrg:'',
+        selectedRepo:'',
+        selectedBranch:''
     };
     this.incrementStep = this.incrementStep.bind(this);
     this.decrementStep = this.decrementStep.bind(this);
+    this.handleOrgSelect = this.handleOrgSelect.bind(this);
     this.handleProjectNameChange = this.handleProjectNameChange.bind(this);
+  }
+  
+  async componentDidMount() {
+    const orgsRes = await this.getOrgs();
+    this.setState({orgs: orgsRes});
+  }
+
+  async getOrgs(){
+    const res = await fetch('https://fathym-cloud-prd-personas-applications-architect.azurewebsites.net/github/'+this.props.enterpriseID+'/'+this.props.username+'/organizations');
+    const data = await res.json;
+    return res.data.results;
+  }
+  async getRepos() {
+    
   }
   handleChange = (event, checked) => {
     this.setState({ auth: checked });
@@ -49,6 +68,10 @@ class CustomProject extends React.Component{
     this.setState({step: ++newStep});
   }
 
+  handleOrgSelect(event) {
+    this.setState({selectedOrg:event});
+  }
+
   handleProjectNameChange(event) {
     this.setState({ProjectName: event.target.value});
   }
@@ -56,42 +79,70 @@ class CustomProject extends React.Component{
   render(){
       let formPage;
       if(this.state.step === 0) {
-        formPage =                 
+        formPage =
+        <Box>                 
         <Box sx={{display:"flex", flexDirection:"column"}}>
             <p>Welcome! Let's start with the project basics</p>
             <p>What is your project name?</p>
+            <Box sx={{display:"flex", flexDirection:"row"}}>
             <TextField
+                autoFocus
                 id="outlined-basic" 
                 label="Project name" 
                 variant="outlined"
                 required 
                 onChange={this.handleProjectNameChange}/>
-            <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                sx={{
-                    padding: 10
-                }}
-          >
-            Ok
-          </Button>
-
-      </Box>     
+       
+              <Button>
+                Ok
+              </Button> 
+              </Box> 
+              </Box>
+              </Box>   
       } else if (this.state.step === 1) {
         formPage = 
           <Box>
             <Box>
                 <p>What is your git organization?</p>
-                <TextField id="outlined-basic" label="Project name v" variant="outlined" />
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">Github Organization</InputLabel>
+                  <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  >{this.state.orgs &&
+                    this.state.orgs.map((org) => (
+                      <MenuItem onClick={this.handleOrgSelect}>{org.Name}</MenuItem>
+                    ))};
+                </Select>
+              </FormControl>
             </Box>
             <Box>
-                <p>what is your git repository</p>
-                <TextField id="outlined-basic" label="Project name" variant="outlined" />
+                <p>What is your git repository?</p>
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">Github Repository</InputLabel>
+                  <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  >
+                    <MenuItem value={10}>Ten</MenuItem>
+                    <MenuItem value={20}>Twenty</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem>
+                  </Select>
+                </FormControl>
             </Box>
             <Box>
                 <p>What is your main branch</p>
-                <TextField id="outlined-basic" label="Project name" variant="outlined" />
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">Main Branch</InputLabel>
+                  <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  >
+                    <MenuItem value={10}>Ten</MenuItem>
+                    <MenuItem value={20}>Twenty</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem>
+                  </Select>
+                </FormControl>
             </Box>
           </Box>
       } else if (this.state.step === 2) {

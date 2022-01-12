@@ -1,6 +1,6 @@
 import './App.css';
 import React from "react";
-import { AppBar, Box,  Toolbar, Typography, IconButton, Divider} from '@mui/material'
+import { AppBar, Box,  Toolbar, Typography, IconButton, Divider, ThemeProvider} from '@mui/material'
 import ProgressTracker from './components/ProgressTracker';
 import WorkspaceSetup from './components/WorkspaceSetup';
 import CustomProject from './components/CustomProject';
@@ -8,7 +8,20 @@ import RecipeProject from './components/RecipeProject';
 import WelcomePage from './components/WelcomePage';
 import LoadingPage from './components/LoadingPage';
 import CloseIcon from '@mui/icons-material/Close';
+import {  EaCApplicationAsCode} from '@semanticjs/common';
+import { createTheme } from '@mui/material/styles';
 
+const theme = createTheme({
+  palette: {
+
+    primary: {
+      main: '#4a918e',
+    },
+    secondary: {
+      main: '#f50057',
+    },
+  },
+});
 
 class HomeComponent extends React.Component{
   constructor(){
@@ -36,8 +49,7 @@ class HomeComponent extends React.Component{
     } 
     else if (this.state.currentStep === 1) {
       if(this.state.workspace === 'custom'){
-        console.log("WS ===== "  + this.state.workspace + " ======");
-        content = <Box sx={{display:"flex", flexDirection: "row"}}>
+        content = <Box sx={{display:"flex", flexDirection: "row",  justifyContent: 'space-evenly', pt:2}}>
           <WorkspaceSetup buttonClick={this.handleWorkspaceOpen}></WorkspaceSetup>
           <Divider orientation='vertical'/>
           <CustomProject/>
@@ -46,7 +58,7 @@ class HomeComponent extends React.Component{
         content = <WorkspaceSetup buttonClick={this.handleWorkspaceOpen}></WorkspaceSetup>
       } else {
       content = 
-      <Box sx={{display:"flex", flexDirection: "row"}}>
+      <Box sx={{display:"flex", flexDirection: "row", justifyContent: 'space-evenly', pt:2}}>
         <WorkspaceSetup buttonClick={this.handleWorkspaceOpen}></WorkspaceSetup>
         <Divider orientation='vertical'/>
         <RecipeProject recipe={this.state.workspace}/>
@@ -59,24 +71,26 @@ class HomeComponent extends React.Component{
     }
     return (
       <div className="App">
-        <AppBar position="static">
-          <Toolbar>
-            <Typography edge="start" variant="h6" sx={{ flexGrow: 1 }}>
+        <ThemeProvider theme={theme}>
+          <AppBar position="static">
+            <Toolbar>
+              <Typography edge="start" variant="h6" sx={{ flexGrow: 1 }}>
 
-            </Typography>
-            <IconButton
-            size="large"
-            edge="end"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-            >
-            <CloseIcon />
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-        <ProgressTracker step={this.state.currentStep}></ProgressTracker>
-        {content}
+              </Typography>
+              <IconButton
+              size="large"
+              edge="end"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+              >
+              <CloseIcon />
+              </IconButton>
+            </Toolbar>
+          </AppBar>
+          <ProgressTracker step={this.state.currentStep}></ProgressTracker>
+          {content}
+        </ThemeProvider>
       </div>
     );
   }
