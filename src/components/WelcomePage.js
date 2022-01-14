@@ -47,7 +47,7 @@ class WelcomePage extends React.Component{
                 </Box>
             </Paper>
         </Box>
-        <Box sx={{pt:13, display:'flex', flexDirection:{sm:'row', med:'column'}, justifyContent:'center'}}>
+        <Box sx={{pt:13, display:{md:'flex', xs:'none'}, flexDirection:{sm:'row', med:'column'}, justifyContent:'center'}}>
             <SettingsIcon sx={{transform:"scale(5.0)", m:5}}/>
             <ArrowRightAltIcon sx={{transform:"scale(5.0)", m:5}}/>
             <DvrIcon sx={{transform:"scale(5.0)", m:5}}/>

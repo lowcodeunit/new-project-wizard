@@ -1,8 +1,9 @@
 import '../App.css';
 import React from "react";
-import {Box, Button, ButtonGroup, FormControl, Select, InputLabel, MenuItem, TextField} from '@mui/material';
+import {Box, Button, ButtonGroup, FormControl, Select, InputLabel, MenuItem, TextField, IconButton} from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
 
@@ -13,92 +14,143 @@ class CustomProject extends React.Component{
   constructor(props){
     super(props);
     this.state={
+        buildCommand:'',
+        buildOutput:'',
+        buildInstall:'',
         step:0,
         ProjectName: '',
-        anchorEl: null,
-        anchorOriginVertical: 'bottom',
-        anchorOriginHorizontal: 'right',
-        transformOriginVertical: 'top',
-        transformOriginHorizontal: 'right',
-        anchorReference: 'anchorEl',
+        branches:[],
         orgs:[],
+        repos:[],
         selectedOrg:'',
         selectedRepo:'',
-        selectedBranch:''
+        selectedBranch:'',
+        readyToSubmit: false
     };
     this.incrementStep = this.incrementStep.bind(this);
     this.decrementStep = this.decrementStep.bind(this);
+    this.handleBranchSelect = this.handleBranchSelect.bind(this);
     this.handleOrgSelect = this.handleOrgSelect.bind(this);
+    this.handleBackButton = this.handleBackButton.bind(this);
+    this.handleBuildChange = this.handleBuildChange.bind(this);
+    this.handleInstallChange = this.handleInstallChange.bind(this);
+    this.handleOutputChange = this.handleOutputChange.bind(this);
+    this.handleRepoSelect = this.handleRepoSelect.bind(this);
     this.handleProjectNameChange = this.handleProjectNameChange.bind(this);
+    this.keyPress = this.keyPress.bind(this);
   }
   
   async componentDidMount() {
-    const orgsRes = await this.getOrgs();
-    this.setState({orgs: orgsRes});
+    this.getOrgs();
   }
-
+  async getBranches(){
+    fetch('/api/lowcodeunit/github/organizations/'+this.state.selectedOrg+'/repositories/'+this.state.selectedRepo+'/branches').then( async response => {
+      let resp = await response.json();
+      if(resp.Status.Code === 0){
+        this.setState({branches:resp.Model})
+      }
+    }).then(data => console.log(data));
+  }
   async getOrgs(){
-    const res = await fetch('https://fathym-cloud-prd-personas-applications-architect.azurewebsites.net/github/'+this.props.enterpriseID+'/'+this.props.username+'/organizations');
-    const data = await res.json;
-    return res.data.results;
+    fetch('/api/lowcodeunit/github/organizations').then( async response => {
+      let resp = await response.json();
+      if(resp.Status.Code === 0){
+        this.setState({orgs:resp.Model})
+      }
+    }).then(data => console.log(data));
   }
-  async getRepos() {
-    
+  
+  async getOrgRepositories(){
+    fetch('/api/lowcodeunit/github/organizations/'+this.state.selectedOrg+'/repositories').then( async response => {
+      let resp = await response.json();
+      if(resp.Status.Code === 0){
+        this.setState({repos: resp.Model})
+      }
+    }).then(data => console.log(data));
   }
-  handleChange = (event, checked) => {
-    this.setState({ auth: checked });
-  };
-
-  handleMenu = event => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
-
-  handleClose = () => {
-    this.setState({ anchorEl: null });
-  };
 
   incrementStep(){
-    console.log("incrementStep " + this.state.step);
     let newStep = this.state.step;
     this.setState({step: ++newStep});
   }
   decrementStep(){
-    console.log("decrement " + this.state.step);
     let newStep = this.state.step;
-    this.setState({step: ++newStep});
+    this.setState({step: --newStep});
+  }
+  handleBackButton() {
+    this.props.buttonClick("")
+  }
+  handleBranchSelect(event) {
+    this.setState({selectedBranch:event.target.value});
+    this.readyToSubmit();
   }
 
   handleOrgSelect(event) {
-    this.setState({selectedOrg:event});
+    this.setState({selectedOrg:event.target.value});
+    this.readyToSubmit();
+    this.getOrgRepositories();
+  }
+
+  handleRepoSelect(event) {
+    this.setState({selectedRepo:event.target.value});
+    this.readyToSubmit();
+    this.getBranches();
+  }
+
+  handleBuildChange(event) {
+    this.setState({buildCommand: event.target.value});
+    this.readyToSubmit();
+  }
+
+  handleInstallChange(event) {
+    this.setState({buildInstall: event.target.value});
+    this.readyToSubmit();
+  }
+
+  handleOutputChange(event) {
+    this.setState({buildOutput: event.target.value});
+    this.readyToSubmit();
   }
 
   handleProjectNameChange(event) {
     this.setState({ProjectName: event.target.value});
+    this.readyToSubmit();
   }
+  
+  keyPress(e){
+    if(e.keyCode == 13){
+      this.incrementStep();
+    }
+ }
+ readyToSubmit()
+ {
+   if(this.state.buildCommand !== '' && this.state.buildInstall !== '' && this.state.buildOutput !== ''
+   && this.state.selectedBranch !== '' && this.state.selectedOrg !== '' && this.state.selectedRepo !== ''
+   && this.ProjectName !== ''){
+     this.setState({readyToSubmit: true});
+   }
+ }
 
   render(){
       let formPage;
       if(this.state.step === 0) {
         formPage =
-        <Box>                 
+                   
         <Box sx={{display:"flex", flexDirection:"column"}}>
             <p>Welcome! Let's start with the project basics</p>
             <p>What is your project name?</p>
-            <Box sx={{display:"flex", flexDirection:"row"}}>
-            <TextField
-                autoFocus
-                id="outlined-basic" 
-                label="Project name" 
-                variant="outlined"
-                required 
-                onChange={this.handleProjectNameChange}/>
-       
-              <Button>
-                Ok
-              </Button> 
-              </Box> 
-              </Box>
-              </Box>   
+            <Box>
+              <TextField
+                  autoFocus
+                  id="outlined-basic" 
+                  label="Project name" 
+                  variant="outlined"
+                  defaultValue={this.state.ProjectName}
+                  onChange={this.handleProjectNameChange}
+                  onKeyDown={this.keyPress}/>
+            </Box> 
+          </Box>
+ 
       } else if (this.state.step === 1) {
         formPage = 
           <Box>
@@ -106,12 +158,14 @@ class CustomProject extends React.Component{
                 <p>What is your git organization?</p>
                 <FormControl fullWidth>
                   <InputLabel id="demo-simple-select-label">Github Organization</InputLabel>
-                  <Select
+                <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
+                  onChange={this.handleOrgSelect}
+                  value={this.state.selectedOrg}
                   >{this.state.orgs &&
                     this.state.orgs.map((org) => (
-                      <MenuItem onClick={this.handleOrgSelect}>{org.Name}</MenuItem>
+                      <MenuItem value={org.Name}>{org.Name}</MenuItem>
                     ))};
                 </Select>
               </FormControl>
@@ -123,11 +177,13 @@ class CustomProject extends React.Component{
                   <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  >
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
-                  </Select>
+                  onChange={this.handleRepoSelect}
+                  value={this.state.selectedRepo}
+                  >{this.state.repos &&
+                    this.state.repos.map((repo) => (
+                      <MenuItem value={repo.Name}>{repo.Name}</MenuItem>
+                    ))};
+                </Select>
                 </FormControl>
             </Box>
             <Box>
@@ -137,11 +193,13 @@ class CustomProject extends React.Component{
                   <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  >
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
-                  </Select>
+                  onChange={this.handleBranchSelect}
+                  value={this.state.selectedBranch}
+                  >{this.state.branches &&
+                    this.state.repos.map((branch) => (
+                      <MenuItem value={branch.Name}>{branch.Name}</MenuItem>
+                    ))};
+                </Select>
                 </FormControl>
             </Box>
           </Box>
@@ -150,20 +208,50 @@ class CustomProject extends React.Component{
         <Box>
             <Box>
                 <p>What is your build command?</p>
-                <TextField id="outlined-basic" label="Build Command" variant="outlined" />
+                <TextField 
+                  id="outlined-basic" 
+                  label="Build Command" 
+                  variant="outlined" 
+                  onChange={this.handleBuildChange} 
+                  defaultValue={this.state.buildCommand} 
+                  />
             </Box>
             <Box>
                 <p>what is your install command</p>
-                <TextField id="outlined-basic" label="Install Command" variant="outlined" />
+                <TextField 
+                  id="outlined-basic" 
+                  label="Install Command" 
+                  variant="outlined" 
+                  onChange={this.handleInstallChange} 
+                  defaultValue={this.state.buildInstall} 
+                  />
             </Box>
             <Box>
                 <p>What is the build output directory</p>
-                <TextField id="outlined-basic" label="Output Directory" variant="outlined" />
+                <TextField 
+                  id="outlined-basic" 
+                  label="Output Directory" 
+                  variant="outlined" 
+                  onChange={this.handleOutputChange} 
+                  defaultValue={this.state.buildOutput} 
+                  />
             </Box>
+            <Button variant="contained" sx={{mt:4}} disabled={!this.state.readyToSubmit} size="large">Submit</Button>
       </Box>
       }
       return(  
-        <Box sx={{display: 'flex', justifyContent:'center', width:'50%', mt:25}}>
+        <Box sx={{display: 'flex', justifyContent:'center', flexDirection:'column', width:'100vw', height:'75vh', alignItems:'center', alignContent:'center'}}>
+          <Box sx={{display:'flex', justifyContent: 'flex-start', alignItems: 'flex-start', width:'100%'}}>
+              <IconButton
+              size="large"
+              edge="end"
+              color="inherit"
+              aria-label="menu"
+              onClick={this.handleBackButton}
+              >
+                <ArrowBackIcon />
+              </IconButton>
+            </Box>
             {formPage}
             <Box sx={{ flexDirection: 'row-reverse', mt: "auto"}}>
             <ButtonGroup variant="contained" aria-label="outlined primary button group">

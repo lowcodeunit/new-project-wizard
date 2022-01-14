@@ -1,6 +1,6 @@
 import './App.css';
 import React from "react";
-import { AppBar, Box,  Toolbar, Typography, IconButton, Divider, ThemeProvider} from '@mui/material'
+import { AppBar, Box,  Toolbar, Typography, IconButton, ThemeProvider} from '@mui/material'
 import ProgressTracker from './components/ProgressTracker';
 import WorkspaceSetup from './components/WorkspaceSetup';
 import CustomProject from './components/CustomProject';
@@ -8,7 +8,6 @@ import RecipeProject from './components/RecipeProject';
 import WelcomePage from './components/WelcomePage';
 import LoadingPage from './components/LoadingPage';
 import CloseIcon from '@mui/icons-material/Close';
-import {  EaCApplicationAsCode} from '@semanticjs/common';
 import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
@@ -28,10 +27,32 @@ class HomeComponent extends React.Component{
     super();
     this.state={
       currentStep:0,
-      workspace:''
+      workspace:'',
+      recipeList:[]
     };
     this.handleStepChange = this.handleStepChange.bind(this);
     this.handleWorkspaceOpen = this.handleWorkspaceOpen.bind(this);
+  }
+
+  componentDidMount() {
+    fetch('/api/lowcodeunit/github/connection/valid').then( async response => {
+      let resp = await response.json();
+      console.log(resp);
+      console.log(resp.Status.Message)
+      if(resp.Status.Code === 0){
+        this.setState({currentStep:1})
+      }
+    }).then(data => console.log(data));
+
+    this.getRecipes()
+  }
+  getRecipes(){
+    fetch('/api/lowcodeunit/manage/recipes/list').then( async response => {
+      let resp = await response.json();
+      if(resp.Status.Code === 0){
+        this.setState({recipeList: resp.Model})
+      }
+    }).then(this.setState({recipesLoaded: true}));
   }
 
   handleStepChange(){
@@ -40,6 +61,7 @@ class HomeComponent extends React.Component{
   }
   handleWorkspaceOpen(event){
     this.setState({workspace: event})
+    console.log("click is " + event )
   }
 
   render() {
@@ -50,18 +72,14 @@ class HomeComponent extends React.Component{
     else if (this.state.currentStep === 1) {
       if(this.state.workspace === 'custom'){
         content = <Box sx={{display:"flex", flexDirection: "row",  justifyContent: 'space-evenly', pt:2}}>
-          <WorkspaceSetup buttonClick={this.handleWorkspaceOpen}></WorkspaceSetup>
-          <Divider orientation='vertical'/>
-          <CustomProject/>
+          <CustomProject buttonClick={this.handleWorkspaceOpen}/>
         </Box>
       } else if (this.state.workspace === '') {
-        content = <WorkspaceSetup buttonClick={this.handleWorkspaceOpen}></WorkspaceSetup>
+        content = <WorkspaceSetup buttonClick={this.handleWorkspaceOpen} recipeList = {this.state.recipeList}></WorkspaceSetup>
       } else {
       content = 
       <Box sx={{display:"flex", flexDirection: "row", justifyContent: 'space-evenly', pt:2}}>
-        <WorkspaceSetup buttonClick={this.handleWorkspaceOpen}></WorkspaceSetup>
-        <Divider orientation='vertical'/>
-        <RecipeProject recipe={this.state.workspace}/>
+        <RecipeProject buttonClick={this.handleWorkspaceOpen} recipeID={this.state.workspace} recipeList = {this.state.recipeList}/>
       </Box>
       }
     }
@@ -88,7 +106,7 @@ class HomeComponent extends React.Component{
               </IconButton>
             </Toolbar>
           </AppBar>
-          <ProgressTracker step={this.state.currentStep}></ProgressTracker>
+          <ProgressTracker workspace={this.state.workspace} step={this.state.currentStep}></ProgressTracker>
           {content}
         </ThemeProvider>
       </div>
