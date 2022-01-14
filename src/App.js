@@ -75,11 +75,11 @@ class HomeComponent extends React.Component{
           <CustomProject buttonClick={this.handleWorkspaceOpen}/>
         </Box>
       } else if (this.state.workspace === '') {
-        content = <WorkspaceSetup buttonClick={this.handleWorkspaceOpen} recipeList = {this.state.recipeList}></WorkspaceSetup>
+        content = <WorkspaceSetup buttonClick={this.handleWorkspaceOpen} recipeList = {this.state.recipeList} onStepChange={this.handleStepChange} ></WorkspaceSetup>
       } else {
       content = 
       <Box sx={{display:"flex", flexDirection: "row", justifyContent: 'space-evenly', pt:2}}>
-        <RecipeProject buttonClick={this.handleWorkspaceOpen} recipeID={this.state.workspace} recipeList = {this.state.recipeList}/>
+        <RecipeProject buttonClick={this.handleWorkspaceOpen} recipeID={this.state.workspace} recipeList = {this.state.recipeList} onStepChange={this.handleStepChange}/>
       </Box>
       }
     }

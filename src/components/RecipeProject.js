@@ -11,6 +11,7 @@ class RecipeProject extends React.Component {
             recipeList:[],
             deploy: false
         };
+        this.handleOpenSource = this.handleOpenSource.bind(this);
         this.handleUseRecipe = this.handleUseRecipe.bind(this);
         this.handleBackButton = this.handleBackButton.bind(this);
     }
@@ -28,7 +29,19 @@ class RecipeProject extends React.Component {
     handleBackButton() {
         this.props.buttonClick("");
     }
-
+    handleOpenSource() {
+        let data = [
+            {RecipeID: this.props.recipeID }
+        ];
+        fetch("/api/lowcodeunit/create/project", {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'}, 
+            body: JSON.stringify(data)
+        }).then(res => {
+            console.log("Request complete! response:", res);
+        });
+        this.props.onStepChange()
+    }
     handleUseRecipe(event) {
        this.setState({deploy:true});
        this.incrementStep();
@@ -60,7 +73,7 @@ class RecipeProject extends React.Component {
                 <h3>How would you like to deploy the {this.state.recipe.Name} recipe?</h3>
                 <Box  sx={{ display: 'flex', flexDirection:{ xs:'column', sm:'column', md:'row'},  justifyContent: 'space-evenly', pt:2}}>
                 <Paper sx={{p:2, m:2}}>
-                    <Button variant="contained" sx={{mb:2}} >Fathym's Open Source Deployment</Button>
+                    <Button variant="contained" sx={{mb:2}} onClick={this.handleOpenSource} >Fathym's Open Source Deployment</Button>
                     <p>If you use Fathym's deployment, your project will use NPM package versions of your recipe's ingredients. The result will be the same, only difference is you won't have automated builds under your control.</p>
                 </Paper>
                 <Paper sx={{p:2, m:2}}>

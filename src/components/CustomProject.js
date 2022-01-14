@@ -36,6 +36,7 @@ class CustomProject extends React.Component{
     this.handleInstallChange = this.handleInstallChange.bind(this);
     this.handleOutputChange = this.handleOutputChange.bind(this);
     this.handleRepoSelect = this.handleRepoSelect.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleProjectNameChange = this.handleProjectNameChange.bind(this);
     this.keyPress = this.keyPress.bind(this);
   }
@@ -78,7 +79,7 @@ class CustomProject extends React.Component{
     this.setState({step: --newStep});
   }
   handleBackButton() {
-    this.props.buttonClick("")
+    this.props.buttonClick("");
   }
   handleBranchSelect(event) {
     this.setState({selectedBranch:event.target.value});
@@ -116,6 +117,20 @@ class CustomProject extends React.Component{
     this.setState({ProjectName: event.target.value});
     this.readyToSubmit();
   }
+
+  handleSubmit() {
+    let data = [
+      {Branch: this.state.selectedBranch, BuildCommand: this.state.buildCommand, InstallCommand: this.state.buildInstall, Organization: this.state.selectedOrg, OutputDirectory: this.state.buildOutput, ProjectName: this.state.ProjectName, Repository: this.state.selectedRepo }
+    ];
+    fetch("/api/lowcodeunit/create/project", {
+      method: "POST",
+      headers: {'Content-Type': 'application/json'}, 
+      body: JSON.stringify(data)
+    }).then(res => {
+      console.log("Request complete! response:", res);
+    });
+    this.props.onStepChange()
+  }
   
   keyPress(e){
     if(e.keyCode === 13){
@@ -126,7 +141,7 @@ class CustomProject extends React.Component{
  {
    if(this.state.buildCommand !== '' && this.state.buildInstall !== '' && this.state.buildOutput !== ''
    && this.state.selectedBranch !== '' && this.state.selectedOrg !== '' && this.state.selectedRepo !== ''
-   && this.ProjectName !== ''){
+   && this.state.ProjectName !== ''){
      this.setState({readyToSubmit: true});
    }
  }
@@ -236,7 +251,7 @@ class CustomProject extends React.Component{
                   defaultValue={this.state.buildOutput} 
                   />
             </Box>
-            <Button variant="contained" sx={{mt:4}} disabled={!this.state.readyToSubmit} size="large">Submit</Button>
+            <Button variant="contained" sx={{mt:4}} disabled={!this.state.readyToSubmit} onClick={this.handleSubmit} size="large">Submit</Button>
       </Box>
       }
       return(  
