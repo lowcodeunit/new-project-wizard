@@ -31,7 +31,10 @@ class RecipeProject extends React.Component {
     }
     handleOpenSource() {
         let data = 
-            {RecipeID: this.props.recipeID }
+            {
+                RecipeID: this.props.recipeID,
+                ProjectName: state.recipe.Name
+            }
         ;
         fetch("/api/lowcodeunit/create/project", {
             method: "POST",
