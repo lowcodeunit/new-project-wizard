@@ -30,9 +30,9 @@ class RecipeProject extends React.Component {
         this.props.buttonClick("");
     }
     handleOpenSource() {
-        let data = [
+        let data = 
             {RecipeID: this.props.recipeID }
-        ];
+        ;
         fetch("/api/lowcodeunit/create/project", {
             method: "POST",
             headers: {'Content-Type': 'application/json'}, 
