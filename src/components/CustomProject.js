@@ -19,9 +19,9 @@ class CustomProject extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      buildCommand: '',
-      buildOutput: '',
-      buildInstall: '',
+      buildCommand: 'npm run build',
+      buildOutput: './',
+      buildInstall: 'npm i',
       step: 0,
       ProjectName: '',
       branches: [],
