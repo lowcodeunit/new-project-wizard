@@ -264,7 +264,7 @@ class CustomProject extends React.Component {
                 disabled={this.state.selectedRepo === ''}
               >
                 {this.state.branches &&
-                  this.state.repos.map((branch) => (
+                  this.state.branches.map((branch) => (
                     <MenuItem value={branch.Name}>{branch.Name}</MenuItem>
                   ))}
                 ;
