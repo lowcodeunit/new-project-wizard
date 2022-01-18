@@ -148,7 +148,7 @@ class CustomProject extends React.Component {
   }
 
   handleSubmit() {
-    let data = [
+    let data = 
       {
         Branch: this.state.selectedBranch,
         BuildCommand: this.state.buildCommand,
@@ -158,7 +158,7 @@ class CustomProject extends React.Component {
         ProjectName: this.state.ProjectName,
         Repository: this.state.selectedRepo,
       },
-    ];
+    ;
     fetch('/api/lowcodeunit/create/project', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
