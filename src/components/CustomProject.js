@@ -157,7 +157,7 @@ class CustomProject extends React.Component {
         OutputDirectory: this.state.buildOutput,
         ProjectName: this.state.ProjectName,
         Repository: this.state.selectedRepo,
-      },
+      }
     ;
     fetch('/api/lowcodeunit/create/project', {
       method: 'POST',
