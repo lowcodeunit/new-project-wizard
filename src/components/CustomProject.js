@@ -87,9 +87,11 @@ class CustomProject extends React.Component{
   }
 
   handleOrgSelect(event) {
-    this.setState({selectedOrg:event.target.value});
-    this.readyToSubmit();
-    this.getOrgRepositories();
+    this.setState({selectedOrg:event.target.value}, () => {
+      this.readyToSubmit();
+      
+      this.getOrgRepositories();
+    });
   }
 
   handleRepoSelect(event) {
