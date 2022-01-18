@@ -206,6 +206,13 @@ class CustomProject extends React.Component {
               onKeyDown={this.keyPress}
             />
           </Box>
+          <Button
+            variant="contained"
+            sx={{ mt: 4 }}
+            onClick={this.incrementStep}
+          >
+            Next
+          </Button>
         </Box>
       );
     } else if (this.state.step === 1) {
@@ -271,6 +278,14 @@ class CustomProject extends React.Component {
               </Select>
             </FormControl>
           </Box>
+          <Button
+            variant="contained"
+            sx={{ mt: 4 }}
+            onClick={this.incrementStep}
+            size="large"
+          >
+            Next
+          </Button>
         </Box>
       );
     } else if (this.state.step === 2) {
