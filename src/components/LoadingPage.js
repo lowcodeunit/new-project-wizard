@@ -1,6 +1,6 @@
 import '../App.css';
 import React from "react";
-import {Box, Divider} from '@mui/material';
+import {Box, Button} from '@mui/material';
 
 
 
@@ -11,31 +11,26 @@ class LoadingPage extends React.Component{
     super(props);
     this.state={
     };
-    this.authGit = this.authGit.bind(this);
-  }
-
-  authGit() {
-    const reidrectUri = window.location.pathname + window.location.search;
-
-    window.location.href = `/.oauth/github?redirectUri=${reidrectUri}`;
-
-    this.ConnectClicked = true;
-    this.props.onStepChange()
+  
   }
 
   render(){
       return(  
-        <Box sx={{display:"flex", flexDirection:"row", justifyContent: 'space-evenly'}}>
-            <Box sx={{width:'40%'}}>
+        <Box sx={{display:"flex", flexDirection:"column", justifyContent: 'space-evenly'}}>
+            <Box sx={{}}>
                 <h2>We're configuring your new project</h2>
-                <p>Let's review the details of your setup before continuing.  Once ready, click configure project to start the setup process.</p>
+                <p> The next step is to hop into our dashboard and start building your new website! </p>
+            </Box>
+            <a href="/dashboard">
+              <Button
+              variant="contained"
+              sx={{ mt: 4 }}
 
-            </Box>
-            <Divider orientation='vertical'/>
-            <Box sx={{width:'40%'}}>
-                <h2>What to do next?</h2>
-                <p>explore some documentation to help you get started</p>
-            </Box>
+              size="large"
+              >
+                Continue to Dashboard
+              </Button>
+          </a>
         </Box>
       )
   }

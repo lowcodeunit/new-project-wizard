@@ -92,6 +92,9 @@ class HomeComponent extends React.Component{
         <ThemeProvider theme={theme}>
           <AppBar position="static">
             <Toolbar>
+              <Box>
+
+              </Box>
               <Typography edge="start" variant="h6" sx={{ flexGrow: 1 }}>
 
               </Typography>

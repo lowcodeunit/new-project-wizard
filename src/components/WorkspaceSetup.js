@@ -58,12 +58,7 @@ class WorkspaceSetup extends React.Component{
                 <h2>Choose Project Recipe</h2>
                 <p>Select an existing Recipe to get started quickly, or create your own custom project.</p>
                 {recipeSection}
-            </Box>
-            <AppBar position="fixed" color="primary" sx={{ top: 'auto', bottom: 0 }}>
-              <Toolbar sx={{ display: 'flex',  justifyContent: 'flex-end'}}>
-                  <Button disabled variant="contained"> Review My Project</Button>
-              </Toolbar>
-            </AppBar>     
+            </Box>   
           </Box>
       )
   }
