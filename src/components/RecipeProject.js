@@ -33,7 +33,7 @@ class RecipeProject extends React.Component {
         let data = 
             {
                 RecipeID: this.props.recipeID,
-                ProjectName: state.recipe.Name
+                ProjectName: this.state.recipe.Name
             }
         ;
         fetch("/api/lowcodeunit/create/project", {
