@@ -72,7 +72,7 @@ class HomeComponent extends React.Component{
     else if (this.state.currentStep === 1) {
       if(this.state.workspace === 'custom'){
         content = <Box sx={{display:"flex", flexDirection: "row",  justifyContent: 'space-evenly', pt:2}}>
-          <CustomProject buttonClick={this.handleWorkspaceOpen}/>
+          <CustomProject buttonClick={this.handleWorkspaceOpen}  onStepChange={this.handleStepChange}/>
         </Box>
       } else if (this.state.workspace === '') {
         content = <WorkspaceSetup buttonClick={this.handleWorkspaceOpen} recipeList = {this.state.recipeList} onStepChange={this.handleStepChange} ></WorkspaceSetup>

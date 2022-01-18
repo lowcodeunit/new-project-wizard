@@ -238,6 +238,7 @@ class CustomProject extends React.Component {
                 Github Repository
               </InputLabel>
               <Select
+                disabled={this.state.selectedOrg === ''}
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 onChange={this.handleRepoSelect}
@@ -260,6 +261,7 @@ class CustomProject extends React.Component {
                 id="demo-simple-select"
                 onChange={this.handleBranchSelect}
                 value={this.state.selectedBranch}
+                disabled={this.state.selectedRepo === ''}
               >
                 {this.state.branches &&
                   this.state.repos.map((branch) => (
