@@ -1,6 +1,6 @@
 import '../App.css';
 import React from "react";
-import {AppBar, Box, Button, Divider, Toolbar, Tooltip, Grid} from '@mui/material';
+import {Box, Button, Divider, Tooltip, Grid} from '@mui/material';
 
 class WorkspaceSetup extends React.Component{
   constructor(props){
@@ -12,12 +12,13 @@ class WorkspaceSetup extends React.Component{
     this.handleClick = this.handleClick.bind(this);
   }
   componentDidMount() {
-
+    window.ORIBI.api('track', 'setup page');
+    window.ga('send', 'pageview', window.location.pathname + 'setup page');
   }
 
   handleClick(id) {
     this.props.buttonClick(id)
-    console.log(id);
+    window.ORIBI.api('track', 'setup page: button clicked for: ' + id);
   }
 
   render(){

@@ -40,7 +40,12 @@ class HomeComponent extends React.Component{
       console.log(resp);
       console.log(resp.Status.Message)
       if(resp.Status.Code === 0){
+        window.ORIBI.api('track', 'setup page: user already authed')
+        window.ga('send', 'pageview', window.location.pathname + 'setup page: user already authed');
         this.setState({currentStep:1})
+      } else {
+        window.ORIBI.api('track', 'welcome page visit')
+        window.ga('send', 'pageview', window.location.pathname + 'welcome page visit');
       }
     }).then(data => console.log(data));
 
