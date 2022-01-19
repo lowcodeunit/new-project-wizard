@@ -35,11 +35,11 @@ class HomeComponent extends React.Component{
   }
 
   get ga() {
-    if (!window.ga) {
+    if (!window.ga?.send) {
       return null;
     } else {
       return {
-        send: window.ga
+        send: window.ga?.send
       };
     }
   }
