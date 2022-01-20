@@ -3,6 +3,7 @@ import React from 'react';
 import LCUComponent from './components/LCUComponent';
 import {
   AppBar,
+  CircularProgress,
   Box,
   Toolbar,
   Typography,
@@ -37,6 +38,7 @@ class HomeComponent extends LCUComponent {
       workspace: '',
       recipeList: [],
       isProjectCreated: false,
+      isGitAuthLoaded: false
     };
     this.handleStepChange = this.handleStepChange.bind(this);
     this.handleWorkspaceOpen = this.handleWorkspaceOpen.bind(this);
@@ -49,12 +51,13 @@ class HomeComponent extends LCUComponent {
         let resp = await response.json();
         console.log(resp);
         console.log(resp.Status.Message);
+        this.setState({ isGitAuthLoaded: true})
         if (resp.Status.Code === 0) {
           this.lcu.track('setup_github_authorized', 'setup/github/authorized');
 
           this.setState({ currentStep: 1 });
         } else {
-          this.lcu.track('setup_github_unauthorized', 'setup/github/unauthorized');
+          this.lcu.track('welcome_github_unauthorized', 'welcome/github/unauthorized');
         }
       })
       .then((data) => console.log(data));
@@ -87,7 +90,13 @@ class HomeComponent extends LCUComponent {
 
   render() {
     let content;
-    if (this.state.currentStep === 0) {
+    if(!this.state.isGitAuthLoaded){
+      content = 
+      <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', mt:3}}>
+        <CircularProgress color="primary" />
+      </Box>
+    }
+     else if (this.state.currentStep === 0) {
       content = (
         <WelcomePage onStepChange={this.handleStepChange}></WelcomePage>
       );

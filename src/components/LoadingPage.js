@@ -22,6 +22,20 @@ class LoadingPage extends LCUComponent {
     let content;
     if (!this.props.isProjectLoaded) {
       content = <CircularProgress color="primary" />;
+    } else {
+      content = 
+      <Box>
+        <Link href="/dashboard" underline="none">
+          <Button
+          variant="contained"
+          sx={{ mt: 4 }}
+          onClick={this.handleContinueClick}
+          size="large"
+          >
+            Continue to Dashboard
+          </Button>
+        </Link>
+      </Box>
     }
     return (
       <Box
@@ -39,18 +53,9 @@ class LoadingPage extends LCUComponent {
             new website!{' '}
           </p>
         </Box>
-        {content}
-        <Link href="/dashboard" underline="none">
-          <Button
-            variant="contained"
-            sx={{ mt: 4 }}
-            disabled={this.props.isProjectLoaded}
-            onClick={this.handleContinueClick}
-            size="large"
-          >
-            Continue to Dashboard
-          </Button>
-        </Link>
+        <Box sx={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+          {content}
+        </Box>
       </Box>
     );
   }
