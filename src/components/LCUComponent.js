@@ -2,8 +2,12 @@ import '../App.css';
 import React from 'react';
 
 class LCUComponent extends React.Component {
+  basePath;
+
   constructor(props) {
     super(props);
+    
+    this.basePath = window.location.pathname;
   }
 
   get lcu() {
@@ -14,7 +18,7 @@ class LCUComponent extends React.Component {
         }
 
         if (window.ga && path) {
-          window.ga('send', 'pageview', `${window.location.pathname}/${path}`);
+          window.ga('send', 'pageview', `${this.basePath}/${path}`);
         }
       }
     }
