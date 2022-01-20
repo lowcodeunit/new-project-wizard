@@ -48,7 +48,7 @@ class CustomProject extends React.Component {
 
   async componentDidMount() {
     this.getOrgs();
-    window.ORIBI.api('track', 'custom project selected')
+    window.ORIBI?.api('track', 'custom_project_form_visit')
     window.ga('send', 'pageview', window.location.pathname + 'custom project selected');
   }
   async getBranches() {
@@ -167,9 +167,10 @@ class CustomProject extends React.Component {
       body: JSON.stringify(data),
     }).then((res) => {
       console.log('Request complete! response:', res);
+      this.props.projectIsLoaded();
     });
     this.props.onStepChange();
-    window.ORIBI.api('track', 'custom project submitted')
+    window.ORIBI?.api('track','custom_project_submitted')
   }
 
   keyPress(e) {

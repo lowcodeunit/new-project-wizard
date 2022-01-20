@@ -12,13 +12,12 @@ class WorkspaceSetup extends React.Component{
     this.handleClick = this.handleClick.bind(this);
   }
   componentDidMount() {
-    window.ORIBI.api('track', 'setup page');
+    window.ORIBI?.api('track', 'setup_page_visit');
     window.ga('send', 'pageview', window.location.pathname + 'setup page');
   }
 
   handleClick(id) {
     this.props.buttonClick(id)
-    window.ORIBI.api('track', 'setup page: button clicked for: ' + id);
   }
 
   render(){

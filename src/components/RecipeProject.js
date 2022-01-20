@@ -24,7 +24,8 @@ class RecipeProject extends React.Component {
     async componentDidMount() {
         this.setState({recipe: this.getCurrentRecipe(this.props.recipeList, this.props.recipeID)});
         this.getOrgs();
-        window.ORIBI.api('track', 'recipe selected: ' + this.state.recipe.Name)
+        window.ORIBI?.api('track', 'recipe-selected');
+        window.ORIBI?.api('track', 'recipe-selected_' + this.state.recipe.Name)
         window.ga('send', 'pageview', window.location.pathname + 'recipe selected: ' +  this.state.recipe.Name);
     }
 
@@ -67,9 +68,10 @@ class RecipeProject extends React.Component {
             body: JSON.stringify(data)
         }).then(res => {
             console.log("Request complete! response:", res);
+            this.props.projectIsLoaded();
         });
         this.props.onStepChange()
-        window.ORIBI.api('track', this.state.recipe.Name + 'deployed using open source')
+        window.ORIBI?.api('track', this.state.recipe.Name + '_open_source_deploy')
     }
 
     handleSubmit() {
@@ -87,9 +89,10 @@ class RecipeProject extends React.Component {
           body: JSON.stringify(data),
         }).then((res) => {
           console.log('Request complete! response:', res);
+          this.props.projectIsLoaded();
         });
         this.props.onStepChange();
-        window.ORIBI.api('track', this.state.recipe.Name + 'deployed using fork')
+        window.ORIBI?.api('track', this.state.recipe.Name + '_fork_deploy')
       }
     handleUseRecipe(event) {
        this.setState({deploy:true});

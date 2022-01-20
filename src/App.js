@@ -28,10 +28,12 @@ class HomeComponent extends React.Component{
     this.state={
       currentStep:0,
       workspace:'',
-      recipeList:[]
+      recipeList:[],
+      isProjectCreated: false
     };
     this.handleStepChange = this.handleStepChange.bind(this);
     this.handleWorkspaceOpen = this.handleWorkspaceOpen.bind(this);
+    this.projectCreated = this.projectCreated.bind(this);
   }
 
   componentDidMount() {
@@ -40,11 +42,11 @@ class HomeComponent extends React.Component{
       console.log(resp);
       console.log(resp.Status.Message)
       if(resp.Status.Code === 0){
-        window.ORIBI.api('track', 'setup page: user already authed')
+        window.ORIBI?.api('track','setup_page_user_pre_authed')
         window.ga('send', 'pageview', window.location.pathname + 'setup page: user already authed');
         this.setState({currentStep:1})
       } else {
-        window.ORIBI.api('track', 'welcome page visit')
+        window.ORIBI?.api('track','welcome_page_visit')
         window.ga('send', 'pageview', window.location.pathname + 'welcome page visit');
       }
     }).then(data => console.log(data));
@@ -58,6 +60,10 @@ class HomeComponent extends React.Component{
         this.setState({recipeList: resp.Model})
       }
     }).then(this.setState({recipesLoaded: true}));
+  }
+
+  projectCreated() {
+    this.setState({isProjectCreated:true})
   }
 
   handleStepChange(){
@@ -77,20 +83,20 @@ class HomeComponent extends React.Component{
     else if (this.state.currentStep === 1) {
       if(this.state.workspace === 'custom'){
         content = <Box sx={{display:"flex", flexDirection: "row",  justifyContent: 'space-evenly', pt:2}}>
-          <CustomProject buttonClick={this.handleWorkspaceOpen}  onStepChange={this.handleStepChange}/>
+          <CustomProject buttonClick={this.handleWorkspaceOpen}  onStepChange={this.handleStepChange} projectIsLoaded={this.projectCreated}/>
         </Box>
       } else if (this.state.workspace === '') {
         content = <WorkspaceSetup buttonClick={this.handleWorkspaceOpen} recipeList = {this.state.recipeList} onStepChange={this.handleStepChange} ></WorkspaceSetup>
       } else {
       content = 
       <Box sx={{display:"flex", flexDirection: "row", justifyContent: 'space-evenly', pt:2}}>
-        <RecipeProject buttonClick={this.handleWorkspaceOpen} recipeID={this.state.workspace} recipeList = {this.state.recipeList} onStepChange={this.handleStepChange}/>
+        <RecipeProject buttonClick={this.handleWorkspaceOpen} recipeID={this.state.workspace} recipeList = {this.state.recipeList} onStepChange={this.handleStepChange} projectIsLoaded={this.projectCreated}/>
       </Box>
       }
     }
     else if (this.state.currentStep === 2) {
       content =
-      <LoadingPage/>
+      <LoadingPage isProjectLoaded={this.state.isProjectCreated}/>
     }
     return (
       <div className="App">

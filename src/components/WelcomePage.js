@@ -19,11 +19,8 @@ class WelcomePage extends React.Component{
   }
 
   authGit() {
-    window.ORIBI?.api('track', 'welcome page: connect to github click')
     const reidrectUri = window.location.pathname + window.location.search;
     window.location.href = `/.oauth/github?redirectUri=${reidrectUri}`;
-
-
     this.props.onStepChange()
   }
 
