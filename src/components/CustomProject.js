@@ -1,5 +1,6 @@
 import '../App.css';
 import React from 'react';
+import LCUComponent from './LCUComponent';
 import {
   Box,
   Button,
@@ -15,7 +16,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-class CustomProject extends React.Component {
+class CustomProject extends LCUComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -46,20 +47,14 @@ class CustomProject extends React.Component {
     this.keyPress = this.keyPress.bind(this);
   }
 
-  get ga() {
-    if (!window.ga?.send) {
-      return null;
-    } else {
-      return {
-        send: window.ga?.send
-      };
-    }
-  }
-
   async componentDidMount() {
     this.getOrgs();
-    window.ORIBIT?.api('track', 'custom_project_form_visit')
-    window.ga('send', 'pageview', window.location.pathname + 'custom project selected');
+    window.ORIBIT?.api('track', 'custom_project_form_visit');
+    window.ga(
+      'send',
+      'pageview',
+      window.location.pathname + 'custom project selected'
+    );
   }
   async getBranches() {
     fetch(
@@ -160,17 +155,15 @@ class CustomProject extends React.Component {
   }
 
   handleSubmit() {
-    let data = 
-      {
-        Branch: this.state.selectedBranch,
-        BuildCommand: this.state.buildCommand,
-        InstallCommand: this.state.buildInstall,
-        Organization: this.state.selectedOrg,
-        OutputDirectory: this.state.buildOutput,
-        ProjectName: this.state.ProjectName,
-        Repository: this.state.selectedRepo,
-      }
-    ;
+    let data = {
+      Branch: this.state.selectedBranch,
+      BuildCommand: this.state.buildCommand,
+      InstallCommand: this.state.buildInstall,
+      Organization: this.state.selectedOrg,
+      OutputDirectory: this.state.buildOutput,
+      ProjectName: this.state.ProjectName,
+      Repository: this.state.selectedRepo,
+    };
     fetch('/api/lowcodeunit/create/project', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -180,7 +173,7 @@ class CustomProject extends React.Component {
       this.props.projectIsLoaded();
     });
     this.props.onStepChange();
-    window.ORIBIT?.api('track','custom_project_submitted')
+    window.ORIBIT?.api('track', 'custom_project_submitted');
   }
 
   keyPress(e) {

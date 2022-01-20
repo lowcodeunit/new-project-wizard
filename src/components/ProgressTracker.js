@@ -1,34 +1,29 @@
 import '../App.css';
-import React from "react";
+import React from 'react';
+import LCUComponent from './LCUComponent';
 import Box from '@mui/material/Box';
-import {Stepper, Step, StepLabel} from '@mui/material'
+import { Stepper, Step, StepLabel } from '@mui/material';
 
-let steps = [
-    'Github Auth',
-    'Create your workspace',
-    'Confirm setup',
-  ];
+let steps = ['Github Auth', 'Create your workspace', 'Confirm setup'];
 
-
-class ProgressTracker extends React.Component{
-  constructor(props){
+class ProgressTracker extends LCUComponent {
+  constructor(props) {
     super(props);
-    this.state={
-    };
+    this.state = {};
   }
 
-  render(){
-      return(   
-        <Box sx={{pt:2}}>
-            <Stepper activeStep={this.props.step} alternativeLabel>
-            {steps.map((label) => (
+  render() {
+    return (
+      <Box sx={{ pt: 2 }}>
+        <Stepper activeStep={this.props.step} alternativeLabel>
+          {steps.map((label) => (
             <Step key={label}>
-                <StepLabel>{label}</StepLabel>
+              <StepLabel>{label}</StepLabel>
             </Step>
-            ))}
+          ))}
         </Stepper>
-        </Box>     
-      )
+      </Box>
+    );
   }
 }
 
