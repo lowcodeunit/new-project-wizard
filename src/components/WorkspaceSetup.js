@@ -11,8 +11,19 @@ class WorkspaceSetup extends React.Component{
     };
     this.handleClick = this.handleClick.bind(this);
   }
+  
+  get ga() {
+    if (!window.ga?.send) {
+      return null;
+    } else {
+      return {
+        send: window.ga?.send
+      };
+    }
+  }
+
   componentDidMount() {
-    window.ORIBI?.api('track', 'setup_page_visit');
+    window.ORIBIT?.api('track', 'setup_page_visit');
     window.ga('send', 'pageview', window.location.pathname + 'setup page');
   }
 

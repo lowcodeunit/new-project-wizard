@@ -14,13 +14,24 @@ class LoadingPage extends React.Component{
     this.handleContinueClick = this.handleContinueClick.bind(this);
   
   }
+  
+  get ga() {
+    if (!window.ga?.send) {
+      return null;
+    } else {
+      return {
+        send: window.ga?.send
+      };
+    }
+  }
+
   componentDidMount() {
-    window.ORIBI?.api('track', 'final_page_reached')
+    window.ORIBIT?.api('track', 'final_page_reached')
     window.ga('send', 'pageview', window.location.pathname + 'final page reached');
   }
 
   handleContinueClick(){
-    window.ORIBI?.api('track', 'continued to dashboard')
+    window.ORIBIT?.api('track', 'continued to dashboard')
   }
 
   render(){

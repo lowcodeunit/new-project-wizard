@@ -46,9 +46,19 @@ class CustomProject extends React.Component {
     this.keyPress = this.keyPress.bind(this);
   }
 
+  get ga() {
+    if (!window.ga?.send) {
+      return null;
+    } else {
+      return {
+        send: window.ga?.send
+      };
+    }
+  }
+
   async componentDidMount() {
     this.getOrgs();
-    window.ORIBI?.api('track', 'custom_project_form_visit')
+    window.ORIBIT?.api('track', 'custom_project_form_visit')
     window.ga('send', 'pageview', window.location.pathname + 'custom project selected');
   }
   async getBranches() {
@@ -170,7 +180,7 @@ class CustomProject extends React.Component {
       this.props.projectIsLoaded();
     });
     this.props.onStepChange();
-    window.ORIBI?.api('track','custom_project_submitted')
+    window.ORIBIT?.api('track','custom_project_submitted')
   }
 
   keyPress(e) {

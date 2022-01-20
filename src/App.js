@@ -36,18 +36,28 @@ class HomeComponent extends React.Component{
     this.projectCreated = this.projectCreated.bind(this);
   }
 
+  get ga() {
+    if (!window.ga?.send) {
+      return null;
+    } else {
+      return {
+        send: window.ga?.send
+      };
+    }
+  }
+
   componentDidMount() {
     fetch('/api/lowcodeunit/github/connection/valid').then( async response => {
       let resp = await response.json();
       console.log(resp);
       console.log(resp.Status.Message)
       if(resp.Status.Code === 0){
-        window.ORIBI?.api('track','setup_page_user_pre_authed')
-        window.ga('send', 'pageview', window.location.pathname + 'setup page: user already authed');
-        this.setState({currentStep:1})
+        window.ORIBIT?.api('track','setup_page_user_pre_authed');
+        window.ga('send', 'pageview', window.location.pathname + 'setup page: user already authed')
+        this.setState({currentStep:1});
       } else {
-        window.ORIBI?.api('track','welcome_page_visit')
-        window.ga('send', 'pageview', window.location.pathname + 'welcome page visit');
+        window.ORIBIT?.api('track','welcome_page_visit')
+        window.ga('send', 'pageview', window.location.pathname + 'welcome page visit')
       }
     }).then(data => console.log(data));
 
