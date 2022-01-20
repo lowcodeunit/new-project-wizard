@@ -36,11 +36,9 @@ class RecipeProject extends LCUComponent {
       recipe: this.getCurrentRecipe(this.props.recipeList, this.props.recipeID),
     });
     this.getOrgs();
-    window.ORIBITT?.api('track', 'recipe-selected_' + this.state.recipe.Name);
-    window.ga(
-      'send',
-      'pageview',
-      window.location.pathname + 'recipe selected: ' + this.state.recipe.Name
+    this.lcu.track(
+      `recipe_selected-${this.state.recipe.Name}`,
+      `setup/recipe/${this.state.recipe.Name}`
     );
   }
 
@@ -82,7 +80,7 @@ class RecipeProject extends LCUComponent {
       this.props.projectIsLoaded();
     });
     this.props.onStepChange();
-    window.ORIBIT?.api('track', this.state.recipe.Name + '_open_source_deploy');
+    this.lcu.track(`recipe_deploy_open_source-${this.state.recipe.Name}`, null);
   }
 
   handleSubmit() {
@@ -100,7 +98,7 @@ class RecipeProject extends LCUComponent {
       this.props.projectIsLoaded();
     });
     this.props.onStepChange();
-    window.ORIBIT?.api('track', this.state.recipe.Name + '_fork_deploy');
+    this.lcu.track(`recipe_deploy_fork-${this.state.recipe.Name}`, null);
   }
   handleUseRecipe(event) {
     this.setState({ deploy: true });

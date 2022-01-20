@@ -50,20 +50,11 @@ class HomeComponent extends LCUComponent {
         console.log(resp);
         console.log(resp.Status.Message);
         if (resp.Status.Code === 0) {
-          window.ORIBIT?.api('track', 'setup_page_user_pre_authed');
-          window.ga(
-            'send',
-            'pageview',
-            window.location.pathname + 'setup page: user already authed'
-          );
+          this.lcu.track('setup_github_authorized', 'setup/github/authorized');
+
           this.setState({ currentStep: 1 });
         } else {
-          window.ORIBIT?.api('track', 'welcome_page_visit');
-          window.ga(
-            'send',
-            'pageview',
-            window.location.pathname + 'welcome page visit'
-          );
+          this.lcu.track('setup_github_unauthorized', 'setup/github/unauthorized');
         }
       })
       .then((data) => console.log(data));

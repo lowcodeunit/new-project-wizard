@@ -14,8 +14,7 @@ class WorkspaceSetup extends LCUComponent {
   }
 
   componentDidMount() {
-    window.ORIBIT?.api('track', 'setup_page_visit');
-    window.ga('send', 'pageview', window.location.pathname + 'setup page');
+    this.lcu.track(`setup_page`, 'setup');
   }
 
   handleClick(id) {

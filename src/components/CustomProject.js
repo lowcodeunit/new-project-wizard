@@ -49,12 +49,7 @@ class CustomProject extends LCUComponent {
 
   async componentDidMount() {
     this.getOrgs();
-    window.ORIBIT?.api('track', 'custom_project_form_visit');
-    window.ga(
-      'send',
-      'pageview',
-      window.location.pathname + 'custom project selected'
-    );
+    this.lcu.track('custom_project_form_visit', 'setup/custom');
   }
   async getBranches() {
     fetch(
@@ -173,7 +168,7 @@ class CustomProject extends LCUComponent {
       this.props.projectIsLoaded();
     });
     this.props.onStepChange();
-    window.ORIBIT?.api('track', 'custom_project_submitted');
+    this.lcu.track('custom_project_submitted', null);
   }
 
   keyPress(e) {

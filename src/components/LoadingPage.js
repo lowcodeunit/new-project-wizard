@@ -11,16 +11,11 @@ class LoadingPage extends LCUComponent {
   }
 
   componentDidMount() {
-    window.ORIBIT?.api('track', 'final_page_reached');
-    window.ga(
-      'send',
-      'pageview',
-      window.location.pathname + 'final page reached'
-    );
+    this.lcu.track('final_page_reached', 'setup/final');
   }
 
   handleContinueClick() {
-    window.ORIBIT?.api('track', 'continued to dashboard');
+    this.lcu.track('continued_to_dashboard', null);
   }
 
   render() {
