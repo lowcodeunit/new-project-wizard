@@ -134,10 +134,44 @@ class RecipeProject extends LCUComponent {
     if (!this.state.deploy) {
       content = (
         <Box>
-          <h3>{this.state.recipe.Name}</h3>
-          <img src={this.state.recipe.Image} alt={this.state.recipe.Name}></img>
-          <p>{this.state.recipe.Description}</p>
-          <p>{this.state.recipe.Ingredients}</p>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'column', md: 'row' },
+              justifyContent: 'space-evenly',
+              alignContent: 'center',
+            }}
+          >
+            <Box
+              sx={{
+                width: '100%',
+                maxWidth: '425px',
+              }}
+            >
+              <h3>{this.state.recipe.Name}</h3>
+              <img
+                src={this.state.recipe.Image}
+                alt={this.state.recipe.Name}
+              ></img>
+
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: { xs: 'column', sm: 'column', md: 'row' },
+                  justifyContent: 'space-evenly',
+                  alignContent: 'center',
+                }}
+              >
+                <p>{this.state.recipe.Description}</p>
+
+                <Box>
+                  <h4>Ingredients</h4>
+                  
+                  <p>{this.state.recipe.Ingredients}</p>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
 
           <Box sx={{ marginTop: '4em' }}>
             <h4>Choose your deployment path</h4>
