@@ -100,11 +100,17 @@ class HomeComponent extends LCUComponent {
     this.setState({ currentStep: ++step });
   }
   handleWorkspaceOpen(event) {
-    this.setState({
-      workspace: event,
-      currentStep: event ? 1 : 0,
-      deployFork: false,
-    });
+    if (this.state.deployFork) {
+      this.setState({
+        deployFork: false,
+      });
+    } else {
+      this.setState({
+        workspace: event,
+        currentStep: event ? 1 : 0,
+        deployFork: false,
+      });
+    }
     console.log('click is ' + event);
   }
 

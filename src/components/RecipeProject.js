@@ -135,10 +135,34 @@ class RecipeProject extends LCUComponent {
     if (!this.state.deploy) {
       content = (
         <Box>
-          <h3>{this.state.recipe.Name}</h3>
-          <img src={this.state.recipe.Image} alt={this.state.recipe.Name}></img>
-          <p>{this.state.recipe.Desctiption}</p>
-          <p>{this.state.recipe.Ingredients}</p>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'column', md: 'row' },
+              justifyContent: 'space-evenly',
+              alignContent: 'center',
+            }}
+          >
+            <Box
+              sx={{
+                width: '100%',
+                maxWidth: '425px',
+              }}
+            >
+              <h2>{this.state.recipe.Name}</h2>
+
+              <img
+                src={this.state.recipe.Image}
+                alt={this.state.recipe.Name}
+              ></img>
+
+              <p>{this.state.recipe.Description}</p>
+
+              <h3>Ingredients</h3>
+
+              <p>{this.state.recipe.Ingredients}</p>
+            </Box>
+          </Box>
 
           <Box sx={{ marginTop: '4em' }}>
             <h4>Choose your deployment path</h4>
@@ -171,7 +195,7 @@ class RecipeProject extends LCUComponent {
                     If you use Fathym's deployment, your project will use NPM
                     package versions of your recipe's ingredients. The result
                     will be the same, only difference is you won't have
-                    automated builds under your control.
+                    repositories or automated builds under your control.
                   </p>
                 </Paper>
               </Box>
@@ -193,7 +217,9 @@ class RecipeProject extends LCUComponent {
                 <Paper sx={{ p: 2, m: 2 }}>
                   <p>
                     LowCodeUnit will take all you recipe ingredients and create
-                    copies of them in your personal github organization.
+                    copies of them in your personal github organization. This
+                    will setup everything you need for modern DevOps; source
+                    repositories, build pipelines, and deployments.
                   </p>
                 </Paper>
               </Box>
