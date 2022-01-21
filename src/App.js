@@ -76,7 +76,9 @@ class HomeComponent extends LCUComponent {
           console.log(queries);
 
           if (queries?.recipeId) {
-            this.setState({ workspace: queries?.recipeId });
+            this.setState({ workspace: queries?.recipeId }, () => {
+              this.handleWorkspaceOpen(queries?.recipeId);
+            });
           }
         }
       })
