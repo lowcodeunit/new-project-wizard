@@ -1,5 +1,6 @@
 import '../App.css';
 import React from 'react';
+import {Helmet} from "react-helmet";
 import LCUComponent from './LCUComponent';
 import { Box, Button, IconButton } from '@mui/material';
 import Paper from '@mui/material/Paper';
@@ -34,6 +35,9 @@ class WelcomePage extends LCUComponent {
   render() {
     return (
       <Box sx={{ width: '100%' }}>
+        <Helmet>
+          <title>LowCodeUnit - Welcome</title>
+        </Helmet>
         <Box
           sx={{
             display: 'flex',

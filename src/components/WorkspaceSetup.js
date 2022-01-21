@@ -1,5 +1,6 @@
 import '../App.css';
 import React from 'react';
+import {Helmet} from "react-helmet";
 import LCUComponent from './LCUComponent';
 import { Box, Button, Divider, Tooltip, Grid } from '@mui/material';
 
@@ -69,6 +70,9 @@ class WorkspaceSetup extends LCUComponent {
 
     return (
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+        <Helmet>
+          <title>LowCodeUnit - Select your project</title>
+        </Helmet>
         <Box>
           <Box sx={{ py: 8, px: 2 }}>
             <Box>

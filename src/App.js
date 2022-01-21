@@ -1,5 +1,6 @@
 import './App.css';
 import React from 'react';
+import {Helmet} from "react-helmet";
 import LCUComponent from './components/LCUComponent';
 import queryString from 'query-string';
 import {
@@ -10,6 +11,7 @@ import {
   Typography,
   IconButton,
   ThemeProvider,
+  Stack,
 } from '@mui/material';
 import ProgressTracker from './components/ProgressTracker';
 import WorkspaceSetup from './components/WorkspaceSetup';
@@ -19,6 +21,7 @@ import WelcomePage from './components/WelcomePage';
 import LoadingPage from './components/LoadingPage';
 import CloseIcon from '@mui/icons-material/Close';
 import { createTheme } from '@mui/material/styles';
+import logo from './recipelogos/logo.svg'
 
 const theme = createTheme({
   palette: {
@@ -42,6 +45,7 @@ class HomeComponent extends LCUComponent {
       gitHubAuthStatus: null,
       deployFork: false,
     };
+    this.handleClose = this.handleClose.bind(this);
     this.handleStepChange = this.handleStepChange.bind(this);
     this.handleRecipeForkClick = this.handleRecipeForkClick.bind(this);
     this.handleWorkspaceOpen = this.handleWorkspaceOpen.bind(this);
@@ -88,6 +92,10 @@ class HomeComponent extends LCUComponent {
 
   projectCreated() {
     this.setState({ isProjectCreated: true });
+  }
+
+  handleClose() {
+    window.location.href = `/dashboard`;
   }
 
   handleRecipeForkClick(event) {
@@ -213,23 +221,54 @@ class HomeComponent extends LCUComponent {
     return (
       <div className="App">
         <ThemeProvider theme={theme}>
+          <Helmet>
+            <title>LowCodeUnit - Welcome</title>
+          </Helmet>
           <AppBar position="static">
             <Toolbar>
-              <Box></Box>
-              <Typography
-                edge="start"
-                variant="h6"
-                sx={{ flexGrow: 1 }}
-              ></Typography>
-              <IconButton
-                size="large"
-                edge="end"
-                color="inherit"
-                aria-label="menu"
-                sx={{ mr: 2 }}
-              >
-                <CloseIcon />
-              </IconButton>
+              <Box sx={{display: 'flex', width:'100%'}}>
+                <Stack
+                  direction="row"
+                  justifyContent="flex-start"
+                  alignItems="center"
+                  spacing={0.5}
+                  sx={{flexGrow: 1, alignContent:'start'}}>
+                  <Box sx={{display:'flex',flexDirection:'row',  alignItems:"center"}}>
+                    <Box
+                      component="img"
+                      sx={{ 
+                      height: {xs:20, s:20, m:40, lg:50}
+                      }}
+                      alt="Your logo."
+                      src={logo}
+                    />
+                    <Box>
+                      <Typography
+                        sx={{fontFamily: 'Encode Sans Condensed, sans-serif', fontWeight: '900', fontSize:'20px', pl: 2}}
+                        noWrap={true}
+                      > 
+                      LowCodeUnit Beta
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Stack>
+                <Stack
+                  direction="row"
+                  justifyContent="flex-end"
+                  alignItems="center"
+                  spacing={0.5}
+                  >
+                  <IconButton
+                    size="large"
+                    edge="end"
+                    color="inherit"
+                    aria-label="menu"
+                    onClick={this.handleClose}
+                  >
+                    <CloseIcon />
+                  </IconButton>
+                </Stack>
+              </Box>
             </Toolbar>
           </AppBar>
           <ProgressTracker
