@@ -149,7 +149,7 @@ class RecipeProject extends LCUComponent {
               }}
             >
               <h2>{this.state.recipe.Name}</h2>
-              
+
               <img
                 src={this.state.recipe.Image}
                 alt={this.state.recipe.Name}
@@ -194,7 +194,7 @@ class RecipeProject extends LCUComponent {
                     If you use Fathym's deployment, your project will use NPM
                     package versions of your recipe's ingredients. The result
                     will be the same, only difference is you won't have
-                    automated builds under your control.
+                    repositories or automated builds under your control.
                   </p>
                 </Paper>
               </Box>
@@ -216,7 +216,9 @@ class RecipeProject extends LCUComponent {
                 <Paper sx={{ p: 2, m: 2 }}>
                   <p>
                     LowCodeUnit will take all you recipe ingredients and create
-                    copies of them in your personal github organization.
+                    copies of them in your personal github organization. This
+                    will setup everything you need for modern DevOps; source
+                    repositories, build pipelines, and deployments.
                   </p>
                 </Paper>
               </Box>
