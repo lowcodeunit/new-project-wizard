@@ -32,13 +32,20 @@ class RecipeProject extends LCUComponent {
   }
 
   async componentDidMount() {
-    this.setState({
-      recipe: this.getCurrentRecipe(this.props.recipeList, this.props.recipeID),
-    });
-    this.getOrgs();
-    this.lcu.track(
-      `recipe_selected-${this.state.recipe.Name}`,
-      `setup/recipe/${this.state.recipe.Name}`
+    this.setState(
+      {
+        recipe: this.getCurrentRecipe(
+          this.props.recipeList,
+          this.props.recipeID
+        ),
+      },
+      () => {
+        this.getOrgs();
+        this.lcu.track(
+          `recipe_selected-${this.state.recipe.Name}`,
+          `setup/recipe/${this.state.recipe.Name}`
+        );
+      }
     );
   }
 
