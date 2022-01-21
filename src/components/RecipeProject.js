@@ -148,28 +148,18 @@ class RecipeProject extends LCUComponent {
                 maxWidth: '425px',
               }}
             >
-              <h3>{this.state.recipe.Name}</h3>
+              <h2>{this.state.recipe.Name}</h2>
+              
               <img
                 src={this.state.recipe.Image}
                 alt={this.state.recipe.Name}
               ></img>
 
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: { xs: 'column', sm: 'column', md: 'row' },
-                  justifyContent: 'space-evenly',
-                  alignContent: 'center',
-                }}
-              >
-                <p>{this.state.recipe.Description}</p>
+              <p>{this.state.recipe.Description}</p>
 
-                <Box>
-                  <h4>Ingredients</h4>
-                  
-                  <p>{this.state.recipe.Ingredients}</p>
-                </Box>
-              </Box>
+              <h3>Ingredients</h3>
+
+              <p>{this.state.recipe.Ingredients}</p>
             </Box>
           </Box>
 
