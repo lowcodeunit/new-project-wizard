@@ -54,7 +54,7 @@ class WelcomePage extends LCUComponent {
         </Box>
 
         <Box sx={{ pt: 2 }}>
-          <h1>Connect Rour GitHub</h1>
+          <h1>Connect Your GitHub</h1>
           <p>
             You've chosen a flow that requires a GitHub connection. It's simple,
             and we'll help you with the following:
