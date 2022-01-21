@@ -1,6 +1,7 @@
 import './App.css';
 import React from 'react';
 import LCUComponent from './components/LCUComponent';
+import queryString from 'query-string'
 import {
   AppBar,
   CircularProgress,
@@ -70,6 +71,14 @@ class HomeComponent extends LCUComponent {
         let resp = await response.json();
         if (resp.Status.Code === 0) {
           this.setState({ recipeList: resp.Model });
+
+          let queries = queryString.parse(window.location.search);
+
+          console.log(queries);
+
+          if (queries?.recipeId) {
+            this.setState({ workspace: queries?.recipeId });
+          }
         }
       })
       .then(this.setState({ recipesLoaded: true }));
