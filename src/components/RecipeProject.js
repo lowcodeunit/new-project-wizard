@@ -136,7 +136,7 @@ class RecipeProject extends LCUComponent {
         <Box>
           <h3>{this.state.recipe.Name}</h3>
           <img src={this.state.recipe.Image} alt={this.state.recipe.Name}></img>
-          <p>{this.state.recipe.Desctiption}</p>
+          <p>{this.state.recipe.Description}</p>
           <p>{this.state.recipe.Ingredients}</p>
 
           <Box sx={{ marginTop: '4em' }}>
