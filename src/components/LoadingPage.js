@@ -1,5 +1,6 @@
 import '../App.css';
 import React from 'react';
+import {Helmet} from "react-helmet";
 import LCUComponent from './LCUComponent';
 import { CircularProgress, Box, Button, Link } from '@mui/material';
 
@@ -45,6 +46,9 @@ class LoadingPage extends LCUComponent {
           justifyContent: 'space-evenly',
         }}
       >
+        <Helmet>
+          <title>LowCodeUnit - Loading Project</title>
+        </Helmet>
         <Box sx={{}}>
           <h2>We're configuring your new project</h2>
           <p>

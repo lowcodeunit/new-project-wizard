@@ -1,5 +1,6 @@
 import './App.css';
 import React from 'react';
+import {Helmet} from "react-helmet";
 import LCUComponent from './components/LCUComponent';
 import queryString from 'query-string';
 import {
@@ -207,6 +208,9 @@ class HomeComponent extends LCUComponent {
     return (
       <div className="App">
         <ThemeProvider theme={theme}>
+          <Helmet>
+            <title>LowCodeUnit - Welcome</title>
+          </Helmet>
           <AppBar position="static">
             <Toolbar>
               <Box></Box>

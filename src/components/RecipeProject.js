@@ -1,5 +1,6 @@
 import '../App.css';
 import React from 'react';
+import {Helmet} from "react-helmet";
 import LCUComponent from './LCUComponent';
 import {
   Box,
@@ -244,6 +245,9 @@ class RecipeProject extends LCUComponent {
     }
     return (
       <Box sx={{ width: '100%' }}>
+          <Helmet>
+            <title>LowCodeUnit - Recipe Project</title>
+          </Helmet>
         <Box
           sx={{
             display: 'flex',

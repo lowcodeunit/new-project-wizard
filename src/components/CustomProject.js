@@ -1,5 +1,6 @@
 import '../App.css';
 import React from 'react';
+import {Helmet} from "react-helmet";
 import LCUComponent from './LCUComponent';
 import {
   Box,
@@ -347,6 +348,9 @@ class CustomProject extends LCUComponent {
           alignContent: 'center',
         }}
       >
+        <Helmet>
+          <title>LowCodeUnit - Custom Project</title>
+        </Helmet>
         <Box
           sx={{
             display: 'flex',
