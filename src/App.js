@@ -40,8 +40,10 @@ class HomeComponent extends LCUComponent {
       recipeList: [],
       isProjectCreated: false,
       gitHubAuthStatus: null,
+      deployFork: false,
     };
     this.handleStepChange = this.handleStepChange.bind(this);
+    this.handleRecipeForkClick = this.handleRecipeForkClick.bind(this);
     this.handleWorkspaceOpen = this.handleWorkspaceOpen.bind(this);
     this.projectCreated = this.projectCreated.bind(this);
   }
@@ -69,17 +71,16 @@ class HomeComponent extends LCUComponent {
       .then(async (response) => {
         let resp = await response.json();
         if (resp.Status.Code === 0) {
-          this.setState({ recipeList: resp.Model });
-
           let queries = queryString.parse(window.location.search);
 
-          console.log(queries);
-
           if (queries?.recipeId) {
-            this.setState({ workspace: queries?.recipeId }, () => {
-              this.handleWorkspaceOpen(queries?.recipeId);
-            });
+            this.handleWorkspaceOpen(queries?.recipeId);
           }
+
+          this.setState({
+            recipeList: resp.Model,
+            deployFork: queries?.deployFork === 'true',
+          });
         }
       })
       .then(this.setState({ recipesLoaded: true }));
@@ -89,12 +90,20 @@ class HomeComponent extends LCUComponent {
     this.setState({ isProjectCreated: true });
   }
 
+  handleRecipeForkClick(event) {
+    this.setState({ deployFork: !!event?.deploy });
+  }
+
   handleStepChange() {
     let step = this.state.currentStep;
     this.setState({ currentStep: ++step });
   }
   handleWorkspaceOpen(event) {
-    this.setState({ workspace: event, currentStep: event ? 1 : 0 });
+    this.setState({
+      workspace: event,
+      currentStep: event ? 1 : 0,
+      deployFork: false,
+    });
     console.log('click is ' + event);
   }
 
@@ -125,48 +134,72 @@ class HomeComponent extends LCUComponent {
         ></WorkspaceSetup>
       );
     } else if (this.state.currentStep === 1) {
-      if (!this.state.gitHubAuthStatus) {
-        content = progressContent;
-      } else if (this.state.gitHubAuthStatus.Code !== 0) {
-        content = (
-          <WelcomePage onStepChange={this.handleStepChange}></WelcomePage>
-        );
-      } else if (this.state.workspace === 'custom') {
-        content = (
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-evenly',
-              pt: 2,
-            }}
-          >
-            <CustomProject
-              buttonClick={this.handleWorkspaceOpen}
+      if (this.state.workspace === 'custom') {
+        if (!this.state.gitHubAuthStatus) {
+          content = progressContent;
+        } else if (this.state.gitHubAuthStatus.Code !== 0) {
+          content = (
+            <WelcomePage
               onStepChange={this.handleStepChange}
-              projectIsLoaded={this.projectCreated}
-            />
-          </Box>
-        );
+              workspace={this.state.workspace}
+              buttonClick={this.handleWorkspaceOpen}
+            ></WelcomePage>
+          );
+        } else {
+          content = (
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-evenly',
+                pt: 2,
+              }}
+            >
+              <CustomProject
+                buttonClick={this.handleWorkspaceOpen}
+                onStepChange={this.handleStepChange}
+                projectIsLoaded={this.projectCreated}
+              />
+            </Box>
+          );
+        }
       } else {
-        content = (
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-evenly',
-              pt: 2,
-            }}
-          >
-            <RecipeProject
-              buttonClick={this.handleWorkspaceOpen}
-              recipeID={this.state.workspace}
-              recipeList={this.state.recipeList}
+        if (!this.state.gitHubAuthStatus) {
+          content = progressContent;
+        } else if (
+          this.state.gitHubAuthStatus.Code !== 0 &&
+          this.state.deployFork
+        ) {
+          content = (
+            <WelcomePage
               onStepChange={this.handleStepChange}
-              projectIsLoaded={this.projectCreated}
-            />
-          </Box>
-        );
+              workspace={this.state.workspace}
+              deployFork={this.state.deployFork}
+              buttonClick={this.handleWorkspaceOpen}
+            ></WelcomePage>
+          );
+        } else {
+          content = (
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-evenly',
+                pt: 2,
+              }}
+            >
+              <RecipeProject
+                buttonClick={this.handleWorkspaceOpen}
+                deploy={this.state.deployFork}
+                recipeID={this.state.workspace}
+                recipeList={this.state.recipeList}
+                onStepChange={this.handleStepChange}
+                projectIsLoaded={this.projectCreated}
+                useRecipeClick={this.handleRecipeForkClick}
+              />
+            </Box>
+          );
+        }
       }
     } else if (this.state.currentStep === 2) {
       content = <LoadingPage isProjectLoaded={this.state.isProjectCreated} />;

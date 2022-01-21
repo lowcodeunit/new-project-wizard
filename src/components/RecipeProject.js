@@ -19,12 +19,12 @@ class RecipeProject extends LCUComponent {
       step: 0,
       recipe: [],
       recipeList: [],
-      deploy: false,
+      deploy: props.deploy,
       orgs: [],
       selectedOrg: '',
     };
     this.handleOpenSource = this.handleOpenSource.bind(this);
-    this.handleUseRecipe = this.handleUseRecipe.bind(this);
+    this.handleForkRecipe = this.handleForkRecipe.bind(this);
     this.handleBackButton = this.handleBackButton.bind(this);
     this.handleOrgSelect = this.handleOrgSelect.bind(this);
     this.incrementStep = this.incrementStep.bind(this);
@@ -67,7 +67,13 @@ class RecipeProject extends LCUComponent {
   }
 
   handleBackButton() {
-    this.props.buttonClick('');
+    if (!this.state.deploy) {
+      this.props.buttonClick('');
+    } else {
+      let deployState = { deploy: false };
+      this.setState(deployState);
+      this.props.useRecipeClick(deployState);
+    }
   }
 
   handleOrgSelect(event) {
@@ -107,8 +113,10 @@ class RecipeProject extends LCUComponent {
     this.props.onStepChange();
     this.lcu.track(`recipe_deploy_fork-${this.state.recipe.Name}`, null);
   }
-  handleUseRecipe(event) {
-    this.setState({ deploy: true });
+  handleForkRecipe(event) {
+    let deployState = { deploy: true };
+    this.setState(deployState);
+    this.props.useRecipeClick(deployState);
     this.incrementStep();
   }
 
@@ -123,7 +131,7 @@ class RecipeProject extends LCUComponent {
 
   render() {
     let content;
-    if (this.state.step === 0) {
+    if (!this.state.deploy) {
       content = (
         <Box>
           <h3>{this.state.recipe.Name}</h3>
@@ -132,9 +140,7 @@ class RecipeProject extends LCUComponent {
           <p>{this.state.recipe.Ingredients}</p>
 
           <Box sx={{ marginTop: '4em' }}>
-            <h4>
-              Choose your deployment path
-            </h4>
+            <h4>Choose your deployment path</h4>
 
             <Box
               sx={{
@@ -178,7 +184,7 @@ class RecipeProject extends LCUComponent {
                 <Button
                   variant="contained"
                   sx={{ mb: 2 }}
-                  onClick={this.incrementStep}
+                  onClick={this.handleForkRecipe}
                 >
                   Fork this Recipe
                 </Button>
@@ -194,7 +200,7 @@ class RecipeProject extends LCUComponent {
           </Box>
         </Box>
       );
-    } else if (this.state.step === 1) {
+    } else if (this.state.deploy) {
       content = (
         <Box
           sx={{
