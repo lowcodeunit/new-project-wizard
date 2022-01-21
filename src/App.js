@@ -1,7 +1,7 @@
 import './App.css';
 import React from 'react';
 import LCUComponent from './components/LCUComponent';
-import queryString from 'query-string'
+import queryString from 'query-string';
 import {
   AppBar,
   CircularProgress,
@@ -39,7 +39,7 @@ class HomeComponent extends LCUComponent {
       workspace: '',
       recipeList: [],
       isProjectCreated: false,
-      isGitAuthLoaded: false
+      gitHubAuthStatus: null,
     };
     this.handleStepChange = this.handleStepChange.bind(this);
     this.handleWorkspaceOpen = this.handleWorkspaceOpen.bind(this);
@@ -52,14 +52,13 @@ class HomeComponent extends LCUComponent {
         let resp = await response.json();
         console.log(resp);
         console.log(resp.Status.Message);
-        this.setState({ isGitAuthLoaded: true})
         if (resp.Status.Code === 0) {
-          this.lcu.track('setup_github_authorized', 'setup/github/authorized');
-
-          this.setState({ currentStep: 1 });
+          this.lcu.track('github_authorized', 'setup/github/authorized');
         } else {
-          this.lcu.track('welcome_github_unauthorized', 'welcome/github/unauthorized');
+          this.lcu.track('github_unauthorized', 'welcome/github/unauthorized');
         }
+
+        this.setState({ gitHubAuthStatus: resp.Status });
       })
       .then((data) => console.log(data));
 
@@ -93,24 +92,44 @@ class HomeComponent extends LCUComponent {
     this.setState({ currentStep: ++step });
   }
   handleWorkspaceOpen(event) {
-    this.setState({ workspace: event });
+    this.setState({ workspace: event, currentStep: event ? 1 : 0 });
     console.log('click is ' + event);
   }
 
   render() {
-    let content;
-    if(!this.state.isGitAuthLoaded){
-      content = 
-      <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', mt:3}}>
+    let progressContent = (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          mt: 3,
+        }}
+      >
         <CircularProgress color="primary" />
       </Box>
-    }
-     else if (this.state.currentStep === 0) {
+    );
+
+    let content;
+
+    if (this.state.recipeList?.length <= 0) {
+      content = progressContent;
+    } else if (this.state.currentStep === 0) {
       content = (
-        <WelcomePage onStepChange={this.handleStepChange}></WelcomePage>
+        <WorkspaceSetup
+          buttonClick={this.handleWorkspaceOpen}
+          recipeList={this.state.recipeList}
+          onStepChange={this.handleStepChange}
+        ></WorkspaceSetup>
       );
     } else if (this.state.currentStep === 1) {
-      if (this.state.workspace === 'custom') {
+      if (!this.state.gitHubAuthStatus) {
+        content = progressContent;
+      } else if (this.state.gitHubAuthStatus.Code !== 0) {
+        content = (
+          <WelcomePage onStepChange={this.handleStepChange}></WelcomePage>
+        );
+      } else if (this.state.workspace === 'custom') {
         content = (
           <Box
             sx={{
@@ -126,14 +145,6 @@ class HomeComponent extends LCUComponent {
               projectIsLoaded={this.projectCreated}
             />
           </Box>
-        );
-      } else if (this.state.workspace === '') {
-        content = (
-          <WorkspaceSetup
-            buttonClick={this.handleWorkspaceOpen}
-            recipeList={this.state.recipeList}
-            onStepChange={this.handleStepChange}
-          ></WorkspaceSetup>
         );
       } else {
         content = (
@@ -184,7 +195,13 @@ class HomeComponent extends LCUComponent {
             workspace={this.state.workspace}
             step={this.state.currentStep}
           ></ProgressTracker>
-          {content}
+          <Box
+            sx={{
+              marginBottom: '4em',
+            }}
+          >
+            {content}
+          </Box>
         </ThemeProvider>
       </div>
     );

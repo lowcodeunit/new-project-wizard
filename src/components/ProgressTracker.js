@@ -4,7 +4,7 @@ import LCUComponent from './LCUComponent';
 import Box from '@mui/material/Box';
 import { Stepper, Step, StepLabel } from '@mui/material';
 
-let steps = ['Github Auth', 'Create your workspace', 'Confirm setup'];
+let steps = ['Select Recipe', 'Configure Project', 'Project Deployed'];
 
 class ProgressTracker extends LCUComponent {
   constructor(props) {

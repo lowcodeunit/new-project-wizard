@@ -130,58 +130,71 @@ class RecipeProject extends LCUComponent {
           <img src={this.state.recipe.Image} alt={this.state.recipe.Name}></img>
           <p>{this.state.recipe.Desctiption}</p>
           <p>{this.state.recipe.Ingredients}</p>
-          <Button onClick={this.handleUseRecipe} variant="contained">
-            Use this recipe
-          </Button>
-        </Box>
-      );
-    } else if (this.state.step === 1) {
-      content = (
-        <Box>
-          <h3>
-            How would you like to deploy the {this.state.recipe.Name} recipe?
-          </h3>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: { xs: 'column', sm: 'column', md: 'row' },
-              justifyContent: 'space-evenly',
-              alignContent: 'center',
-              pt: 2,
-            }}
-          >
-            <Paper sx={{ p: 2, m: 2 }}>
-              <Button
-                variant="contained"
-                sx={{ mb: 2 }}
-                onClick={this.handleOpenSource}
+
+          <Box sx={{ marginTop: '4em' }}>
+            <h4>
+              Choose your deployment path
+            </h4>
+
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', sm: 'column', md: 'row' },
+                justifyContent: 'space-evenly',
+                alignContent: 'center',
+                pt: 2,
+              }}
+            >
+              <Box
+                sx={{
+                  maxWidth: '400px',
+                  width: '100%',
+                }}
               >
-                Fathym's Open Source Deployment
-              </Button>
-              <p>
-                If you use Fathym's deployment, your project will use NPM
-                package versions of your recipe's ingredients. The result will
-                be the same, only difference is you won't have automated builds
-                under your control.
-              </p>
-            </Paper>
-            <Paper sx={{ p: 2, m: 2 }}>
-              <Button
-                variant="contained"
-                sx={{ mb: 2 }}
-                onClick={this.incrementStep}
+                <Button
+                  variant="contained"
+                  sx={{ mb: 2 }}
+                  onClick={this.handleOpenSource}
+                >
+                  Deploy from open source
+                </Button>
+
+                <Paper sx={{ p: 2, m: 2 }}>
+                  <p>
+                    If you use Fathym's deployment, your project will use NPM
+                    package versions of your recipe's ingredients. The result
+                    will be the same, only difference is you won't have
+                    automated builds under your control.
+                  </p>
+                </Paper>
+              </Box>
+
+              <Box
+                sx={{
+                  maxWidth: '400px',
+                  width: '100%',
+                }}
               >
-                Fork for my Organization
-              </Button>
-              <p>
-                LowCodeUnit will take all you recipe ingredients and create
-                copies of them in your personal github organization.
-              </p>
-            </Paper>
+                <Button
+                  variant="contained"
+                  sx={{ mb: 2 }}
+                  onClick={this.incrementStep}
+                >
+                  Fork this Recipe
+                </Button>
+
+                <Paper sx={{ p: 2, m: 2 }}>
+                  <p>
+                    LowCodeUnit will take all you recipe ingredients and create
+                    copies of them in your personal github organization.
+                  </p>
+                </Paper>
+              </Box>
+            </Box>
           </Box>
         </Box>
       );
-    } else if (this.state.step === 2) {
+    } else if (this.state.step === 1) {
       content = (
         <Box
           sx={{

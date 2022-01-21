@@ -330,7 +330,7 @@ class CustomProject extends LCUComponent {
             onClick={this.handleSubmit}
             size="large"
           >
-            Submit
+            Deploy Project
           </Button>
         </Box>
       );
