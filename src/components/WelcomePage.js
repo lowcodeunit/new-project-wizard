@@ -1,6 +1,6 @@
 import '../App.css';
 import React from 'react';
-import {Helmet} from "react-helmet";
+import { Helmet } from 'react-helmet';
 import LCUComponent from './LCUComponent';
 import { Box, Button, IconButton } from '@mui/material';
 import Paper from '@mui/material/Paper';
@@ -23,7 +23,7 @@ class WelcomePage extends LCUComponent {
       ? window.location.search
       : `?recipeId=${this.props.workspace}&deployFork=${!!this.props
           .deployFork}`;
-    const reidrectUri = window.location.pathname + search;
+    const reidrectUri = encodeURI(window.location.pathname + search);
     window.location.href = `/.oauth/github?redirectUri=${reidrectUri}`;
     this.props.onStepChange();
   }
