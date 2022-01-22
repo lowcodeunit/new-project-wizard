@@ -43,7 +43,7 @@ class HomeComponent extends LCUComponent {
       recipeList: [],
       isProjectCreated: false,
       gitHubAuthStatus: null,
-      deployFork: false,
+      deploy: false,
     };
     this.handleClose = this.handleClose.bind(this);
     this.handleStepChange = this.handleStepChange.bind(this);
@@ -83,7 +83,7 @@ class HomeComponent extends LCUComponent {
 
           this.setState({
             recipeList: resp.Model,
-            deployFork: queries?.deployFork === 'true',
+            deploy: queries?.deploy === 'true',
           });
         }
       })
@@ -99,7 +99,7 @@ class HomeComponent extends LCUComponent {
   }
 
   handleRecipeForkClick(event) {
-    this.setState({ deployFork: !!event?.deploy });
+    this.setState({ deploy: !!event?.deploy });
   }
 
   handleStepChange() {
@@ -107,15 +107,15 @@ class HomeComponent extends LCUComponent {
     this.setState({ currentStep: ++step });
   }
   handleWorkspaceOpen(event) {
-    if (this.state.deployFork) {
+    if (this.state.deploy) {
       this.setState({
-        deployFork: false,
+        deploy: false,
       });
     } else {
       this.setState({
         workspace: event,
         currentStep: event ? 1 : 0,
-        deployFork: false,
+        deploy: false,
       });
     }
     console.log('click is ' + event);
@@ -182,13 +182,13 @@ class HomeComponent extends LCUComponent {
           content = progressContent;
         } else if (
           this.state.gitHubAuthStatus.Code !== 0 &&
-          this.state.deployFork
+          this.state.deploy
         ) {
           content = (
             <WelcomePage
               onStepChange={this.handleStepChange}
               workspace={this.state.workspace}
-              deployFork={this.state.deployFork}
+              deploy={this.state.deploy}
               buttonClick={this.handleWorkspaceOpen}
             ></WelcomePage>
           );
@@ -204,7 +204,7 @@ class HomeComponent extends LCUComponent {
             >
               <RecipeProject
                 buttonClick={this.handleWorkspaceOpen}
-                deploy={this.state.deployFork}
+                deploy={this.state.deploy}
                 recipeID={this.state.workspace}
                 recipeList={this.state.recipeList}
                 onStepChange={this.handleStepChange}
