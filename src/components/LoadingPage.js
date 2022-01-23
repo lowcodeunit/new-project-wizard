@@ -12,7 +12,7 @@ class LoadingPage extends LCUComponent {
   }
 
   componentDidMount() {
-    this.lcu.track('final_page_reached', 'setup/final');
+    this.lcu.track('project_deploying', 'setup/deploying');
   }
 
   handleContinueClick() {

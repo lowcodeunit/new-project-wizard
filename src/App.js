@@ -70,6 +70,7 @@ class HomeComponent extends LCUComponent {
 
     this.getRecipes();
   }
+
   getRecipes() {
     fetch('/api/lowcodeunit/manage/recipes/list')
       .then(async (response) => {
@@ -91,10 +92,14 @@ class HomeComponent extends LCUComponent {
   }
 
   projectCreated() {
+    this.lcu.track('project_deployed', 'setup/deployed');
+    
     this.setState({ isProjectCreated: true });
   }
 
   handleClose() {
+    this.lcu.track('closed', 'setup/closed');
+
     window.location.href = `/dashboard`;
   }
 

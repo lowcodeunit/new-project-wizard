@@ -15,7 +15,7 @@ class WorkspaceSetup extends LCUComponent {
   }
 
   componentDidMount() {
-    this.lcu.track(`setup_page`, 'setup');
+    this.lcu.track(`recipes_listed`, 'setup');
   }
 
   handleClick(id) {
