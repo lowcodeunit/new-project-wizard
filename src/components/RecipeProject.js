@@ -1,6 +1,6 @@
 import '../App.css';
 import React from 'react';
-import {Helmet} from "react-helmet";
+import { Helmet } from 'react-helmet';
 import LCUComponent from './LCUComponent';
 import {
   Box,
@@ -44,8 +44,15 @@ class RecipeProject extends LCUComponent {
         this.getOrgs();
         this.lcu.track(
           `recipe_selected-${this.state.recipe.Name}`,
-          `setup/recipe/${this.state.recipe.Name}`
+          `setup/recipe/${this.state.recipe.Name}`,
+          null
         );
+        this.lcu.track('project_selected', null, {
+          DeployType: 'recipe',
+          RecipeID: this.state.recipe.ID,
+          RecipeLkooup: this.state.recipe.Lookup,
+          RecipeName: this.state.recipe.Name,
+        });
       }
     );
   }
@@ -91,10 +98,17 @@ class RecipeProject extends LCUComponent {
       body: JSON.stringify(data),
     }).then((res) => {
       console.log('Request complete! response:', res);
-      this.props.projectIsLoaded();
+      this.props.projectIsLoaded('recipe', data);
     });
     this.props.onStepChange();
     this.lcu.track(`recipe_deploy_open_source-${this.state.recipe.Name}`, null);
+    this.lcu.track(`project_submitted`, null, {
+      DeployType: 'recipe',
+      DeployData: data,
+      RecipeID: this.state.recipe.ID,
+      RecipeLkooup: this.state.recipe.Lookup,
+      RecipeName: this.state.recipe.Name,
+    });
   }
 
   handleSubmit() {
@@ -109,10 +123,17 @@ class RecipeProject extends LCUComponent {
       body: JSON.stringify(data),
     }).then((res) => {
       console.log('Request complete! response:', res);
-      this.props.projectIsLoaded();
+      this.props.projectIsLoaded('recipe', data);
     });
     this.props.onStepChange();
     this.lcu.track(`recipe_deploy_fork-${this.state.recipe.Name}`, null);
+    this.lcu.track(`project_submitted`, null, {
+      DeployType: 'recipe',
+      DeployData: data,
+      RecipeID: this.state.recipe.ID,
+      RecipeLkooup: this.state.recipe.Lookup,
+      RecipeName: this.state.recipe.Name,
+    });
   }
   handleForkRecipe(event) {
     let deployState = { deploy: true };
@@ -271,9 +292,9 @@ class RecipeProject extends LCUComponent {
     }
     return (
       <Box sx={{ width: '100%' }}>
-          <Helmet>
-            <title>LowCodeUnit - Recipe Project</title>
-          </Helmet>
+        <Helmet>
+          <title>LowCodeUnit - Recipe Project</title>
+        </Helmet>
         <Box
           sx={{
             display: 'flex',

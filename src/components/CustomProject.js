@@ -1,6 +1,6 @@
 import '../App.css';
 import React from 'react';
-import {Helmet} from "react-helmet";
+import { Helmet } from 'react-helmet';
 import LCUComponent from './LCUComponent';
 import {
   Box,
@@ -50,7 +50,10 @@ class CustomProject extends LCUComponent {
 
   async componentDidMount() {
     this.getOrgs();
-    this.lcu.track('custom_project_selected', 'setup/custom');
+    this.lcu.track('custom_project_selected', 'setup/custom', null);
+    this.lcu.track('project_selected', null, {
+      DeployType: 'custom',
+    });
   }
   async getBranches() {
     fetch(
@@ -166,10 +169,13 @@ class CustomProject extends LCUComponent {
       body: JSON.stringify(data),
     }).then((res) => {
       console.log('Request complete! response:', res);
-      this.props.projectIsLoaded();
+      this.props.projectIsLoaded('custom', data);
     });
     this.props.onStepChange();
-    this.lcu.track('custom_project_submitted', null);
+    this.lcu.track('project_submitted', null, {
+      DeployType: 'custom',
+      DeployData: data,
+    });
   }
 
   keyPress(e) {

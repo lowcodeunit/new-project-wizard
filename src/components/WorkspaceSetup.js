@@ -1,6 +1,6 @@
 import '../App.css';
 import React from 'react';
-import {Helmet} from "react-helmet";
+import { Helmet } from 'react-helmet';
 import LCUComponent from './LCUComponent';
 import { Box, Button, Divider, Tooltip, Grid } from '@mui/material';
 
@@ -15,7 +15,9 @@ class WorkspaceSetup extends LCUComponent {
   }
 
   componentDidMount() {
-    this.lcu.track(`recipes_listed`, 'setup');
+    this.lcu.track(`recipes_listed`, 'setup', {
+      RecipeCount: this.props.recipeList?.length,
+    });
   }
 
   handleClick(id) {

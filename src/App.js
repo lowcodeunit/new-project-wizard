@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import {Helmet} from "react-helmet";
+import { Helmet } from 'react-helmet';
 import LCUComponent from './components/LCUComponent';
 import queryString from 'query-string';
 import {
@@ -21,7 +21,7 @@ import WelcomePage from './components/WelcomePage';
 import LoadingPage from './components/LoadingPage';
 import CloseIcon from '@mui/icons-material/Close';
 import { createTheme } from '@mui/material/styles';
-import logo from './recipelogos/logo.svg'
+import logo from './recipelogos/logo.svg';
 
 const theme = createTheme({
   palette: {
@@ -59,10 +59,15 @@ class HomeComponent extends LCUComponent {
         console.log(resp);
         console.log(resp.Status.Message);
         if (resp.Status.Code === 0) {
-          this.lcu.track('github_authorized', 'setup/github/authorized');
+          this.lcu.track('github_authorized', 'setup/github/authorized', null);
         } else {
-          this.lcu.track('github_unauthorized', 'welcome/github/unauthorized');
+          this.lcu.track('github_unauthorized', 'welcome/github/unauthorized', null);
         }
+
+        this.lcu.track('github_authorization', null, {
+          Authorized: resp.Status.Code === 0,
+          Status: resp.Status,
+        });
 
         this.setState({ gitHubAuthStatus: resp.Status });
       })
@@ -91,14 +96,17 @@ class HomeComponent extends LCUComponent {
       .then(this.setState({ recipesLoaded: true }));
   }
 
-  projectCreated() {
-    this.lcu.track('project_deployed', 'setup/deployed');
-    
+  projectCreated(type, data) {
+    this.lcu.track('project_deployed', 'setup/deployed', {
+      DeployType: type,
+      DeployData: data,
+    });
+
     this.setState({ isProjectCreated: true });
   }
 
   handleClose() {
-    this.lcu.track('closed', 'setup/closed');
+    this.lcu.track('closed', 'setup/closed', null);
 
     window.location.href = `/dashboard`;
   }
@@ -231,28 +239,40 @@ class HomeComponent extends LCUComponent {
           </Helmet>
           <AppBar position="static">
             <Toolbar>
-              <Box sx={{display: 'flex', width:'100%'}}>
+              <Box sx={{ display: 'flex', width: '100%' }}>
                 <Stack
                   direction="row"
                   justifyContent="flex-start"
                   alignItems="center"
                   spacing={0.5}
-                  sx={{flexGrow: 1, alignContent:'start'}}>
-                  <Box sx={{display:'flex',flexDirection:'row',  alignItems:"center"}}>
+                  sx={{ flexGrow: 1, alignContent: 'start' }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}
+                  >
                     <Box
                       component="img"
-                      sx={{ 
-                      height: {xs:20, s:20, m:40, lg:50}
+                      sx={{
+                        height: { xs: 20, s: 20, m: 40, lg: 50 },
                       }}
                       alt="Your logo."
                       src={logo}
                     />
                     <Box>
                       <Typography
-                        sx={{fontFamily: 'Encode Sans Condensed, sans-serif', fontWeight: '900', fontSize:'20px', pl: 2}}
+                        sx={{
+                          fontFamily: 'Encode Sans Condensed, sans-serif',
+                          fontWeight: '900',
+                          fontSize: '20px',
+                          pl: 2,
+                        }}
                         noWrap={true}
-                      > 
-                      LowCodeUnit Beta
+                      >
+                        LowCodeUnit Beta
                       </Typography>
                     </Box>
                   </Box>
@@ -262,7 +282,7 @@ class HomeComponent extends LCUComponent {
                   justifyContent="flex-end"
                   alignItems="center"
                   spacing={0.5}
-                  >
+                >
                   <IconButton
                     size="large"
                     edge="end"
