@@ -50,7 +50,7 @@ class CustomProject extends LCUComponent {
 
   async componentDidMount() {
     this.getOrgs();
-    this.lcu.track('custom_project_form_visit', 'setup/custom');
+    this.lcu.track('custom_project_selected', 'setup/custom');
   }
   async getBranches() {
     fetch(

@@ -1,6 +1,6 @@
 import '../App.css';
 import React from 'react';
-import {Helmet} from "react-helmet";
+import { Helmet } from 'react-helmet';
 import LCUComponent from './LCUComponent';
 import { Box, Button, IconButton } from '@mui/material';
 import Paper from '@mui/material/Paper';
@@ -21,11 +21,9 @@ class WelcomePage extends LCUComponent {
   authGit() {
     var search = !this.props.workspace
       ? window.location.search
-      : `?recipeId=${this.props.workspace}&deployFork=${!!this.props
-          .deployFork}`;
-    const reidrectUri = window.location.pathname + search;
+      : `?recipeId=${this.props.workspace}&deploy=true`;
+    const reidrectUri = encodeURI(window.location.pathname + search);
     window.location.href = `/.oauth/github?redirectUri=${reidrectUri}`;
-    this.props.onStepChange();
   }
 
   handleBackButton() {
@@ -58,7 +56,7 @@ class WelcomePage extends LCUComponent {
         </Box>
 
         <Box sx={{ pt: 2 }}>
-          <h1>Connect Rour GitHub</h1>
+          <h1>Connect Your GitHub</h1>
           <p>
             You've chosen a flow that requires a GitHub connection. It's simple,
             and we'll help you with the following:
