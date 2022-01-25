@@ -103,7 +103,7 @@ class RecipeProject extends LCUComponent {
     this.props.onStepChange();
     this.lcu.track(`recipe_deploy_open_source-${this.state.recipe.Name}`, null);
     this.lcu.track(`project_submitted`, null, {
-      DeployType: 'recipe',
+      DeployType: 'recipe-open-source',
       DeployData: data,
       RecipeID: this.state.recipe.ID,
       RecipeLkooup: this.state.recipe.Lookup,
@@ -128,7 +128,7 @@ class RecipeProject extends LCUComponent {
     this.props.onStepChange();
     this.lcu.track(`recipe_deploy_fork-${this.state.recipe.Name}`, null);
     this.lcu.track(`project_submitted`, null, {
-      DeployType: 'recipe',
+      DeployType: 'recipe-fork',
       DeployData: data,
       RecipeID: this.state.recipe.ID,
       RecipeLkooup: this.state.recipe.Lookup,
