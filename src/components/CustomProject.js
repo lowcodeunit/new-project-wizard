@@ -22,8 +22,8 @@ class CustomProject extends LCUComponent {
     super(props);
     this.state = {
       buildCommand: 'npm run build',
-      buildOutput: './',
-      buildInstall: 'npm ci',
+      buildOutput: './build',
+      buildInstall: 'npm i',
       step: 0,
       ProjectName: '',
       branches: [],
