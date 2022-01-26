@@ -329,6 +329,11 @@ class CustomProject extends LCUComponent {
               onChange={this.handleOutputChange}
               defaultValue={this.state.buildOutput}
             />
+            <p>
+              The output is the directory that the built assets for your project
+              are in. For React this is './build', for Angular and Vue is
+              './dist', and for Svelte is './public'.
+            </p>
           </Box>
           <Button
             variant="contained"
