@@ -23,7 +23,12 @@ class WelcomePage extends LCUComponent {
       ? window.location.search
       : `?recipeId=${this.props.workspace}&deploy=true`;
     const reidrectUri = encodeURI(window.location.pathname + search);
+    
     window.location.href = `/.oauth/github?redirectUri=${reidrectUri}`;
+
+    // let oauthUrl = `/.oauth/github?redirectUri=${reidrectUri}`;
+
+    // let oauthWindow = window.open(oauthUrl, 'lcu-github-oauth', toQuery(options, ','));
   }
 
   handleBackButton() {
