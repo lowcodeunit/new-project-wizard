@@ -158,13 +158,13 @@ class RecipeProject extends LCUComponent {
 
               <p>{this.state.recipe.Description}</p>
 
-              {/* <h3>Ingredients</h3>
+              <h3>Ingredients</h3>
 
-              <p>{this.state.recipe.Ingredients}</p> */}
+              <p>{this.state.recipe.Ingredients}</p>
             </Box>
           </Box>
 
-          <Box sx={{ marginTop: '2em' }}>
+          <Box sx={{ marginTop: '4em' }}>
             <h4>Choose your deployment path</h4>
 
             <Box
@@ -264,7 +264,7 @@ class RecipeProject extends LCUComponent {
             onClick={this.handleSubmit}
             size="large"
           >
-            Deploy Project
+            Submit
           </Button>
         </Box>
       );
@@ -282,15 +282,16 @@ class RecipeProject extends LCUComponent {
             width: '100%',
           }}
         >
-          <IconButton
-            size="large"
-            edge="end"
-            color="inherit"
-            aria-label="menu"
-            onClick={this.handleBackButton}
-          >
-            <ArrowBackIcon />
-          </IconButton>
+          <Link to="/">
+            <IconButton
+              size="large"
+              edge="end"
+              color="inherit"
+              aria-label="menu"
+            >
+              <ArrowBackIcon />
+            </IconButton>
+          </Link>
         </Box>
         {content}
       </Box>

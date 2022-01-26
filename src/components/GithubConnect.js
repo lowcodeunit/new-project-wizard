@@ -1,5 +1,6 @@
 import '../App.css';
 import React from 'react';
+import { Link } from "react-router-dom";
 import { Helmet } from 'react-helmet';
 import LCUComponent from './LCUComponent';
 import { Box, Button, IconButton } from '@mui/material';
@@ -15,7 +16,6 @@ class WelcomePage extends LCUComponent {
     super(props);
     this.state = {};
     this.authGit = this.authGit.bind(this);
-    this.handleBackButton = this.handleBackButton.bind(this);
   }
 
   authGit() {
@@ -24,10 +24,6 @@ class WelcomePage extends LCUComponent {
       : `?recipeId=${this.props.workspace}&deploy=true`;
     const reidrectUri = encodeURI(window.location.pathname + search);
     window.location.href = `/.oauth/github?redirectUri=${reidrectUri}`;
-  }
-
-  handleBackButton() {
-    this.props.buttonClick('');
   }
 
   render() {
@@ -44,15 +40,16 @@ class WelcomePage extends LCUComponent {
             width: '100%',
           }}
         >
-          <IconButton
-            size="large"
-            edge="end"
-            color="inherit"
-            aria-label="menu"
-            onClick={this.handleBackButton}
-          >
-            <ArrowBackIcon />
-          </IconButton>
+          <Link to="/">
+            <IconButton
+              size="large"
+              edge="end"
+              color="inherit"
+              aria-label="menu"
+            >
+              <ArrowBackIcon />
+            </IconButton>
+          </Link>
         </Box>
 
         <Box sx={{ pt: 2 }}>
@@ -81,7 +78,7 @@ class WelcomePage extends LCUComponent {
                 <li>
                   Provide streamlined source control management for your team
                 </li>
-                <li>and more....</li>
+                <li>If you don't have a GitHub account, create a new account <a href="https://github.com/signup" target="_blank">here</a> first</li>
               </Box>
             </Paper>
             <Paper sx={{ p: 2, m: 2 }}>

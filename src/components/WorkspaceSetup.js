@@ -1,5 +1,6 @@
 import '../App.css';
 import React from 'react';
+import { Link } from "react-router-dom";
 import {Helmet} from "react-helmet";
 import LCUComponent from './LCUComponent';
 import { Box, Button, Divider, Tooltip, Grid } from '@mui/material';
@@ -49,20 +50,23 @@ class WorkspaceSetup extends LCUComponent {
               md={4}
               sx={{ height: '15vh' }}
             >
-              <Tooltip title={item.Name}>
-                <Button
-                  sx={{ maxHeight: '15vh' }}
-                  onClick={() => this.handleClick(item.ID)}
-                >
-                  <img
-                    className="Recipe"
-                    src={item.PreviewImage}
-                    srcSet={item.PreviewImage}
-                    alt={item.Name}
-                  />
-                </Button>
-              </Tooltip>
+              <Link to={`recipe/${item.ID}`}>
+                <Tooltip title={item.Name}>
+                  <Button
+                    sx={{ maxHeight: '15vh' }}
+                    onClick={() => this.handleClick(item.ID)}
+                  >
+                    <img
+                      className="Recipe"
+                      src={item.PreviewImage}
+                      srcSet={item.PreviewImage}
+                      alt={item.Name}
+                    />
+                  </Button>
+                </Tooltip>
+              </Link>
             </Grid>
+           
           ))}
         </Grid>
       </Box>
@@ -82,14 +86,16 @@ class WorkspaceSetup extends LCUComponent {
                 from scratch? Here we'll help you setup the deployment and you
                 do all the coding.
               </p>
-              <Button
-                size="large"
-                variant="contained"
-                sx={{ mt: 2 }}
-                onClick={() => this.handleClick('custom')}
-              >
-                Create Custom Project
-              </Button>
+              <Link to="custom">
+                <Button
+                  size="large"
+                  variant="contained"
+                  sx={{ mt: 2 }}
+                  onClick={() => this.handleClick('custom')}
+                >
+                  Create Custom Project
+                </Button>
+              </Link>
             </Box>
           </Box>
         </Box>

@@ -1,5 +1,6 @@
 import '../App.css';
 import React from 'react';
+import { Link } from "react-router-dom";
 import {Helmet} from "react-helmet";
 import LCUComponent from './LCUComponent';
 import {
@@ -359,15 +360,16 @@ class CustomProject extends LCUComponent {
             width: '100%',
           }}
         >
-          <IconButton
-            size="large"
-            edge="end"
-            color="inherit"
-            aria-label="menu"
-            onClick={this.handleBackButton}
-          >
-            <ArrowBackIcon />
-          </IconButton>
+          <Link to="/">
+            <IconButton
+              size="large"
+              edge="end"
+              color="inherit"
+              aria-label="menu"
+            >
+              <ArrowBackIcon />
+            </IconButton>
+          </Link>
         </Box>
         {formPage}
         <Box sx={{ flexDirection: 'row-reverse', mt: 'auto' }}>
