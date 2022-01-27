@@ -10,10 +10,11 @@ function RecipeStarter(props) {
 
     const recipeLookup = useParams();
     const [recipe] = useState(getCurrentRecipe(props.recipeList, recipeLookup.id));
+    const { onStepChange } = props;
 
     
     const navigate = useNavigate();
-    useEffect(() => props.onStepChange(1), []);
+    useEffect(() => onStepChange(1), [onStepChange]);
 
     function getCurrentRecipe(array, lookup) {
         return array.find((element) => {
