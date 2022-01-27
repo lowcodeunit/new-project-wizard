@@ -6,8 +6,6 @@ import { AppBar, Toolbar, Stack, Typography, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import logo from '../recipelogos/logo.svg'
 
-let steps = ['Select Recipe', 'Configure Project', 'Project Deployed'];
-
 class Header extends LCUComponent {
   constructor(props) {
     super(props);

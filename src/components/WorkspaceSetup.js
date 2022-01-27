@@ -1,76 +1,63 @@
 import '../App.css';
 import React from 'react';
-import { Link } from "react-router-dom";
+import { useNavigate  } from "react-router-dom";
 import {Helmet} from "react-helmet";
-import LCUComponent from './LCUComponent';
 import { Box, Button, Divider, Tooltip, Grid } from '@mui/material';
 
-class WorkspaceSetup extends LCUComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      customOpen: false,
-      recipeOpen: false,
-    };
-    this.handleClick = this.handleClick.bind(this);
+function WorkspaceSetup(props) {
+  const navigate = useNavigate();
+  function handleCustomClick(){
+    console.log("auth> " + props.authStatus);
+    if(props.authStatus!==0){
+      navigate('/custom/connect');
+    } else {
+      navigate('/custom')
+    }
   }
-
-  componentDidMount() {
-    this.lcu.track(`recipes_listed`, 'setup');
-  }
-
-  handleClick(id) {
-    this.props.buttonClick(id);
-  }
-
-  render() {
-    let recipeSection;
-    recipeSection = (
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          mx: 4,
-        }}
+  let recipeSection = (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        mx: 4,
+      }}
+    >
+      <Grid
+        container
+        justify="center"
+        rowSpacing={4}
+        columnSpacing={{ xs: 1, sm: 2, md: 2 }}
+        wrap
       >
-        <Grid
-          container
-          justify="center"
-          rowSpacing={4}
-          columnSpacing={{ xs: 1, sm: 2, md: 2 }}
-          wrap
-        >
-          {this.props.recipeList.map((item) => (
-            <Grid
-              order={item.Tier}
-              item
-              xs={6}
-              sm={6}
-              md={4}
-              sx={{ height: '15vh' }}
-            >
-              <Link to={`recipe/${item.ID}`}>
-                <Tooltip title={item.Name}>
-                  <Button
-                    sx={{ maxHeight: '15vh' }}
-                    onClick={() => this.handleClick(item.ID)}
-                  >
-                    <img
-                      className="Recipe"
-                      src={item.PreviewImage}
-                      srcSet={item.PreviewImage}
-                      alt={item.Name}
-                    />
-                  </Button>
-                </Tooltip>
-              </Link>
-            </Grid>
-           
-          ))}
-        </Grid>
-      </Box>
-    );
+        {props.recipeList.map((item) => (
+          <Grid
+            order={item.Tier}
+            item
+            xs={6}
+            sm={6}
+            md={4}
+            sx={{ height: '15vh' }}
+          >
+              <Tooltip title={item.Name}>
+                <Button
+                  sx={{ maxHeight: '15vh' }}
+                  onClick={() => {navigate(`/recipe/${item.Lookup}`);}}
+                >
+                  <img
+                    className="Recipe"
+                    src={item.PreviewImage}
+                    srcSet={item.PreviewImage}
+                    alt={item.Name}
+                  />
+                </Button>
+              </Tooltip>
+          </Grid>
+          
+        ))}
+      </Grid>
+    </Box>
+  );
 
     return (
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -86,16 +73,14 @@ class WorkspaceSetup extends LCUComponent {
                 from scratch? Here we'll help you setup the deployment and you
                 do all the coding.
               </p>
-              <Link to="custom">
                 <Button
                   size="large"
                   variant="contained"
                   sx={{ mt: 2 }}
-                  onClick={() => this.handleClick('custom')}
+                  onClick={()  => {handleCustomClick()}}
                 >
                   Create Custom Project
                 </Button>
-              </Link>
             </Box>
           </Box>
         </Box>
@@ -111,6 +96,5 @@ class WorkspaceSetup extends LCUComponent {
       </Box>
     );
   }
-}
 
 export default WorkspaceSetup;

@@ -1,4 +1,5 @@
 import '../App.css';
+import { Link } from "react-router-dom";
 import React from 'react';
 import {Helmet} from "react-helmet";
 import LCUComponent from './LCUComponent';
@@ -33,6 +34,7 @@ class RecipeProject extends LCUComponent {
   }
 
   async componentDidMount() {
+    this.props.onStepChange(1);
     this.setState(
       {
         recipe: this.getCurrentRecipe(

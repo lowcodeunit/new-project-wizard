@@ -1,7 +1,7 @@
 import '../App.css';
 import React from 'react';
 import { Link } from "react-router-dom";
-import {Helmet} from "react-helmet";
+import { Helmet } from "react-helmet";
 import LCUComponent from './LCUComponent';
 import {
   Box,
@@ -17,6 +17,7 @@ import {
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 
 class CustomProject extends LCUComponent {
   constructor(props) {
@@ -52,14 +53,15 @@ class CustomProject extends LCUComponent {
   async componentDidMount() {
     this.getOrgs();
     this.lcu.track('custom_project_selected', 'setup/custom');
+    this.props.onStepChange(1);
   }
   async getBranches() {
     fetch(
       '/api/lowcodeunit/github/organizations/' +
-        this.state.selectedOrg +
-        '/repositories/' +
-        this.state.selectedRepo +
-        '/branches'
+      this.state.selectedOrg +
+      '/repositories/' +
+      this.state.selectedRepo +
+      '/branches'
     )
       .then(async (response) => {
         let resp = await response.json();
@@ -83,8 +85,8 @@ class CustomProject extends LCUComponent {
   async getOrgRepositories() {
     fetch(
       '/api/lowcodeunit/github/organizations/' +
-        this.state.selectedOrg +
-        '/repositories'
+      this.state.selectedOrg +
+      '/repositories'
     )
       .then(async (response) => {
         let resp = await response.json();
@@ -332,8 +334,11 @@ class CustomProject extends LCUComponent {
             onClick={this.handleSubmit}
             size="large"
           >
-            Deploy Project
+            <Link style={{ textDecoration: 'none', color:'white' }} to="/deploy">
+              Deploy Project
+            </Link>
           </Button>
+
         </Box>
       );
     }
