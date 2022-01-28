@@ -19,7 +19,6 @@ function RecipeStarter(props) {
 
     function getCurrentRecipe(array, lookup) {
         let find = array.find(obj => obj.Lookup === lookup);
-        console.log(`FOUND ${find} in `)
         setRecipe(find);
     }
 
