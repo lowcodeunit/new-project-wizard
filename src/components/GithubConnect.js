@@ -16,9 +16,7 @@ function GithubConnect() {
     let redirectUri = encodeURI(`/custom`);
     
     if (recipeLookup.id) {
-      var search = !recipeLookup.id
-        ? window.location.search
-        : `?recipeId=${recipeLookup.id}&deploy=true`;
+      var search = window.location.search;
 
       redirectUri = encodeURI(`/recipe/${recipeLookup.id}/fork${search}`);
     }

@@ -98,10 +98,8 @@ class HomeComponent extends LCUComponent {
     this.setState({ isProjectCreated: true });
   }
 
-  handleClose() {
-    this.lcu.track('closed', 'setup/closed', null);
-
-    window.location.href = `/dashboard`;
+  handleStepChange(step) {
+    this.setState({ currentStep: step});
   }
 
   getCurrentRecipe(array, ID) {

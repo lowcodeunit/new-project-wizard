@@ -181,9 +181,9 @@ class RecipeProject extends LCUComponent {
 
               <p>{this.state.recipe.Description}</p>
 
-              <h3>Ingredients</h3>
+              {/* <h3>Ingredients</h3>
 
-              <p>{this.state.recipe.Ingredients}</p>
+              <p>{this.state.recipe.Ingredients}</p> */}
             </Box>
           </Box>
 

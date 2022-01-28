@@ -96,9 +96,9 @@ function RecipeStarter(props) {
 
                         <p>{recipe.Description}</p>
 
-                        <h3>Ingredients</h3>
+                        {/* <h3>Ingredients</h3>
 
-                        <p>{recipe.Ingredients}</p>
+                        <p>{recipe.Ingredients}</p> */}
                     </Box>
                 </Box>
 
