@@ -29,7 +29,6 @@ class CustomProject extends LCUComponent {
       step: 0,
       ProjectName: '',
       branches: [],
-      orgs: [],
       repos: [],
       selectedOrg: '',
       selectedRepo: '',
@@ -51,7 +50,6 @@ class CustomProject extends LCUComponent {
   }
 
   async componentDidMount() {
-    this.getOrgs();
     this.lcu.track('custom_project_selected', 'setup/custom');
     this.props.onStepChange(1);
   }
@@ -67,16 +65,6 @@ class CustomProject extends LCUComponent {
         let resp = await response.json();
         if (resp.Status.Code === 0) {
           this.setState({ branches: resp.Model });
-        }
-      })
-      .then((data) => console.log(data));
-  }
-  async getOrgs() {
-    fetch('/api/lowcodeunit/github/organizations')
-      .then(async (response) => {
-        let resp = await response.json();
-        if (resp.Status.Code === 0) {
-          this.setState({ orgs: resp.Model });
         }
       })
       .then((data) => console.log(data));
@@ -236,8 +224,8 @@ class CustomProject extends LCUComponent {
                 onChange={this.handleOrgSelect}
                 value={this.state.selectedOrg}
               >
-                {this.state.orgs &&
-                  this.state.orgs.map((org) => (
+                {this.props.orgs &&
+                  this.props.orgs.map((org) => (
                     <MenuItem value={org.Name}>{org.Name}</MenuItem>
                   ))}
                 ;

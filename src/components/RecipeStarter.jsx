@@ -9,17 +9,17 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 function RecipeStarter(props) {
 
     const recipeLookup = useParams();
-    const [recipe] = useState(getCurrentRecipe(props.recipeList, recipeLookup.id));
+    const [recipe, setRecipe] = useState();
     const { onStepChange } = props;
 
-    
+
     const navigate = useNavigate();
     useEffect(() => onStepChange(1), [onStepChange]);
+    useEffect(() => getCurrentRecipe(props.recipeList, recipeLookup.id), [recipe]);
 
     function getCurrentRecipe(array, lookup) {
-        return array.find((element) => {
-          return element.Lookup === lookup;
-        });
+        let find = array.find(obj => obj.Lookup === lookup);
+        setRecipe(find);
     }
 
     function handleForkClick() {
@@ -34,16 +34,16 @@ function RecipeStarter(props) {
     function handleOpenSource() {
         props.onStepChange();
         let data = {
-          RecipeID: recipe.recipeID,
-          ProjectName: recipe.Name,
+            RecipeID: recipe.recipeID,
+            ProjectName: recipe.Name,
         };
         fetch('/api/lowcodeunit/create/project', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
         }).then((res) => {
-          console.log('Request complete! response:', res);
-          props.projectIsLoaded();
+            console.log('Request complete! response:', res);
+            props.projectIsLoaded();
         });
         navigate('/deploy');
     }
@@ -81,25 +81,27 @@ function RecipeStarter(props) {
                         alignContent: 'center',
                     }}
                 >
-                    <Box
-                        sx={{
-                            width: '100%',
-                            maxWidth: '425px',
-                        }}
-                    >
-                        <h2>{recipe.Name}</h2>
+                    {recipe &&
+                        <Box
+                            sx={{
+                                width: '100%',
+                                maxWidth: '425px',
+                            }}
+                        >
+                            <h2>{recipe.Name}</h2>
 
-                        <img
-                            src={recipe.Image}
-                            alt={recipe.Name}
-                        ></img>
+                            <img
+                                src={recipe.Image}
+                                alt={recipe.Name}
+                            ></img>
 
-                        <p>{recipe.Description}</p>
+                            <p>{recipe.Description}</p>
 
-                        <h3>Ingredients</h3>
+                            <h3>Ingredients</h3>
 
-                        <p>{recipe.Ingredients}</p>
-                    </Box>
+                            <p>{recipe.Ingredients}</p>
+                        </Box>
+                    }
                 </Box>
 
                 <Box sx={{ marginTop: '4em' }}>

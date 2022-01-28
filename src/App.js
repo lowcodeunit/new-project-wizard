@@ -41,6 +41,7 @@ class HomeComponent extends LCUComponent {
       isProjectCreated: false,
       gitHubAuthStatus: null,
       deploy: false,
+      orgs: []
     };
     this.handleStepChange = this.handleStepChange.bind(this);
     this.projectCreated = this.projectCreated.bind(this);
@@ -50,10 +51,9 @@ class HomeComponent extends LCUComponent {
     fetch('/api/lowcodeunit/github/connection/valid')
       .then(async (response) => {
         let resp = await response.json();
-        console.log(resp);
-        console.log(resp.Status.Message);
         if (resp.Status.Code === 0) {
           this.lcu.track('github_authorized', 'setup/github/authorized');
+          this.getOrgs();
         } else {
           this.lcu.track('github_unauthorized', 'welcome/github/unauthorized');
         }
@@ -65,24 +65,29 @@ class HomeComponent extends LCUComponent {
     this.getRecipes();
   }
 
+
+  getOrgs() {
+    fetch('/api/lowcodeunit/github/organizations')
+      .then(async (response) => {
+        let resp = await response.json();
+        if (resp.Status.Code === 0) {
+          this.setState({ orgs: resp.Model });
+        }
+      })
+      .then((data) => console.log(data));
+  }
+
   getRecipes() {
     fetch('/api/lowcodeunit/manage/recipes/list')
       .then(async (response) => {
         let resp = await response.json();
         if (resp.Status.Code === 0) {
-          let queries = queryString.parse(window.location.search);
-
-          if (queries?.recipeId) {
-            this.handleWorkspaceOpen(queries?.recipeId);
-          }
-
           this.setState({
             recipeList: resp.Model,
-            deploy: queries?.deploy === 'true',
+            recipesLoaded: true
           });
         }
       })
-      .then(this.setState({ recipesLoaded: true }));
   }
 
   projectCreated() {
@@ -92,7 +97,7 @@ class HomeComponent extends LCUComponent {
   }
 
   handleStepChange(step) {
-    this.setState({ currentStep: step});
+    this.setState({ currentStep: step });
   }
 
   getCurrentRecipe(array, ID) {
@@ -126,6 +131,7 @@ class HomeComponent extends LCUComponent {
               }}
             >
               <CustomProject
+                orgs={this.state.orgs}
                 onStepChange={this.handleStepChange}
                 projectIsLoaded={this.projectCreated}
               />
@@ -155,19 +161,20 @@ class HomeComponent extends LCUComponent {
               </Box>
             } />
             <Route path=":id/fork" element={
-              <RecipeFork 
+              <RecipeFork
+                orgs = {this.state.orgs}
                 recipeList={this.state.recipeList}
-                onStepChange={this.handleStepChange}/>
+                onStepChange={this.handleStepChange} />
             } />
             <Route path=":id/connect" element={
               <GithubConnect />
             } />
           </Route>
           <Route path="deploy" element={
-            <LoadingPage 
-              isProjectLoaded={this.state.isProjectCreated} 
+            <LoadingPage
+              isProjectLoaded={this.state.isProjectCreated}
               onStepChange={this.handleStepChange}
-              />
+            />
           } />
         </Routes>
     }

@@ -7,34 +7,14 @@ import Loader from './Loader';
 
 function RecipeFork(props) {
     const recipeLookup = useParams();
-    const [orgs] = useState(getOrgs());
     const [selectedOrg, setSelectedOrg] = useState('');
-    const [content, setContent] = useState(<Loader />);
     const [recipe] = useState(getCurrentRecipe(props.recipeList, recipeLookup.id));
     const { onStepChange } = props;
-    
+
     const navigate = useNavigate();
     const handleOrgSelect = e => {
         setSelectedOrg(e.target.value);
     }
-
-    let loadedForm = <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">
-            Github Organization
-        </InputLabel>
-        <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            onChange={handleOrgSelect}
-            value={selectedOrg}
-        >
-            {orgs &&
-                orgs.map((org) => (
-                    <MenuItem value={org.Name}>{org.Name}</MenuItem>
-                ))}
-            ;
-        </Select>
-    </FormControl>;
 
     useEffect(() => onStepChange(1), [onStepChange]);
 
@@ -57,30 +37,21 @@ function RecipeFork(props) {
             body: JSON.stringify(data),
         }).then((res) => {
             console.log('Request complete! response:', res);
-            this.props.projectIsLoaded();
+            props.projectIsLoaded();
         });
         navigate('/deploy');
     }
 
-    function getOrgs() {
-        fetch('/api/lowcodeunit/github/organizations')
-            .then(async (response) => {
-                let resp = await response.json();
-                if (resp.Status.Code === 0) {
-                    setContent(loadedForm)
-                    return resp.Model;
-                }
-            })
-            .then((data) => console.log(data));
-    }
-
     return (
+
         <Box
             sx={{
                 display: 'flex',
                 justifyContent: 'center',
                 flexDirection: 'column',
-                m: 4,
+                alignItems:'center',
+                my: 4,
+                width: '100%',
             }}
         >
             <Box
@@ -102,9 +73,27 @@ function RecipeFork(props) {
                     </IconButton>
                 </Link>
             </Box>
-            <Box>
+            <Box sx={{justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column'}}>
                 <p>What is your git organization?</p>
-                {content}
+                {props.orgs.length <= 0 && <Loader />}
+                {props.orgs.length > 0 &&
+                    <Box sx={{ minWidth: 200}}>
+                        <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label"> Github Organization</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={selectedOrg}
+                                label="Age"
+                                onChange={handleOrgSelect}
+                            >
+                                {props.orgs && props.orgs.map((org) => (
+                                    <MenuItem value={org.Name}>{org.Name}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Box>
+                }
             </Box>
             <Button
                 variant="contained"

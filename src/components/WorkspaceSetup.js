@@ -7,7 +7,6 @@ import { Box, Button, Divider, Tooltip, Grid } from '@mui/material';
 function WorkspaceSetup(props) {
   const navigate = useNavigate();
   function handleCustomClick(){
-    console.log("auth> " + props.authStatus);
     if(props.authStatus!==0){
       navigate('/custom/connect');
     } else {
