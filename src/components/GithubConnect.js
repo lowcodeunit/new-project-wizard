@@ -1,6 +1,6 @@
 import '../App.css';
 import React from 'react';
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Box, Button, IconButton } from '@mui/material';
 import Paper from '@mui/material/Paper';
@@ -11,13 +11,16 @@ import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 function GithubConnect() {
-
   const recipeLookup = useParams();
   function authGit() {
     let redirectUri = encodeURI(`/custom`);
+    
     if (recipeLookup.id) {
-      redirectUri = encodeURI(`/recipe/${recipeLookup.id}/fork`);
+      var search = window.location.search;
+
+      redirectUri = encodeURI(`/recipe/${recipeLookup.id}/fork${search}`);
     }
+
     window.location.href = `/.oauth/github?redirectUri=${redirectUri}`;
   }
 
@@ -35,12 +38,7 @@ function GithubConnect() {
         }}
       >
         <Link to="/">
-          <IconButton
-            size="large"
-            edge="end"
-            color="inherit"
-            aria-label="menu"
-          >
+          <IconButton size="large" edge="end" color="inherit" aria-label="menu">
             <ArrowBackIcon />
           </IconButton>
         </Link>
@@ -65,14 +63,22 @@ function GithubConnect() {
               Connect to Github
             </Button>
             <Box sx={{ textAlign: 'left' }}>
-              <li>
-                Setup modern DevOps build processes using Github actions
-              </li>
+              <li>Setup modern DevOps build processes using Github actions</li>
               <li>Fork and/or setup repositories for your Github code</li>
               <li>
                 Provide streamlined source control management for your team
               </li>
-              <li>If you don't have a GitHub account, create a new account <a href="https://github.com/signup" target="_blank"  rel="noreferrer">here</a> first</li>
+              <li>
+                If you don't have a GitHub account, create a new account{' '}
+                <a
+                  href="https://github.com/signup"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  here
+                </a>{' '}
+                first
+              </li>
             </Box>
           </Paper>
           <Paper sx={{ p: 2, m: 2 }}>
@@ -103,7 +109,6 @@ function GithubConnect() {
       </Box>
     </Box>
   );
-
 }
 
 export default GithubConnect;

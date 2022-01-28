@@ -19,6 +19,7 @@ function RecipeStarter(props) {
 
     function getCurrentRecipe(array, lookup) {
         let find = array.find(obj => obj.Lookup === lookup);
+        console.log(`FOUND ${find} in `)
         setRecipe(find);
     }
 
@@ -96,10 +97,10 @@ function RecipeStarter(props) {
                             ></img>
 
                             <p>{recipe.Description}</p>
-
+{/* 
                             <h3>Ingredients</h3>
 
-                            <p>{recipe.Ingredients}</p>
+                            <p>{recipe.Ingredients}</p> */}
                         </Box>
                     }
                 </Box>

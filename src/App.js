@@ -3,7 +3,6 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import LCUComponent from './components/LCUComponent';
-import queryString from 'query-string';
 import {
   Box,
   ThemeProvider,
@@ -18,7 +17,6 @@ import RecipeFork from './components/RecipeFork';
 import GithubConnect from './components/GithubConnect';
 import LoadingPage from './components/LoadingPage';
 import { createTheme } from '@mui/material/styles';
-
 
 const theme = createTheme({
   palette: {
@@ -52,11 +50,16 @@ class HomeComponent extends LCUComponent {
       .then(async (response) => {
         let resp = await response.json();
         if (resp.Status.Code === 0) {
-          this.lcu.track('github_authorized', 'setup/github/authorized');
           this.getOrgs();
+          this.lcu.track('github_authorized', 'setup/github/authorized', null);
         } else {
-          this.lcu.track('github_unauthorized', 'welcome/github/unauthorized');
+          this.lcu.track('github_unauthorized', 'welcome/github/unauthorized', null);
         }
+
+        this.lcu.track('github_authorization', null, {
+          Authorized: resp.Status.Code === 0,
+          Status: resp.Status,
+        });
 
         this.setState({ gitHubAuthStatus: resp.Status });
       })
@@ -90,8 +93,11 @@ class HomeComponent extends LCUComponent {
       })
   }
 
-  projectCreated() {
-    this.lcu.track('project_deployed', 'setup/deployed');
+  projectCreated(type, data) {
+    this.lcu.track('project_deployed', 'setup/deployed', {
+      DeployType: type,
+      DeployData: data,
+    });
 
     this.setState({ isProjectCreated: true });
   }
