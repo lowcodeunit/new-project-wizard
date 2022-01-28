@@ -24,8 +24,8 @@ class CustomProject extends LCUComponent {
     super(props);
     this.state = {
       buildCommand: 'npm run build',
-      buildOutput: './',
-      buildInstall: 'npm ci',
+      buildOutput: './build',
+      buildInstall: 'npm i',
       step: 0,
       ProjectName: '',
       branches: [],
@@ -52,7 +52,10 @@ class CustomProject extends LCUComponent {
 
   async componentDidMount() {
     this.getOrgs();
-    this.lcu.track('custom_project_selected', 'setup/custom');
+    this.lcu.track('custom_project_selected', 'setup/custom', null);
+    this.lcu.track('project_selected', null, {
+      DeployType: 'custom',
+    });
     this.props.onStepChange(1);
   }
   async getBranches() {
@@ -169,10 +172,13 @@ class CustomProject extends LCUComponent {
       body: JSON.stringify(data),
     }).then((res) => {
       console.log('Request complete! response:', res);
-      this.props.projectIsLoaded();
+      this.props.projectIsLoaded('custom', data);
     });
     this.props.onStepChange();
-    this.lcu.track('custom_project_submitted', null);
+    this.lcu.track('project_submitted', null, {
+      DeployType: 'custom',
+      DeployData: data,
+    });
   }
 
   keyPress(e) {
@@ -326,6 +332,13 @@ class CustomProject extends LCUComponent {
               onChange={this.handleOutputChange}
               defaultValue={this.state.buildOutput}
             />
+            <Box sx={{ maxWidth: '300px', width: '40%' }}>
+              <p>
+                The output is the directory that the built assets for your
+                project are in. For React this is './build', for Angular and Vue
+                is './dist', and for Svelte is './public'.
+              </p>
+            </Box>
           </Box>
           <Button
             variant="contained"

@@ -18,7 +18,7 @@ import RecipeFork from './components/RecipeFork';
 import GithubConnect from './components/GithubConnect';
 import LoadingPage from './components/LoadingPage';
 import { createTheme } from '@mui/material/styles';
-
+import logo from './recipelogos/logo.svg';
 
 const theme = createTheme({
   palette: {
@@ -53,10 +53,15 @@ class HomeComponent extends LCUComponent {
         console.log(resp);
         console.log(resp.Status.Message);
         if (resp.Status.Code === 0) {
-          this.lcu.track('github_authorized', 'setup/github/authorized');
+          this.lcu.track('github_authorized', 'setup/github/authorized', null);
         } else {
-          this.lcu.track('github_unauthorized', 'welcome/github/unauthorized');
+          this.lcu.track('github_unauthorized', 'welcome/github/unauthorized', null);
         }
+
+        this.lcu.track('github_authorization', null, {
+          Authorized: resp.Status.Code === 0,
+          Status: resp.Status,
+        });
 
         this.setState({ gitHubAuthStatus: resp.Status });
       })
@@ -85,14 +90,19 @@ class HomeComponent extends LCUComponent {
       .then(this.setState({ recipesLoaded: true }));
   }
 
-  projectCreated() {
-    this.lcu.track('project_deployed', 'setup/deployed');
+  projectCreated(type, data) {
+    this.lcu.track('project_deployed', 'setup/deployed', {
+      DeployType: type,
+      DeployData: data,
+    });
 
     this.setState({ isProjectCreated: true });
   }
 
-  handleStepChange(step) {
-    this.setState({ currentStep: step});
+  handleClose() {
+    this.lcu.track('closed', 'setup/closed', null);
+
+    window.location.href = `/dashboard`;
   }
 
   getCurrentRecipe(array, ID) {
