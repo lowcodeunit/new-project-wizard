@@ -15,11 +15,10 @@ function RecipeStarter(props) {
 
     const navigate = useNavigate();
     useEffect(() => onStepChange(1), [onStepChange]);
-    useEffect(() => getCurrentRecipe(props.recipeList, recipeLookup.id), [recipe]);
+    useEffect(() => getCurrentRecipe(props.recipeList, recipeLookup.id), []);
 
     function getCurrentRecipe(array, lookup) {
         let find = array.find(obj => obj.Lookup === lookup);
-        console.log(`FOUND ${find} in `)
         setRecipe(find);
     }
 
