@@ -2,7 +2,6 @@ import '../App.css';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import LCUComponent from './LCUComponent';
 import { Box, Button, Divider, Tooltip, Grid } from '@mui/material';
 
 function WorkspaceSetup(props) {
