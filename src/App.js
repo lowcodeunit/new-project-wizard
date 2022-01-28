@@ -18,7 +18,6 @@ import RecipeFork from './components/RecipeFork';
 import GithubConnect from './components/GithubConnect';
 import LoadingPage from './components/LoadingPage';
 import { createTheme } from '@mui/material/styles';
-import logo from './recipelogos/logo.svg';
 
 const theme = createTheme({
   palette: {
