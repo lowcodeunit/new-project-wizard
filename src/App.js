@@ -168,6 +168,7 @@ class HomeComponent extends LCUComponent {
             } />
             <Route path=":id/fork" element={
               <RecipeFork
+                projectIsLoaded={this.projectCreated}
                 orgs = {this.state.orgs}
                 recipeList={this.state.recipeList}
                 onStepChange={this.handleStepChange} />
