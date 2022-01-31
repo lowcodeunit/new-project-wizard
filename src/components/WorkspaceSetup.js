@@ -36,7 +36,7 @@ function WorkspaceSetup(props) {
             xs={6}
             sm={6}
             md={4}
-            sx={{ height: '15vh' }}
+            sx={{ height: '15vh', mt:10 }}
           >
             <Tooltip title={item.Name}>
               <Button

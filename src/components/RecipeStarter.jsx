@@ -34,7 +34,7 @@ function RecipeStarter(props) {
     function handleOpenSource() {
         props.onStepChange();
         let data = {
-            RecipeID: recipe.recipeID,
+            RecipeID: recipe.ID,
             ProjectName: recipe.Name,
         };
         fetch('/api/lowcodeunit/create/project', {

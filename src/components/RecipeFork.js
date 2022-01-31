@@ -28,7 +28,7 @@ function RecipeFork(props) {
     function handleSubmit() {
         let data = {
             Organization: selectedOrg,
-            RecipeID: recipe.recipeID,
+            RecipeID: recipe.ID,
             ProjectName: recipe.Name,
         };
         fetch('/api/lowcodeunit/create/project', {
