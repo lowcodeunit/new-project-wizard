@@ -21,9 +21,9 @@ class LCUComponent extends React.Component {
           window.gist?.track(name, data);
         }
 
-        if (window.ga && path) {
-          window.ga('send', 'pageview', `${this.basePath}/${path}`);
-        }
+        // if (window.ga && path) {
+        //   window.ga('send', 'pageview', `${this.basePath}/${path}`);
+        // }
       },
     };
   }
