@@ -290,7 +290,7 @@ class CustomProject extends LCUComponent {
       );
     } else if (this.state.step === 2) {
       formPage = (
-        <Box>
+        <Box sx={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', display: 'flex', flexDirection: 'column' }}>
           <Box>
             <p>What is your build command?</p>
             <TextField
@@ -320,13 +320,13 @@ class CustomProject extends LCUComponent {
               onChange={this.handleOutputChange}
               defaultValue={this.state.buildOutput}
             />
-            <Box sx={{ maxWidth: '300px', width: '40%' }}>
-              <p>
-                The output is the directory that the built assets for your
-                project are in. For React this is './build', for Angular and Vue
-                is './dist', and for Svelte is './public'.
-              </p>
-            </Box>
+          </Box>
+          <Box sx={{ width: '40%', pt: 2 }}>
+            <p>
+              The output is the directory that the built assets for your
+              project are in. For React this is './build', for Angular and Vue
+              is './dist', and for Svelte is './public'.
+            </p>
           </Box>
           <Button
             variant="contained"
@@ -335,7 +335,7 @@ class CustomProject extends LCUComponent {
             onClick={this.handleSubmit}
             size="large"
           >
-            <Link style={{ textDecoration: 'none', color:'white' }} to="/deploy">
+            <Link style={{ textDecoration: 'none', color: 'white' }} to="/deploy">
               Deploy Project
             </Link>
           </Button>
