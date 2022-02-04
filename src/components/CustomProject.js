@@ -13,19 +13,27 @@ import {
   MenuItem,
   TextField,
   IconButton,
+  Menu,
+  Grow,
+  Paper,
+  ClickAwayListener,
+  MenuList
 } from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 
 class CustomProject extends LCUComponent {
   constructor(props) {
     super(props);
     this.state = {
+      anchorEl: null,
       buildCommand: 'npm run build',
       buildOutput: './build',
       buildInstall: 'npm i',
+      buildMenuOpen: false,
       step: 0,
       ProjectName: '',
       branches: [],
@@ -35,6 +43,9 @@ class CustomProject extends LCUComponent {
       selectedBranch: '',
       readyToSubmit: false,
     };
+    this.handleClickAwayEvent = this.handleClickAwayEvent.bind(this);
+    this.handBuildMenuToggle = this.handBuildMenuToggle.bind(this);
+    this.handleBuildMenuClose = this.handleBuildMenuClose.bind(this);
     this.incrementStep = this.incrementStep.bind(this);
     this.decrementStep = this.decrementStep.bind(this);
     this.handleBranchSelect = this.handleBranchSelect.bind(this);
@@ -136,6 +147,32 @@ class CustomProject extends LCUComponent {
     this.setState({ buildOutput: event.target.value }, () => {
       this.readyToSubmit();
     });
+  }
+
+  handBuildMenuToggle(event) {
+    if (this.state.anchorEl === null) {
+      this.setState({
+        buildMenuOpen: !this.state.buildMenuOpen,
+        anchorEl: event.currentTarget
+      });
+    } else {
+      this.setState({
+        buildMenuOpen: !this.state.buildMenuOpen,
+        anchorEl: null
+      });
+    }
+  };
+  
+  handleBuildMenuClose(event) {
+    console.log(`event is ${event} `)
+    this.setState({
+      buildOutput: event,
+      anchorEl: null,
+      buildMenuOpen: !this.state.buildMenuOpen,
+    })
+  }
+  handleClickAwayEvent(event) {
+    this.setState({buildMenuOpen: false, anchorEl:null});
   }
 
   handleProjectNameChange(event) {
@@ -317,11 +354,47 @@ class CustomProject extends LCUComponent {
               id="outlined-basic"
               label="Output Directory"
               variant="outlined"
+              value={this.state.buildOutput}
               onChange={this.handleOutputChange}
               defaultValue={this.state.buildOutput}
+              InputProps={{
+                endAdornment: (
+                  <Box>
+                    
+                    <Button
+                      size="small"
+                      aria-label="select merge strategy"
+                      aria-haspopup="menu"
+                      onClick={this.handBuildMenuToggle}
+                    >
+                      <ArrowDropDownIcon />
+                    </Button>
+       
+                      <Menu
+                        id="basic-menu"
+                        anchorEl={this.state.anchorEl}
+                        open={this.state.buildMenuOpen}
+                        onClose={this.handleOutputChange}
+                        onChange={this.handleOutputChange}
+                        MenuListProps={{
+                          'aria-labelledby': 'basic-button',
+                        }}
+                        onBackdropClick={this.handBuildMenuToggle}
+                      >
+                        <MenuItem onClick={() => this.handleBuildMenuClose("./build")}>React - ./build</MenuItem>
+                        <MenuItem onClick={() => this.handleBuildMenuClose("./dist")}>Angular, Vue - ./dist</MenuItem>
+                        <MenuItem onClick={() => this.handleBuildMenuClose("./public")}>Svelte - ./public</MenuItem>
+                      </Menu>
+               
+                  </Box>
+                ),
+                inputProps: {
+                  list: "rfc"
+                }
+              }}
             />
           </Box>
-          <Box sx={{ width: '40%', pt: 2 }}>
+          <Box sx={{ width: '40%', pt: 1 }}>
             <p>
               The output is the directory that the built assets for your
               project are in. For React this is './build', for Angular and Vue
@@ -340,7 +413,7 @@ class CustomProject extends LCUComponent {
             </Link>
           </Button>
 
-        </Box>
+        </Box >
       );
     }
     return (
