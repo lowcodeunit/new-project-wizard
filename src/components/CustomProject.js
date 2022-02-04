@@ -14,10 +14,6 @@ import {
   TextField,
   IconButton,
   Menu,
-  Grow,
-  Paper,
-  ClickAwayListener,
-  MenuList
 } from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
