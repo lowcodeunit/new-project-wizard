@@ -1,6 +1,7 @@
 import '../App.css';
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import LCUComponent from './LCUComponent';
 import {
   Box,
@@ -12,28 +13,35 @@ import {
   MenuItem,
   TextField,
   IconButton,
+  Menu,
 } from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+
 
 class CustomProject extends LCUComponent {
   constructor(props) {
     super(props);
     this.state = {
+      anchorEl: null,
       buildCommand: 'npm run build',
       buildOutput: './build',
       buildInstall: 'npm i',
+      buildMenuOpen: false,
       step: 0,
       ProjectName: '',
       branches: [],
-      orgs: [],
       repos: [],
       selectedOrg: '',
       selectedRepo: '',
       selectedBranch: '',
       readyToSubmit: false,
     };
+    this.handleClickAwayEvent = this.handleClickAwayEvent.bind(this);
+    this.handBuildMenuToggle = this.handBuildMenuToggle.bind(this);
+    this.handleBuildMenuClose = this.handleBuildMenuClose.bind(this);
     this.incrementStep = this.incrementStep.bind(this);
     this.decrementStep = this.decrementStep.bind(this);
     this.handleBranchSelect = this.handleBranchSelect.bind(this);
@@ -49,19 +57,19 @@ class CustomProject extends LCUComponent {
   }
 
   async componentDidMount() {
-    this.getOrgs();
     this.lcu.track('custom_project_selected', 'setup/custom', null);
     this.lcu.track('project_selected', null, {
       DeployType: 'custom',
     });
+    this.props.onStepChange(1);
   }
   async getBranches() {
     fetch(
       '/api/lowcodeunit/github/organizations/' +
-        this.state.selectedOrg +
-        '/repositories/' +
-        this.state.selectedRepo +
-        '/branches'
+      this.state.selectedOrg +
+      '/repositories/' +
+      this.state.selectedRepo +
+      '/branches'
     )
       .then(async (response) => {
         let resp = await response.json();
@@ -71,22 +79,12 @@ class CustomProject extends LCUComponent {
       })
       .then((data) => console.log(data));
   }
-  async getOrgs() {
-    fetch('/api/lowcodeunit/github/organizations')
-      .then(async (response) => {
-        let resp = await response.json();
-        if (resp.Status.Code === 0) {
-          this.setState({ orgs: resp.Model });
-        }
-      })
-      .then((data) => console.log(data));
-  }
 
   async getOrgRepositories() {
     fetch(
       '/api/lowcodeunit/github/organizations/' +
-        this.state.selectedOrg +
-        '/repositories'
+      this.state.selectedOrg +
+      '/repositories'
     )
       .then(async (response) => {
         let resp = await response.json();
@@ -145,6 +143,32 @@ class CustomProject extends LCUComponent {
     this.setState({ buildOutput: event.target.value }, () => {
       this.readyToSubmit();
     });
+  }
+
+  handBuildMenuToggle(event) {
+    if (this.state.anchorEl === null) {
+      this.setState({
+        buildMenuOpen: !this.state.buildMenuOpen,
+        anchorEl: event.currentTarget
+      });
+    } else {
+      this.setState({
+        buildMenuOpen: !this.state.buildMenuOpen,
+        anchorEl: null
+      });
+    }
+  };
+  
+  handleBuildMenuClose(event) {
+    console.log(`event is ${event} `)
+    this.setState({
+      buildOutput: event,
+      anchorEl: null,
+      buildMenuOpen: !this.state.buildMenuOpen,
+    })
+  }
+  handleClickAwayEvent(event) {
+    this.setState({buildMenuOpen: false, anchorEl:null});
   }
 
   handleProjectNameChange(event) {
@@ -239,8 +263,8 @@ class CustomProject extends LCUComponent {
                 onChange={this.handleOrgSelect}
                 value={this.state.selectedOrg}
               >
-                {this.state.orgs &&
-                  this.state.orgs.map((org) => (
+                {this.props.orgs &&
+                  this.props.orgs.map((org) => (
                     <MenuItem value={org.Name}>{org.Name}</MenuItem>
                   ))}
                 ;
@@ -299,7 +323,7 @@ class CustomProject extends LCUComponent {
       );
     } else if (this.state.step === 2) {
       formPage = (
-        <Box>
+        <Box sx={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', display: 'flex', flexDirection: 'column' }}>
           <Box>
             <p>What is your build command?</p>
             <TextField
@@ -326,16 +350,52 @@ class CustomProject extends LCUComponent {
               id="outlined-basic"
               label="Output Directory"
               variant="outlined"
+              value={this.state.buildOutput}
               onChange={this.handleOutputChange}
               defaultValue={this.state.buildOutput}
+              InputProps={{
+                endAdornment: (
+                  <Box>
+                    
+                    <Button
+                      size="small"
+                      aria-label="select merge strategy"
+                      aria-haspopup="menu"
+                      onClick={this.handBuildMenuToggle}
+                    >
+                      <ArrowDropDownIcon />
+                    </Button>
+       
+                      <Menu
+                        id="basic-menu"
+                        anchorEl={this.state.anchorEl}
+                        open={this.state.buildMenuOpen}
+                        onClose={this.handleOutputChange}
+                        onChange={this.handleOutputChange}
+                        MenuListProps={{
+                          'aria-labelledby': 'basic-button',
+                        }}
+                        onBackdropClick={this.handBuildMenuToggle}
+                      >
+                        <MenuItem onClick={() => this.handleBuildMenuClose("./build")}>React - ./build</MenuItem>
+                        <MenuItem onClick={() => this.handleBuildMenuClose("./dist")}>Angular, Vue - ./dist</MenuItem>
+                        <MenuItem onClick={() => this.handleBuildMenuClose("./public")}>Svelte - ./public</MenuItem>
+                      </Menu>
+               
+                  </Box>
+                ),
+                inputProps: {
+                  list: "rfc"
+                }
+              }}
             />
-            <Box sx={{ maxWidth: '300px', width: '40%' }}>
-              <p>
-                The output is the directory that the built assets for your
-                project are in. For React this is './build', for Angular and Vue
-                is './dist', and for Svelte is './public'.
-              </p>
-            </Box>
+          </Box>
+          <Box sx={{ width: '40%', pt: 1 }}>
+            <p>
+              The output is the directory that the built assets for your
+              project are in. For React this is './build', for Angular and Vue
+              is './dist', and for Svelte is './public'.
+            </p>
           </Box>
           <Button
             variant="contained"
@@ -344,9 +404,12 @@ class CustomProject extends LCUComponent {
             onClick={this.handleSubmit}
             size="large"
           >
-            Deploy Project
+            <Link style={{ textDecoration: 'none', color: 'white' }} to="/deploy">
+              Deploy Project
+            </Link>
           </Button>
-        </Box>
+
+        </Box >
       );
     }
     return (
@@ -372,15 +435,16 @@ class CustomProject extends LCUComponent {
             width: '100%',
           }}
         >
-          <IconButton
-            size="large"
-            edge="end"
-            color="inherit"
-            aria-label="menu"
-            onClick={this.handleBackButton}
-          >
-            <ArrowBackIcon />
-          </IconButton>
+          <Link to="/">
+            <IconButton
+              size="large"
+              edge="end"
+              color="inherit"
+              aria-label="menu"
+            >
+              <ArrowBackIcon />
+            </IconButton>
+          </Link>
         </Box>
         {formPage}
         <Box sx={{ flexDirection: 'row-reverse', mt: 'auto' }}>
