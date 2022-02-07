@@ -1,13 +1,10 @@
 import './App.css';
 import React from 'react';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import LCUComponent from './components/LCUComponent';
-import {
-  Box,
-  ThemeProvider,
-} from '@mui/material';
-import Header from './components/Header'
+import { Box, ThemeProvider } from '@mui/material';
+import Header from './components/Header';
 import Loader from './components/Loader';
 import ProgressTracker from './components/ProgressTracker';
 import WorkspaceSetup from './components/WorkspaceSetup';
@@ -39,7 +36,7 @@ class HomeComponent extends LCUComponent {
       isProjectCreated: false,
       gitHubAuthStatus: null,
       deploy: false,
-      orgs: []
+      orgs: [],
     };
     this.handleStepChange = this.handleStepChange.bind(this);
     this.projectCreated = this.projectCreated.bind(this);
@@ -53,7 +50,11 @@ class HomeComponent extends LCUComponent {
           this.getOrgs();
           this.lcu.track('github_authorized', 'setup/github/authorized', null);
         } else {
-          this.lcu.track('github_unauthorized', 'welcome/github/unauthorized', null);
+          this.lcu.track(
+            'github_unauthorized',
+            'welcome/github/unauthorized',
+            null
+          );
         }
 
         this.lcu.track('github_authorization', null, {
@@ -68,7 +69,6 @@ class HomeComponent extends LCUComponent {
     this.getRecipes();
   }
 
-
   getOrgs() {
     fetch('/api/lowcodeunit/github/organizations')
       .then(async (response) => {
@@ -81,16 +81,15 @@ class HomeComponent extends LCUComponent {
   }
 
   getRecipes() {
-    fetch('/api/lowcodeunit/manage/recipes/list')
-      .then(async (response) => {
-        let resp = await response.json();
-        if (resp.Status.Code === 0) {
-          this.setState({
-            recipeList: resp.Model,
-            recipesLoaded: true
-          });
-        }
-      })
+    fetch('/api/lowcodeunit/manage/recipes/list').then(async (response) => {
+      let resp = await response.json();
+      if (resp.Status.Code === 0) {
+        this.setState({
+          recipeList: resp.Model,
+          recipesLoaded: true,
+        });
+      }
+    });
   }
 
   projectCreated(type, data) {
@@ -115,40 +114,28 @@ class HomeComponent extends LCUComponent {
   render() {
     let content;
     let progressContent = <Loader />;
+    let baseHref = document
+      .getElementsByTagName('base')[0]
+      .href.replace(document.location.origin, '');
+
     if (!this.state.gitHubAuthStatus || !this.state.recipesLoaded) {
       content = progressContent;
     } else {
-      debugger;
-      content =
-        <Routes basename={document.getElementsByTagName('base')[0].href.replace(document.location.origin, '')}>
-          <Route index element={
-            <WorkspaceSetup
-              authStatus={this.state.gitHubAuthStatus.Code}
-              recipeList={this.state.recipeList}
-              onStepChange={this.handleStepChange}
-            ></WorkspaceSetup>
-          } />
-          <Route path="custom" element={
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-evenly',
-                pt: 2,
-              }}
-            >
-              <CustomProject
-                orgs={this.state.orgs}
+      content = (
+        <Routes>
+          <Route
+            path=""
+            element={
+              <WorkspaceSetup
+                authStatus={this.state.gitHubAuthStatus.Code}
+                recipeList={this.state.recipeList}
                 onStepChange={this.handleStepChange}
-                projectIsLoaded={this.projectCreated}
-              />
-            </Box>
-          } />
-          <Route path="custom/connect" element={
-            <GithubConnect />
-          } />
-          <Route path="recipe">
-            <Route path=":id" element={
+              ></WorkspaceSetup>
+            }
+          />
+          <Route
+            path="custom"
+            element={
               <Box
                 sx={{
                   display: 'flex',
@@ -157,38 +144,66 @@ class HomeComponent extends LCUComponent {
                   pt: 2,
                 }}
               >
-                <RecipeStarter
-                  authStatus={this.state.gitHubAuthStatus.Code}
-                  recipeID={this.state.workspace}
-                  recipeList={this.state.recipeList}
+                <CustomProject
+                  orgs={this.state.orgs}
                   onStepChange={this.handleStepChange}
                   projectIsLoaded={this.projectCreated}
-                  useRecipeClick={this.handleRecipeForkClick}
                 />
               </Box>
-            } />
-            <Route path=":id/fork" element={
-              <RecipeFork
-                projectIsLoaded={this.projectCreated}
-                orgs = {this.state.orgs}
-                recipeList={this.state.recipeList}
-                onStepChange={this.handleStepChange} />
-            } />
-            <Route path=":id/connect" element={
-              <GithubConnect />
-            } />
-          </Route>
-          <Route path="deploy" element={
-            <LoadingPage
-              isProjectLoaded={this.state.isProjectCreated}
-              onStepChange={this.handleStepChange}
+            }
+          />
+          <Route path="custom/connect" element={<GithubConnect />} />
+          <Route path="recipe">
+            <Route
+              path=":id"
+              element={
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-evenly',
+                    pt: 2,
+                  }}
+                >
+                  <RecipeStarter
+                    authStatus={this.state.gitHubAuthStatus.Code}
+                    recipeID={this.state.workspace}
+                    recipeList={this.state.recipeList}
+                    onStepChange={this.handleStepChange}
+                    projectIsLoaded={this.projectCreated}
+                    useRecipeClick={this.handleRecipeForkClick}
+                  />
+                </Box>
+              }
             />
-          } />
+            <Route
+              path=":id/fork"
+              element={
+                <RecipeFork
+                  projectIsLoaded={this.projectCreated}
+                  orgs={this.state.orgs}
+                  recipeList={this.state.recipeList}
+                  onStepChange={this.handleStepChange}
+                />
+              }
+            />
+            <Route path=":id/connect" element={<GithubConnect />} />
+          </Route>
+          <Route
+            path="deploy"
+            element={
+              <LoadingPage
+                isProjectLoaded={this.state.isProjectCreated}
+                onStepChange={this.handleStepChange}
+              />
+            }
+          />
         </Routes>
+      );
     }
 
     return (
-      <BrowserRouter basename={document.getElementsByTagName('base')[0].href.replace(document.location.origin, '')}>
+      <BrowserRouter>
         <div className="App">
           <ThemeProvider theme={theme}>
             <Helmet>
