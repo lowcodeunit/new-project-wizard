@@ -118,13 +118,15 @@ class HomeComponent extends LCUComponent {
       .getElementsByTagName('base')[0]
       .href.replace(document.location.origin, '');
 
+    debugger;
+
     if (!this.state.gitHubAuthStatus || !this.state.recipesLoaded) {
       content = progressContent;
     } else {
       content = (
         <Routes>
           <Route
-            path=""
+            path={baseHref + ''}
             element={
               <WorkspaceSetup
                 authStatus={this.state.gitHubAuthStatus.Code}
@@ -134,7 +136,7 @@ class HomeComponent extends LCUComponent {
             }
           />
           <Route
-            path="custom"
+            path={baseHref + 'custom'}
             element={
               <Box
                 sx={{
