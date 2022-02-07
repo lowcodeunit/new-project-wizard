@@ -335,7 +335,7 @@ class CustomProject extends LCUComponent {
             />
           </Box>
           <Box>
-            <p>what is your install command</p>
+            <p>what is your install command?</p>
             <TextField
               id="outlined-basic"
               label="Install Command"
@@ -345,7 +345,7 @@ class CustomProject extends LCUComponent {
             />
           </Box>
           <Box>
-            <p>What is the build output directory</p>
+            <p>What is the build output directory?</p>
             <TextField
               id="outlined-basic"
               label="Output Directory"
@@ -392,9 +392,7 @@ class CustomProject extends LCUComponent {
           </Box>
           <Box sx={{ width: '40%', pt: 1 }}>
             <p>
-              The output is the directory that the built assets for your
-              project are in. For React this is './build', for Angular and Vue
-              is './dist', and for Svelte is './public'.
+            Select a predefined value or enter your custom output directory.
             </p>
           </Box>
           <Button
