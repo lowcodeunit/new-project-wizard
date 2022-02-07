@@ -1,6 +1,7 @@
 import '../App.css';
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import LCUComponent from './LCUComponent';
 import {
   Box,
@@ -17,6 +18,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
+
 class CustomProject extends LCUComponent {
   constructor(props) {
     super(props);
@@ -27,7 +29,6 @@ class CustomProject extends LCUComponent {
       step: 0,
       ProjectName: '',
       branches: [],
-      orgs: [],
       repos: [],
       selectedOrg: '',
       selectedRepo: '',
@@ -49,19 +50,19 @@ class CustomProject extends LCUComponent {
   }
 
   async componentDidMount() {
-    this.getOrgs();
     this.lcu.track('custom_project_selected', 'setup/custom', null);
     this.lcu.track('project_selected', null, {
       DeployType: 'custom',
     });
+    this.props.onStepChange(1);
   }
   async getBranches() {
     fetch(
       '/api/lowcodeunit/github/organizations/' +
-        this.state.selectedOrg +
-        '/repositories/' +
-        this.state.selectedRepo +
-        '/branches'
+      this.state.selectedOrg +
+      '/repositories/' +
+      this.state.selectedRepo +
+      '/branches'
     )
       .then(async (response) => {
         let resp = await response.json();
@@ -71,22 +72,12 @@ class CustomProject extends LCUComponent {
       })
       .then((data) => console.log(data));
   }
-  async getOrgs() {
-    fetch('/api/lowcodeunit/github/organizations')
-      .then(async (response) => {
-        let resp = await response.json();
-        if (resp.Status.Code === 0) {
-          this.setState({ orgs: resp.Model });
-        }
-      })
-      .then((data) => console.log(data));
-  }
 
   async getOrgRepositories() {
     fetch(
       '/api/lowcodeunit/github/organizations/' +
-        this.state.selectedOrg +
-        '/repositories'
+      this.state.selectedOrg +
+      '/repositories'
     )
       .then(async (response) => {
         let resp = await response.json();
@@ -239,8 +230,8 @@ class CustomProject extends LCUComponent {
                 onChange={this.handleOrgSelect}
                 value={this.state.selectedOrg}
               >
-                {this.state.orgs &&
-                  this.state.orgs.map((org) => (
+                {this.props.orgs &&
+                  this.props.orgs.map((org) => (
                     <MenuItem value={org.Name}>{org.Name}</MenuItem>
                   ))}
                 ;
@@ -299,7 +290,7 @@ class CustomProject extends LCUComponent {
       );
     } else if (this.state.step === 2) {
       formPage = (
-        <Box>
+        <Box sx={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', display: 'flex', flexDirection: 'column' }}>
           <Box>
             <p>What is your build command?</p>
             <TextField
@@ -329,13 +320,13 @@ class CustomProject extends LCUComponent {
               onChange={this.handleOutputChange}
               defaultValue={this.state.buildOutput}
             />
-            <Box sx={{ maxWidth: '300px', width: '40%' }}>
-              <p>
-                The output is the directory that the built assets for your
-                project are in. For React this is './build', for Angular and Vue
-                is './dist', and for Svelte is './public'.
-              </p>
-            </Box>
+          </Box>
+          <Box sx={{ width: '40%', pt: 2 }}>
+            <p>
+              The output is the directory that the built assets for your
+              project are in. For React this is './build', for Angular and Vue
+              is './dist', and for Svelte is './public'.
+            </p>
           </Box>
           <Button
             variant="contained"
@@ -344,8 +335,11 @@ class CustomProject extends LCUComponent {
             onClick={this.handleSubmit}
             size="large"
           >
-            Deploy Project
+            <Link style={{ textDecoration: 'none', color: 'white' }} to="/deploy">
+              Deploy Project
+            </Link>
           </Button>
+
         </Box>
       );
     }
@@ -372,15 +366,16 @@ class CustomProject extends LCUComponent {
             width: '100%',
           }}
         >
-          <IconButton
-            size="large"
-            edge="end"
-            color="inherit"
-            aria-label="menu"
-            onClick={this.handleBackButton}
-          >
-            <ArrowBackIcon />
-          </IconButton>
+          <Link to="/">
+            <IconButton
+              size="large"
+              edge="end"
+              color="inherit"
+              aria-label="menu"
+            >
+              <ArrowBackIcon />
+            </IconButton>
+          </Link>
         </Box>
         {formPage}
         <Box sx={{ flexDirection: 'row-reverse', mt: 'auto' }}>
