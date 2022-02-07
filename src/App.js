@@ -118,8 +118,9 @@ class HomeComponent extends LCUComponent {
     if (!this.state.gitHubAuthStatus || !this.state.recipesLoaded) {
       content = progressContent;
     } else {
+      debugger;
       content =
-        <Routes>
+        <Routes basename={document.getElementsByTagName('base')[0].href.replace(document.location.origin, '')}>
           <Route index element={
             <WorkspaceSetup
               authStatus={this.state.gitHubAuthStatus.Code}
@@ -187,7 +188,7 @@ class HomeComponent extends LCUComponent {
     }
 
     return (
-      <BrowserRouter>
+      <BrowserRouter basename={document.getElementsByTagName('base')[0].href.replace(document.location.origin, '')}>
         <div className="App">
           <ThemeProvider theme={theme}>
             <Helmet>
