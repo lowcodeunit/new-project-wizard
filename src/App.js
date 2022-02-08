@@ -200,7 +200,7 @@ class HomeComponent extends LCUComponent {
     }
 
     return (
-      <BrowserRouter>
+      <BrowserRouter basename="/dashboard/create-project">
         <div className="App">
           <ThemeProvider theme={theme}>
             <Helmet>
