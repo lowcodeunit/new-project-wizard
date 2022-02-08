@@ -124,7 +124,7 @@ class HomeComponent extends LCUComponent {
       content = (
         <Routes>
           <Route
-            path=""
+            path="/"
             element={
               <WorkspaceSetup
                 authStatus={this.state.gitHubAuthStatus.Code}
