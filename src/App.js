@@ -124,9 +124,7 @@ class HomeComponent extends LCUComponent {
       .href.replace(document.location.origin, '');
 
 
-    if (!this.state.gitHubAuthStatus || !this.state.recipesLoaded) {
-      content = progressContent;
-    } else {
+
       content = (
         <Routes>
           <Route
@@ -206,7 +204,7 @@ class HomeComponent extends LCUComponent {
           />
         </Routes>
       );
-    }
+    
 
     return (
       <BrowserRouter basename={this.state.base}>
