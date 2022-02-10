@@ -62,7 +62,7 @@ function WorkspaceSetup(props) {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       <Helmet>
-        <title>LowCodeUnit - Select your project</title>
+        <title>Fathym - Select your project</title>
       </Helmet>
       <Box>
         <Box sx={{ py: 8, px: 2 }}>

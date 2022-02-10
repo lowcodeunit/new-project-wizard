@@ -423,7 +423,7 @@ class CustomProject extends LCUComponent {
         }}
       >
         <Helmet>
-          <title>LowCodeUnit - Custom Project</title>
+          <title>Fathym - Custom Project</title>
         </Helmet>
         <Box
           sx={{

@@ -27,7 +27,7 @@ function GithubConnect() {
   return (
     <Box sx={{ width: '100%' }}>
       <Helmet>
-        <title>LowCodeUnit - Connect</title>
+        <title>Fathym - Connect</title>
       </Helmet>
       <Box
         sx={{
