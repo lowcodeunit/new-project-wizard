@@ -43,6 +43,7 @@ class HomeComponent extends LCUComponent {
   }
 
   componentDidMount() {
+    console.log('app component did mount');
     fetch('/api/lowcodeunit/github/connection/valid')
       .then(async (response) => {
         let resp = await response.json();
