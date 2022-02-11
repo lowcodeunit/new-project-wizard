@@ -115,9 +115,7 @@ class HomeComponent extends LCUComponent {
     let content;
     let progressContent = <Loader />;
 
-    if (!this.state.gitHubAuthStatus || !this.state.recipesLoaded) {
-      content = progressContent;
-    } else {
+
       content = (
         <Routes>
           <Route
@@ -197,7 +195,7 @@ class HomeComponent extends LCUComponent {
           />
         </Routes>
       );
-    }
+    
 
     return (
       <BrowserRouter basename='/dashboard/create-project'>
