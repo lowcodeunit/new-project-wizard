@@ -36,7 +36,6 @@ class HomeComponent extends LCUComponent {
       isProjectCreated: false,
       gitHubAuthStatus: null,
       deploy: false,
-      base: '/dashboard/create-project',
       orgs: [],
     };
     this.handleStepChange = this.handleStepChange.bind(this);
@@ -44,10 +43,6 @@ class HomeComponent extends LCUComponent {
   }
 
   componentDidMount() {
-    console.log("current pathname is " + window.location.pathname)
-    if(window.location.hostname.includes("localhost")) {
-      this.setState({base: '/'})
-    }
     fetch('/api/lowcodeunit/github/connection/valid')
       .then(async (response) => {
         let resp = await response.json();
@@ -119,10 +114,6 @@ class HomeComponent extends LCUComponent {
   render() {
     let content;
     let progressContent = <Loader />;
-    let baseHref = document
-      .getElementsByTagName('base')[0]
-      .href.replace(document.location.origin, '');
-
 
     if (!this.state.gitHubAuthStatus || !this.state.recipesLoaded) {
       content = progressContent;
@@ -130,7 +121,7 @@ class HomeComponent extends LCUComponent {
       content = (
         <Routes>
           <Route
-            path={baseHref + ''}
+            index
             element={
               <WorkspaceSetup
                 authStatus={this.state.gitHubAuthStatus.Code}
@@ -140,7 +131,7 @@ class HomeComponent extends LCUComponent {
             }
           />
           <Route
-            path={baseHref + 'custom'}
+            path={'custom'}
             element={
               <Box
                 sx={{
@@ -209,7 +200,7 @@ class HomeComponent extends LCUComponent {
     }
 
     return (
-      <BrowserRouter basename={this.state.base}>
+      <BrowserRouter basename='/dashboard/create-project'>
         <div className="App">
           <ThemeProvider theme={theme}>
             <Helmet>
