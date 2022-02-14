@@ -43,7 +43,7 @@ class HomeComponent extends LCUComponent {
   }
 
   componentDidMount() {
-    console.log('app component did mount');
+    console.log('app component did mount')
     fetch('/api/lowcodeunit/github/connection/valid')
       .then(async (response) => {
         let resp = await response.json();
@@ -116,7 +116,7 @@ class HomeComponent extends LCUComponent {
     let content;
     let progressContent = <Loader />;
     if (!this.state.gitHubAuthStatus || !this.state.recipesLoaded) {
-      content = progressContent;
+      content = <CustomProject/>
     } else {
       content = (
         <Routes>
