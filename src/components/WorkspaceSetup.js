@@ -2,12 +2,14 @@ import '../App.css';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { Box, Button, Divider, Tooltip, Grid } from '@mui/material';
+import { Box, Button, Divider, Tooltip, Grid, Paper } from '@mui/material';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
 
 function WorkspaceSetup(props) {
   const navigate = useNavigate();
-  function handleCustomClick(){
-    if(props.authStatus!==0){
+  function handleCustomClick() {
+    if (props.authStatus !== 0) {
       navigate('/custom/connect');
     } else {
       navigate('/custom');
@@ -29,7 +31,7 @@ function WorkspaceSetup(props) {
         columnSpacing={{ xs: 1, sm: 2, md: 2 }}
         wrap
       >
-        {props.recipeList.map((item) => (
+        {/* {props.recipeList.map((item) => (
           <Grid
             order={item.Tier}
             item
@@ -54,47 +56,49 @@ function WorkspaceSetup(props) {
               </Button>
             </Tooltip>
           </Grid>
-        ))}
+        ))} */}
       </Grid>
     </Box>
   );
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+    <Box sx={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexDirection: 'column'
+    }}>
       <Helmet>
         <title>LowCodeUnit - Select your project</title>
       </Helmet>
-      <Box>
-        <Box sx={{ py: 8, px: 2 }}>
+
+      <Paper sx={{ width: '70%', my:2 }}>
+     
+          <Box>What can you fathym? Get started with your code.</Box>
           <Box>
-            <h2>Custom Projects</h2>
-            <p>
-              Already have your own project in a github repo, or want to start
-              from scratch? Here we'll help you setup the deployment and you do
-              all the coding.
-            </p>
-            <Button
-              size="large"
-              variant="contained"
-              sx={{ mt: 2 }}
-              onClick={() => {
-                handleCustomClick();
-              }}
-            >
-              Create Custom Project
-            </Button>
+            <DriveFileMoveIcon color="primary" />
+            Get started with a zip file.
+            <Button variant="contained">Upload</Button>
           </Box>
+          <Box>
+            <GitHubIcon color="primary" />
+            Get started with GitHub.
+            <Button variant="contained">Connect</Button>
+          </Box>
+
+      </Paper>
+
+
+      <Paper sx={{ width: '70%', my:2 }}>
+        <Box sx={{ pt: 2 }}>
+          <h2>Get started with a template</h2>
+          <p>
+            Launch from our open source repo or fork to yours to launch. <br />
+            Note: to customize your code you must fork to your own repo
+          </p>
+          {recipeSection}
         </Box>
-      </Box>
-      <Divider variant="middle" />
-      <Box sx={{ pt: 2 }}>
-        <h2>Choose Project Recipe</h2>
-        <p>
-          Select an existing Recipe to get started quickly, or create your own
-          custom project.
-        </p>
-        {recipeSection}
-      </Box>
+      </Paper>
     </Box>
   );
 }

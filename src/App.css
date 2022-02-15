@@ -1,9 +1,12 @@
 .App {
+  height: 100vh;
   text-align: center;
+  background: rgb(1,174,170);
+  background: linear-gradient(0deg, rgba(1,174,170,1) 0%, rgba(255,255,255,1) 81%, rgba(255,255,255,1) 100%);
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 10vmin;
   pointer-events: none;
 }
 

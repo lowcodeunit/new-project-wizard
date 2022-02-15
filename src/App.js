@@ -14,6 +14,7 @@ import RecipeFork from './components/RecipeFork';
 import GithubConnect from './components/GithubConnect';
 import LoadingPage from './components/LoadingPage';
 import { createTheme } from '@mui/material/styles';
+import logo from './recipelogos/logo.svg'
 
 const theme = createTheme({
   palette: {
@@ -113,7 +114,7 @@ class HomeComponent extends LCUComponent {
 
   render() {
     let content;
-    let progressContent = <Loader />;
+    let progressContent = <WorkspaceSetup />;
     let baseHref = document
       .getElementsByTagName('base')[0]
       .href.replace(document.location.origin, '');
@@ -211,11 +212,7 @@ class HomeComponent extends LCUComponent {
             <Helmet>
               <title>LowCodeUnit - Welcome</title>
             </Helmet>
-            <Header />
-            <ProgressTracker
-              workspace={this.state.workspace}
-              step={this.state.currentStep}
-            ></ProgressTracker>
+            <img className='App-logo' src={logo}/>
             <Box
               sx={{
                 marginBottom: '4em',
