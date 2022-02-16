@@ -35,6 +35,7 @@ class HomeComponent extends LCUComponent {
       recipesLoaded: false,
       isProjectCreated: false,
       gitHubAuthStatus: null,
+      basename: '/dashboard/create-project',
       deploy: false,
       orgs: [],
     };
@@ -43,6 +44,11 @@ class HomeComponent extends LCUComponent {
   }
 
   componentDidMount() {
+    if(window.location.pathname.includes('/qa/create-project')){
+      this.setState({basename: '/qa/create-project'})
+    } else if(window.location.hostname.includes('localhost')) {
+      this.setState({basename:''})
+    }
     console.log('app component did mount')
     fetch('/api/lowcodeunit/github/connection/valid')
       .then(async (response) => {
@@ -114,9 +120,8 @@ class HomeComponent extends LCUComponent {
 
   render() {
     let content;
-    let progressContent = <Loader />;
     if (!this.state.gitHubAuthStatus || !this.state.recipesLoaded) {
-      content = <CustomProject/>
+      content = <Loader />
     } else {
       content = (
         <Routes>
@@ -201,7 +206,7 @@ class HomeComponent extends LCUComponent {
 
 
     return (
-      <BrowserRouter basename='/dashboard/create-project'>
+      <BrowserRouter basename={this.state.basename}>
         <div className="App">
           <ThemeProvider theme={theme}>
             <Helmet>
