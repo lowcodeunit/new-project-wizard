@@ -10,17 +10,14 @@ import DvrIcon from '@mui/icons-material/Dvr';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-function GithubConnect() {
+function GithubConnect(props) {
   const recipeLookup = useParams();
   function authGit() {
-    let redirectUri = encodeURI(`/custom`);
+    let redirectUri = encodeURI(`${props.base}/custom`);
     
     if (recipeLookup.id) {
-      var search = window.location.search;
-
-      redirectUri = encodeURI(`/recipe/${recipeLookup.id}/fork${search}`);
+      redirectUri = encodeURI(`${props.base}/recipe/${recipeLookup.id}/fork`);
     }
-
     window.location.href = `/.oauth/github?redirectUri=${redirectUri}`;
   }
 

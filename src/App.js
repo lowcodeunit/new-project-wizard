@@ -154,7 +154,7 @@ class HomeComponent extends LCUComponent {
               </Box>
             }
           />
-          <Route path="custom/connect" element={<GithubConnect />} />
+          <Route path="custom/connect" element={<GithubConnect base={this.state.basename}/>} />
           <Route path="recipe">
             <Route
               path=":id"
@@ -189,7 +189,7 @@ class HomeComponent extends LCUComponent {
                 />
               }
             />
-            <Route path=":id/connect" element={<GithubConnect />} />
+            <Route path=":id/connect" element={<GithubConnect base={this.state.basename}/>} />
           </Route>
           <Route
             path="deploy"
