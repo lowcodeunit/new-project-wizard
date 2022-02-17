@@ -44,7 +44,7 @@ class Header extends LCUComponent {
                         sx={{fontFamily: 'Encode Sans Condensed, sans-serif', fontWeight: '900', fontSize:'20px', pl: 2}}
                         noWrap={true}
                     > 
-                    Fathym Beta
+
                     </Typography>
                     </Box>
                 </Box>

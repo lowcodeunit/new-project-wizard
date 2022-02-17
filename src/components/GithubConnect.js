@@ -13,10 +13,10 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 function GithubConnect(props) {
   const recipeLookup = useParams();
   function authGit() {
-    let redirectUri = encodeURI(`${props.base}/custom`);
+    let redirectUri = encodeURI(`${props.base}custom`);
     
     if (recipeLookup.id) {
-      redirectUri = encodeURI(`${props.base}/recipe/${recipeLookup.id}/fork`);
+      redirectUri = encodeURI(`${props.base}recipe/${recipeLookup.id}/fork`);
     }
     window.location.href = `/.oauth/github?redirectUri=${redirectUri}`;
   }
