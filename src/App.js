@@ -44,12 +44,14 @@ class HomeComponent extends LCUComponent {
   }
 
   componentDidMount() {
-    if(window.location.pathname.includes('/qa/create-project')){
-      this.setState({basename: '/qa/create-project'})
-    } else if(window.location.hostname.includes('localhost')) {
-      this.setState({basename:''})
-    }
-    console.log('app component did mount')
+    console.log(`Base Href: ${this.loadBaseHref()}`);
+    // if(window.location.pathname.includes('/qa/create-project')){
+    //   this.setState({basename: '/qa/create-project'})
+    // } else if(window.location.hostname.includes('localhost')) {
+    //   this.setState({basename:''})
+    // }
+    this.setState({ basename: this.loadBaseHref() });
+    console.log('app component did mount');
     fetch('/api/lowcodeunit/github/connection/valid')
       .then(async (response) => {
         let resp = await response.json();
@@ -108,6 +110,23 @@ class HomeComponent extends LCUComponent {
     this.setState({ isProjectCreated: true });
   }
 
+  loadBaseHref() {
+    var bases = document.getElementsByTagName('base');
+    var baseHref = null;
+
+    if (bases.length > 0) {
+      baseHref = bases[0].href;
+    }
+
+    baseHref = baseHref.replace(window.location.origin, '');
+
+    if (baseHref.endsWith('/')) {
+      baseHref.substring(0, baseHref.length - 2);
+    }
+
+    return baseHref;
+  }
+
   handleStepChange(step) {
     this.setState({ currentStep: step });
   }
@@ -121,7 +140,7 @@ class HomeComponent extends LCUComponent {
   render() {
     let content;
     if (!this.state.gitHubAuthStatus || !this.state.recipesLoaded) {
-      content = <Loader />
+      content = <Loader />;
     } else {
       content = (
         <Routes>
@@ -154,7 +173,10 @@ class HomeComponent extends LCUComponent {
               </Box>
             }
           />
-          <Route path="custom/connect" element={<GithubConnect base={this.state.basename}/>} />
+          <Route
+            path="custom/connect"
+            element={<GithubConnect base={this.state.basename} />}
+          />
           <Route path="recipe">
             <Route
               path=":id"
@@ -189,7 +211,10 @@ class HomeComponent extends LCUComponent {
                 />
               }
             />
-            <Route path=":id/connect" element={<GithubConnect base={this.state.basename}/>} />
+            <Route
+              path=":id/connect"
+              element={<GithubConnect base={this.state.basename} />}
+            />
           </Route>
           <Route
             path="deploy"
@@ -203,7 +228,6 @@ class HomeComponent extends LCUComponent {
         </Routes>
       );
     }
-
 
     return (
       <BrowserRouter basename={this.state.basename}>
