@@ -69,7 +69,7 @@ function WorkspaceSetup(props) {
       flexDirection: 'column'
     }}>
       <Helmet>
-        <title>LowCodeUnit - Select your project</title>
+        <title>Fathym - Select your project</title>
       </Helmet>
 
       <Paper sx={{ width: '70%', my:2 }}>

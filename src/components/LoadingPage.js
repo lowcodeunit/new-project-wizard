@@ -48,7 +48,7 @@ class LoadingPage extends LCUComponent {
         }}
       >
         <Helmet>
-          <title>LowCodeUnit - Loading Project</title>
+          <title>Fathym - Loading Project</title>
         </Helmet>
         <Box sx={{}}>
           <h2>We're configuring your new project</h2>

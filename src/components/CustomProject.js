@@ -13,7 +13,7 @@ import {
   MenuItem,
   TextField,
   IconButton,
-  Menu,
+  Menu
 } from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -39,7 +39,6 @@ class CustomProject extends LCUComponent {
       selectedBranch: '',
       readyToSubmit: false,
     };
-    this.handleClickAwayEvent = this.handleClickAwayEvent.bind(this);
     this.handBuildMenuToggle = this.handBuildMenuToggle.bind(this);
     this.handleBuildMenuClose = this.handleBuildMenuClose.bind(this);
     this.incrementStep = this.incrementStep.bind(this);
@@ -140,25 +139,22 @@ class CustomProject extends LCUComponent {
   }
 
   handleOutputChange(event) {
-    this.setState({ buildOutput: event.target.value }, () => {
+    console.log("== " + event.target.value)
+    this.setState({ buildOutput: event.target.value, buildMenuOpen: false }, () => {
       this.readyToSubmit();
     });
   }
 
   handBuildMenuToggle(event) {
-    if (this.state.anchorEl === null) {
-      this.setState({
-        buildMenuOpen: !this.state.buildMenuOpen,
-        anchorEl: event.currentTarget
-      });
-    } else {
-      this.setState({
-        buildMenuOpen: !this.state.buildMenuOpen,
-        anchorEl: null
-      });
-    }
+    console.log("toggled anchor " + this.state.anchorEl)
+
+    this.setState({
+      buildMenuOpen: !this.state.buildMenuOpen,
+      anchorEl: event.currentTarget
+    });
+
+    console.log(`anchor el is ${this.state.anchorEl}`)
   };
-  
   handleBuildMenuClose(event) {
     console.log(`event is ${event} `)
     this.setState({
@@ -166,9 +162,6 @@ class CustomProject extends LCUComponent {
       anchorEl: null,
       buildMenuOpen: !this.state.buildMenuOpen,
     })
-  }
-  handleClickAwayEvent(event) {
-    this.setState({buildMenuOpen: false, anchorEl:null});
   }
 
   handleProjectNameChange(event) {
@@ -335,7 +328,7 @@ class CustomProject extends LCUComponent {
             />
           </Box>
           <Box>
-            <p>what is your install command?</p>
+            <p>what is your install command</p>
             <TextField
               id="outlined-basic"
               label="Install Command"
@@ -345,54 +338,53 @@ class CustomProject extends LCUComponent {
             />
           </Box>
           <Box>
-            <p>What is the build output directory?</p>
-            <TextField
-              id="outlined-basic"
-              label="Output Directory"
-              variant="outlined"
-              value={this.state.buildOutput}
-              onChange={this.handleOutputChange}
-              defaultValue={this.state.buildOutput}
-              InputProps={{
-                endAdornment: (
-                  <Box>
-                    
-                    <Button
-                      size="small"
-                      aria-label="select merge strategy"
-                      aria-haspopup="menu"
-                      onClick={this.handBuildMenuToggle}
-                    >
-                      <ArrowDropDownIcon />
-                    </Button>
-       
-                      <Menu
-                        id="basic-menu"
-                        anchorEl={this.state.anchorEl}
-                        open={this.state.buildMenuOpen}
-                        onClose={this.handleOutputChange}
-                        onChange={this.handleOutputChange}
-                        MenuListProps={{
-                          'aria-labelledby': 'basic-button',
-                        }}
-                        onBackdropClick={this.handBuildMenuToggle}
-                      >
-                        <MenuItem onClick={() => this.handleBuildMenuClose("./build")}>React - ./build</MenuItem>
-                        <MenuItem onClick={() => this.handleBuildMenuClose("./dist")}>Angular, Vue - ./dist</MenuItem>
-                        <MenuItem onClick={() => this.handleBuildMenuClose("./public")}>Svelte - ./public</MenuItem>
-                      </Menu>
-               
-                  </Box>
-                ),
-                inputProps: {
-                  list: "rfc"
-                }
-              }}
-            />
+            <p>What is the build output directory</p>
+            <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap' }}>
+              <ButtonGroup
+                variant="contained"
+                aria-label="outlined primary button group"
+              >
+                <TextField
+                  id="outlined-basic"
+                  label="Output Directory"
+                  variant="outlined"
+                  value={this.state.buildOutput}
+                  onChange={this.handleOutputChange}
+                  defaultValue={this.state.buildOutput}
+                />
+
+                <Button
+                  size="small"
+                  aria-label="select merge strategy"
+                  aria-haspopup="menu"
+                  onClick={this.handBuildMenuToggle}
+                  variant="contained"
+                >
+                  <ArrowDropDownIcon />
+                </Button>
+              </ButtonGroup>
+
+              <Menu
+                id="basic-menu"
+                anchorEl={this.state.anchorEl}
+                open={this.state.buildMenuOpen}
+                onClose={this.handleOutputChange}
+                onChange={this.handleOutputChange}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
+              >
+                <MenuItem onClick={() => this.handleBuildMenuClose("./build")}>React - ./build</MenuItem>
+                <MenuItem onClick={() => this.handleBuildMenuClose("./dist")}>Angular, Vue - ./dist</MenuItem>
+                <MenuItem onClick={() => this.handleBuildMenuClose("./public")}>Svelte - ./public</MenuItem>
+              </Menu>
+
+
+            </Box>
           </Box>
-          <Box sx={{ width: '40%', pt: 1 }}>
+          <Box sx={{ width: '40%', pt: 2 }}>
             <p>
-            Select a predefined value or enter your custom output directory.
+              Select a predefined value or enter your custom output directory.
             </p>
           </Box>
           <Button

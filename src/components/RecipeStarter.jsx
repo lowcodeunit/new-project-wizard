@@ -51,7 +51,7 @@ function RecipeStarter(props) {
     return (
         <Box sx={{ width: '100%' }}>
             <Helmet>
-                <title>LowCodeUnit - Recipe Project</title>
+                <title>Fathym - Recipe Project</title>
             </Helmet>
             <Box
                 sx={{
@@ -156,7 +156,7 @@ function RecipeStarter(props) {
 
                             <Paper sx={{ p: 2, m: 2 }}>
                                 <p>
-                                    LowCodeUnit will take all your recipe ingredients and create
+                                    Fathym will take all your recipe ingredients and create
                                     copies of them in your personal github organization. This
                                     will setup everything you need for modern DevOps; source
                                     repositories, build pipelines, and deployments.
