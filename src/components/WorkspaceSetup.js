@@ -31,7 +31,7 @@ function WorkspaceSetup(props) {
         columnSpacing={{ xs: 1, sm: 2, md: 2 }}
         wrap
       >
-        {/* {props.recipeList.map((item) => (
+        {props.recipeList.map((item) => (
           <Grid
             order={item.Tier}
             item
@@ -56,7 +56,7 @@ function WorkspaceSetup(props) {
               </Button>
             </Tooltip>
           </Grid>
-        ))} */}
+        ))}
       </Grid>
     </Box>
   );
