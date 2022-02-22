@@ -140,14 +140,6 @@ class HomeComponent extends LCUComponent {
 
   render() {
     let content;
-<<<<<<< HEAD
-    let progressContent = <WorkspaceSetup />;
-    let baseHref = document
-      .getElementsByTagName('base')[0]
-      .href.replace(document.location.origin, '');
-
-=======
->>>>>>> feature/basename
     if (!this.state.gitHubAuthStatus || !this.state.recipesLoaded) {
       content = <Loader />;
     } else {
@@ -247,9 +239,7 @@ class HomeComponent extends LCUComponent {
             </Helmet>
             <img className='App-logo' src={logo}/>
             <Box
-              sx={{
-                marginBottom: '4em',
-              }}
+
             >
               {content}
             </Box>

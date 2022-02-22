@@ -1,8 +1,9 @@
 .App {
-  height: 100vh;
   text-align: center;
-  background: rgb(1,174,170);
-  background: linear-gradient(0deg, rgba(1,174,170,1) 0%, rgba(255,255,255,1) 81%, rgba(255,255,255,1) 100%);
+  background: rgb(74,145,142);
+  background-size: 100%;
+  min-height: 100vh;
+  background: linear-gradient(0deg, rgba(74,145,142,1) 18%, rgba(227,255,254,1) 100%);
 }
 
 .App-logo {
@@ -32,10 +33,19 @@ img {
   height: 250px;
 }
 
+img .Recipe {
+  width: 10vh;
+}
+
 .headerImage {
   max-width: 100%; height: auto;
 }
 
 Link  {
   text-decoration: none;
+}
+
+.recipeImage {
+  max-width: 100px;
+  height: auto;
 }
