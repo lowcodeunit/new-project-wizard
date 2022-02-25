@@ -433,7 +433,7 @@ class CustomProject extends LCUComponent {
               color="inherit"
               aria-label="menu"
             >
-              <ArrowBackIcon />
+              <ArrowBackIcon color="primary" />
             </IconButton>
           </Link>
         </Box>

@@ -36,7 +36,7 @@ function GithubConnect(props) {
       >
         <Link to="/">
           <IconButton size="large" edge="end" color="inherit" aria-label="menu">
-            <ArrowBackIcon />
+            <ArrowBackIcon color="primary" />
           </IconButton>
         </Link>
       </Box>
