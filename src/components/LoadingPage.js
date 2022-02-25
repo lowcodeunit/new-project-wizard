@@ -24,7 +24,6 @@ class LoadingPage extends LCUComponent {
           this.props.loadingMessages[this.state.LoadingMessageIndex],
       });
 
-      // useEffect(() => {
       setInterval(() => {
         let newIndex = this.state.LoadingMessageIndex + 1;
 
@@ -37,7 +36,6 @@ class LoadingPage extends LCUComponent {
           LoadingMessage: this.props.loadingMessages[newIndex],
         });
       }, 4000);
-      // }, []);
     }
   }
 
