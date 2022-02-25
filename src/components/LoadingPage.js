@@ -7,11 +7,7 @@ import { CircularProgress, Box, Button, Link } from '@mui/material';
 class LoadingPage extends LCUComponent {
   LoadingMessageIndex;
 
-  get LoadingMessage() {
-    return this.props.loadingMessages
-      ? this.props.loadingMessages[this.LoadingMessageIndex]
-      : null;
-  }
+  LoadingMessage;
 
   constructor(props) {
     super(props);
@@ -25,16 +21,17 @@ class LoadingPage extends LCUComponent {
 
     if (this.props.loadingMessages?.length > 0) {
       this.LoadingMessageIndex = 0;
+      
+      this.LoadingMessage = this.props.loadingMessages[this.LoadingMessageIndex];
 
       setInterval(() => {
         this.LoadingMessageIndex += 1;
 
-        if (
-          this.LoadingMessageIndex >
-          this.props.loadingMessages.length - 1
-        ) {
+        if (this.LoadingMessageIndex > this.props.loadingMessages.length - 1) {
           this.LoadingMessageIndex = 0;
         }
+
+        this.LoadingMessage = this.props.loadingMessages[this.LoadingMessageIndex];
       }, 3000);
     }
   }
@@ -50,7 +47,7 @@ class LoadingPage extends LCUComponent {
         <Box>
           <CircularProgress color="primary" />
 
-          <h4>{}</h4>
+          <h4>{this.LoadingMessage}</h4>
         </Box>
       );
     } else {
