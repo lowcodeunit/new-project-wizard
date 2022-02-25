@@ -345,6 +345,7 @@ class CustomProject extends LCUComponent {
                 aria-label="outlined primary button group"
               >
                 <TextField
+                  InputLabelProps={{shrink: true}}
                   id="outlined-basic"
                   label="Output Directory"
                   variant="outlined"
