@@ -5,13 +5,12 @@ import LCUComponent from './LCUComponent';
 import { CircularProgress, Box, Button, Link } from '@mui/material';
 
 class LoadingPage extends LCUComponent {
-  LoadingMessageIndex;
-
-  LoadingMessage;
-
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      LoadingMessageIndex: 0,
+      LoadingMessage: '',
+    };
     this.handleContinueClick = this.handleContinueClick.bind(this);
   }
 
@@ -20,19 +19,25 @@ class LoadingPage extends LCUComponent {
     this.props.onStepChange(2);
 
     if (this.props.loadingMessages?.length > 0) {
-      this.LoadingMessageIndex = 0;
-      
-      this.LoadingMessage = this.props.loadingMessages[this.LoadingMessageIndex];
+      this.setState({
+        LoadingMessageIndex: newIndex,
+        LoadingMessage: this.props.loadingMessages[this.state.LoadingMessageIndex],
+      });
 
+      // useEffect(() => {
       setInterval(() => {
-        this.LoadingMessageIndex += 1;
+        let newIndex = this.state.LoadingMessageIndex + 1;
 
-        if (this.LoadingMessageIndex > this.props.loadingMessages.length - 1) {
-          this.LoadingMessageIndex = 0;
+        if (newIndex > this.props.loadingMessages.length - 1) {
+          newIndex = 0;
         }
 
-        this.LoadingMessage = this.props.loadingMessages[this.LoadingMessageIndex];
+        this.setState({
+          LoadingMessageIndex: newIndex,
+          LoadingMessage: this.props.loadingMessages[newIndex],
+        });
       }, 3000);
+      // }, []);
     }
   }
 
@@ -47,7 +52,7 @@ class LoadingPage extends LCUComponent {
         <Box>
           <CircularProgress color="primary" />
 
-          <h4>{this.LoadingMessage}</h4>
+          <h4>{this.state.LoadingMessage}</h4>
         </Box>
       );
     } else {
