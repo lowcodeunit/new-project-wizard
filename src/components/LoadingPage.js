@@ -1,10 +1,18 @@
 import '../App.css';
 import React from 'react';
-import {Helmet} from "react-helmet";
+import { Helmet } from 'react-helmet';
 import LCUComponent from './LCUComponent';
 import { CircularProgress, Box, Button, Link } from '@mui/material';
 
 class LoadingPage extends LCUComponent {
+  LoadingMessageIndex;
+
+  get LoadingMessage() {
+    return this.props.loadingMessages
+      ? this.props.loadingMessages[this.LoadingMessageIndex]
+      : null;
+  }
+
   constructor(props) {
     super(props);
     this.state = {};
@@ -14,6 +22,21 @@ class LoadingPage extends LCUComponent {
   componentDidMount() {
     this.lcu.track('project_deploying', 'setup/deploying', null);
     this.props.onStepChange(2);
+
+    if (this.props.loadingMessages?.length > 0) {
+      this.LoadingMessageIndex = 0;
+
+      setInterval(() => {
+        this.LoadingMessageIndex += 1;
+
+        if (
+          this.LoadingMessageIndex >
+          this.props.loadingMessages.length - 1
+        ) {
+          this.LoadingMessageIndex = 0;
+        }
+      }, 3000);
+    }
   }
 
   handleContinueClick() {
@@ -23,21 +46,28 @@ class LoadingPage extends LCUComponent {
   render() {
     let content;
     if (!this.props.isProjectLoaded) {
-      content = <CircularProgress color="primary" />;
+      content = (
+        <Box>
+          <CircularProgress color="primary" />
+
+          <h4>{}</h4>
+        </Box>
+      );
     } else {
-      content = 
-      <Box>
-        <Link href="/dashboard" underline="none">
-          <Button
-          variant="contained"
-          sx={{ mt: 4 }}
-          onClick={this.handleContinueClick}
-          size="large"
-          >
-            Continue to Dashboard
-          </Button>
-        </Link>
-      </Box>
+      content = (
+        <Box>
+          <Link href="/dashboard" underline="none">
+            <Button
+              variant="contained"
+              sx={{ mt: 4 }}
+              onClick={this.handleContinueClick}
+              size="large"
+            >
+              Continue to Dashboard
+            </Button>
+          </Link>
+        </Box>
+      );
     }
     return (
       <Box
@@ -58,7 +88,13 @@ class LoadingPage extends LCUComponent {
             new website!{' '}
           </p>
         </Box>
-        <Box sx={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
           {content}
         </Box>
       </Box>
