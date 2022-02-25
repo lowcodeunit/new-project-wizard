@@ -20,7 +20,8 @@ class LoadingPage extends LCUComponent {
 
     if (this.props.loadingMessages?.length > 0) {
       this.setState({
-        LoadingMessage: this.props.loadingMessages[this.state.LoadingMessageIndex],
+        LoadingMessage:
+          this.props.loadingMessages[this.state.LoadingMessageIndex],
       });
 
       // useEffect(() => {
