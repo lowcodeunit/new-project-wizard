@@ -27,7 +27,7 @@ class CustomProject extends LCUComponent {
     this.state = {
       anchorEl: null,
       buildCommand: 'npm run build',
-      buildOutput: './build',
+      buildOutput: './',
       buildInstall: 'npm i',
       buildMenuOpen: false,
       step: 0,
@@ -375,6 +375,7 @@ class CustomProject extends LCUComponent {
                   'aria-labelledby': 'basic-button',
                 }}
               >
+                <MenuItem onClick={() => this.handleBuildMenuClose("./")}>Basic HTML' - ./</MenuItem>
                 <MenuItem onClick={() => this.handleBuildMenuClose("./build")}>React - ./build</MenuItem>
                 <MenuItem onClick={() => this.handleBuildMenuClose("./dist")}>Angular, Vue - ./dist</MenuItem>
                 <MenuItem onClick={() => this.handleBuildMenuClose("./public")}>Svelte - ./public</MenuItem>
