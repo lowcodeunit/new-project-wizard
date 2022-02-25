@@ -44,6 +44,7 @@ class HomeComponent extends LCUComponent {
 
   componentDidMount() {
     console.log(`Base Href: ${this.loadBaseHref()}`);
+    console.log(`State: ${JSON.stringify(this.state)}`);
     // if(window.location.pathname.includes('/qa/create-project')){
     //   this.setState({basename: '/qa/create-project'})
     // } else if(window.location.hostname.includes('localhost')) {
@@ -73,7 +74,7 @@ class HomeComponent extends LCUComponent {
         this.setState({ gitHubAuthStatus: resp.Status });
       })
       .then((data) => console.log(data));
-
+    console.log(`State2: ${JSON.stringify(this.state)}`);  
     this.getRecipes();
   }
 
