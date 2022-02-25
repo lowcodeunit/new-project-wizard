@@ -30,7 +30,12 @@ img {
 .logos {
   height: 250px;
 }
-
+a{
+  color:#4a918e
+}
+li{
+  text-align: left;
+}
 img .Recipe {
   width: 10vh;
 }
@@ -45,6 +50,10 @@ Link  {
 
 .recipeImage {
   max-width: 100px;
+  height: auto;
+}
+.starterImage {
+  width: 30%;
   height: auto;
 }
 .recipeButtons {

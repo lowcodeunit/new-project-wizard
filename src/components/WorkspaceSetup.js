@@ -2,9 +2,7 @@ import '../App.css';
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { Box, Button, Divider, Tooltip, Paper, Stack, Typography } from '@mui/material';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
+import { Box, Button, Grid, Paper, Typography } from '@mui/material';
 
 function WorkspaceSetup(props) {
   const navigate = useNavigate();
@@ -15,7 +13,7 @@ function WorkspaceSetup(props) {
       navigate('/custom');
     }
   }
-  function capitalize(str){
+  function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
   function handleForkClick(recipe) {
@@ -56,50 +54,26 @@ function WorkspaceSetup(props) {
         sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}
       >
         {props.recipeList.map((item) => (
-          <Box sx={{ display: 'flex', width: '100%', alignItems: "center"}}>
-            <Stack
-              direction="row"
-              justifyContent="flex-start"
-              alignItems="center"
-              alignContent='center'
-              sx={{ width:'50%', alignContent: 'center', mb: 7 }}>
-              <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: "center", pt: 4 }}>
-                <Box
+          <Grid container spacing={2} sx={{mt:2}}>
+            <Grid item xs={8} md={4}>
+              <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                <img className='recipeImage' src={item.PreviewImage} alt={item.Lookup} />
 
-                  sx={{
-                    display: 'flex',
-                    alignItems: "center",
-                    pl: [0, 0, 8],
-                    width: '10%',
-                    Height: '10%'
-                  }}
-                  alt="Your logo."
-
-                />
-                <img className='recipeImage' src={item.PreviewImage} />
-                <Box sx={{ display: 'flex', alignItems: "center", justifyContent: 'center' }}>
-                  <Typography
-                    sx={{ fontWeight: ['600', '600', '900'], fontSize: ['15px', '20px', '20px'], pl: [1, 1, 2] }}
-                    noWrap={true}
-                  >
-                    {capitalize(item.Lookup)}
-                  </Typography>
-                </Box>
+                <Typography
+                  sx={{ fontWeight: ['600', '600', '900'], fontSize: ['20px'], pl: [1, 1, 2], pt:[0,0,4]}}
+                  noWrap={true}
+                >
+                  {capitalize(item.Lookup)}
+                </Typography>
               </Box>
-            </Stack>
-            <Stack
-              direction="row"
-              justifyContent="center"
-              alignItems="center"
-              alignContent='center'
-              sx={{width:'100%', alignItems: "center", justifyContent: 'center'}}
-            >
-              <Box sx={{width:'100%', alignItems: "center", justifyContent: 'center'}}>
-                <Box sx={{display:'flex', flexDirection:'row', width:'100%', alignItems: "center", justifyContent: 'center'}}>
+            </Grid>
+            <Grid item xs={4} md={8}>
+              <Box sx={{ width: '100%', alignItems: "center", justifyContent: 'flex-end' }}>
+                <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%', alignItems: "center", justifyContent: 'center' }}>
                   <Button
                     variant="contained"
                     className='recipeButtons'
-                    sx={{mr:1}}
+                    sx={{ mr: 1 }}
                     value={item}
                     onClick={() => handleForkClick(item)}
                   >
@@ -115,8 +89,8 @@ function WorkspaceSetup(props) {
                 </Box>
                 <Link color="primary" to={`/recipe/${item.Lookup}`}>More Info</Link>
               </Box>
-            </Stack>
-          </Box>
+            </Grid>
+          </Grid>
 
         ))}
       </Box>
@@ -126,7 +100,7 @@ function WorkspaceSetup(props) {
   return (
     <Box sx={{
       display: 'flex',
-      justifyContent: 'center', 
+      justifyContent: 'center',
       alignItems: 'center',
       flexDirection: 'column'
     }}>

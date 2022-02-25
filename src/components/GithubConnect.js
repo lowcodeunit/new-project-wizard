@@ -31,7 +31,7 @@ function GithubConnect(props) {
       <Helmet>
         <title>Fathym - Connect</title>
       </Helmet>
-      <Paper sx={{ width: { xs: "90%", sm: "50%", display: 'flex', flexDirection: 'column' }, my: 2, py: 2 }} elevation={6}>
+      <Paper sx={{ width: { xs: "90%", sm: "60%", display: 'flex', flexDirection: 'column' }, my: 2, py: 2 }} elevation={6}>
         <Box
           sx={{
             display: 'flex',
@@ -51,7 +51,7 @@ function GithubConnect(props) {
           </Link>
         </Box>
 
-        <Box sx={{ pt: 2 }}>
+        <Box sx={{ py: 4, px:4 }}>
           <h1>Connect Your GitHub</h1>
           <GitHubIcon color="primary" fontSize='large' />
           <p>
@@ -62,7 +62,7 @@ function GithubConnect(props) {
           <Button variant="contained" sx={{ mb: 2 }} onClick={authGit}>
             Connect to Github
           </Button>
-          <Box>
+          <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', alignItems: "center", justifyContent: 'center' }}>
             <li>Setup modern DevOps build processes using Github actions</li>
             <li>Fork and/or setup repositories for your Github code</li>
             <li>

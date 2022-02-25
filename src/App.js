@@ -13,7 +13,6 @@ import RecipeStarter from './components/RecipeStarter'
 import GithubConnect from './components/GithubConnect';
 import LoadingPage from './components/LoadingPage';
 import { createTheme } from '@mui/material/styles';
-import logo from './recipelogos/logo.svg'
 
 const theme = createTheme({
   palette: {
@@ -189,9 +188,13 @@ class HomeComponent extends LCUComponent {
                     pt: 2,
                   }}
                 >
-                  <RecipeStarter 
-                  authStatus={this.state.gitHubAuthStatus}
-                  recipeList={this.state.recipeList}
+                  <RecipeStarter
+                    authStatus={this.state.gitHubAuthStatus.Code}
+                    recipeID={this.state.workspace}
+                    recipeList={this.state.recipeList}
+                    onStepChange={this.handleStepChange}
+                    projectIsLoaded={this.projectCreated}
+                    useRecipeClick={this.handleRecipeForkClick}
                   />
                 </Box>
               }

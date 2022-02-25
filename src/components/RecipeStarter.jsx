@@ -49,7 +49,7 @@ function RecipeStarter(props) {
     }
 
     return (
-        <Box sx={{ width: '100%' }}>
+        <Paper sx={{ width: { xs: "90%", sm: "50%", display: 'flex', flexDirection: 'column' }, my: 2, py: 2 }} elevation={6}>
             <Helmet>
                 <title>Fathym - Recipe Project</title>
             </Helmet>
@@ -77,26 +77,32 @@ function RecipeStarter(props) {
                     sx={{
                         display: 'flex',
                         flexDirection: { xs: 'column', sm: 'column', md: 'row' },
-                        justifyContent: 'space-evenly',
+                        justifyContent: 'center',
                         alignContent: 'center',
+                        alignItems: 'center'
                     }}
                 >
                     {recipe &&
                         <Box
                             sx={{
-                                width: '100%',
-                                maxWidth: '425px',
+                                display:'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                alignContent: 'center',
+                                alignItems: 'center',
+                                maxWidth:['90%','80%','70%']
                             }}
                         >
                             <h2>{recipe.Name}</h2>
 
                             <img
+                                className='starterImage'
                                 src={recipe.Image}
                                 alt={recipe.Name}
                             ></img>
 
                             <p>{recipe.Description}</p>
-{/* 
+                            {/* 
                             <h3>Ingredients</h3>
 
                             <p>{recipe.Ingredients}</p> */}
@@ -166,7 +172,7 @@ function RecipeStarter(props) {
                     </Box>
                 </Box>
             </Box>
-        </Box>
+        </Paper>
     );
 }
 
