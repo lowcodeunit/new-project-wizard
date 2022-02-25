@@ -13,7 +13,8 @@ import {
   MenuItem,
   TextField,
   IconButton,
-  Menu
+  Menu,
+  Paper
 } from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -27,7 +28,7 @@ class CustomProject extends LCUComponent {
     this.state = {
       anchorEl: null,
       buildCommand: 'npm run build',
-      buildOutput: './build',
+      buildOutput: './',
       buildInstall: 'npm i',
       buildMenuOpen: false,
       step: 0,
@@ -218,7 +219,7 @@ class CustomProject extends LCUComponent {
     let formPage;
     if (this.state.step === 0) {
       formPage = (
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', display: 'flex', flexDirection: 'column', height: '75vh' }}>
           <p>Welcome! Let's start with the project basics</p>
           <p>What is your project name?</p>
           <Box>
@@ -243,7 +244,7 @@ class CustomProject extends LCUComponent {
       );
     } else if (this.state.step === 1) {
       formPage = (
-        <Box>
+        <Box sx={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', display: 'flex', flexDirection: 'column', height: '75vh' }}>
           <Box>
             <p>What is your git organization?</p>
             <FormControl fullWidth>
@@ -316,7 +317,7 @@ class CustomProject extends LCUComponent {
       );
     } else if (this.state.step === 2) {
       formPage = (
-        <Box sx={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', display: 'flex', flexDirection: 'column', height: '75vh' }}>
           <Box>
             <p>What is your build command?</p>
             <TextField
@@ -345,7 +346,7 @@ class CustomProject extends LCUComponent {
                 aria-label="outlined primary button group"
               >
                 <TextField
-                  id="outlined-basic"
+                  InputLabelProps={{shrink: true}}
                   label="Output Directory"
                   variant="outlined"
                   value={this.state.buildOutput}
@@ -374,6 +375,7 @@ class CustomProject extends LCUComponent {
                   'aria-labelledby': 'basic-button',
                 }}
               >
+                <MenuItem onClick={() => this.handleBuildMenuClose("./")}>Basic HTML' - ./</MenuItem>
                 <MenuItem onClick={() => this.handleBuildMenuClose("./build")}>React - ./build</MenuItem>
                 <MenuItem onClick={() => this.handleBuildMenuClose("./dist")}>Angular, Vue - ./dist</MenuItem>
                 <MenuItem onClick={() => this.handleBuildMenuClose("./public")}>Svelte - ./public</MenuItem>
@@ -408,54 +410,54 @@ class CustomProject extends LCUComponent {
           display: 'flex',
           justifyContent: 'center',
           flexDirection: 'column',
-          width: '100vw',
-          height: '75vh',
           alignItems: 'center',
-          alignContent: 'center',
+          width: '100%',
         }}
       >
         <Helmet>
           <title>LowCodeUnit - Custom Project</title>
         </Helmet>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'flex-start',
-            alignItems: 'flex-start',
-            width: '100%',
-          }}
-        >
-          <Link to="/">
-            <IconButton
-              size="large"
-              edge="end"
-              color="inherit"
-              aria-label="menu"
-            >
-              <ArrowBackIcon />
-            </IconButton>
-          </Link>
-        </Box>
-        {formPage}
-        <Box sx={{ flexDirection: 'row-reverse', mt: 'auto' }}>
-          <ButtonGroup
-            variant="contained"
-            aria-label="outlined primary button group"
+        <Paper sx={{ width: { xs: "90%", sm: "50%", display: 'flex', flexDirection: 'column' }, my: 2, py: 2 }} elevation={6}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+              alignItems: 'flex-start',
+              width: '100%',
+            }}
           >
-            <Button
-              onClick={this.incrementStep}
-              disabled={this.state.step === 2}
+            <Link to="/">
+              <IconButton
+                size="large"
+                edge="end"
+                color="inherit"
+                aria-label="menu"
+              >
+                <ArrowBackIcon color="primary" />
+              </IconButton>
+            </Link>
+          </Box>
+          {formPage}
+          <Box sx={{ flexDirection: 'row-reverse', mt: 'auto' }}>
+            <ButtonGroup
+              variant="contained"
+              aria-label="outlined primary button group"
             >
-              <KeyboardArrowDownIcon />
-            </Button>
-            <Button
-              onClick={this.decrementStep}
-              disabled={this.state.step === 0}
-            >
-              <KeyboardArrowUpIcon />
-            </Button>
-          </ButtonGroup>
-        </Box>
+              <Button
+                onClick={this.incrementStep}
+                disabled={this.state.step === 2}
+              >
+                <KeyboardArrowDownIcon />
+              </Button>
+              <Button
+                onClick={this.decrementStep}
+                disabled={this.state.step === 0}
+              >
+                <KeyboardArrowUpIcon />
+              </Button>
+            </ButtonGroup>
+          </Box>
+        </Paper>
       </Box>
     );
   }

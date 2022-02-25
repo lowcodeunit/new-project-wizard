@@ -6,11 +6,10 @@ import LCUComponent from './components/LCUComponent';
 import { Box, ThemeProvider } from '@mui/material';
 import Header from './components/Header';
 import Loader from './components/Loader';
-import ProgressTracker from './components/ProgressTracker';
 import WorkspaceSetup from './components/WorkspaceSetup';
 import CustomProject from './components/CustomProject';
-import RecipeStarter from './components/RecipeStarter';
 import RecipeFork from './components/RecipeFork';
+import RecipeStarter from './components/RecipeStarter'
 import GithubConnect from './components/GithubConnect';
 import LoadingPage from './components/LoadingPage';
 import { createTheme } from '@mui/material/styles';
@@ -190,13 +189,9 @@ class HomeComponent extends LCUComponent {
                     pt: 2,
                   }}
                 >
-                  <RecipeStarter
-                    authStatus={this.state.gitHubAuthStatus.Code}
-                    recipeID={this.state.workspace}
-                    recipeList={this.state.recipeList}
-                    onStepChange={this.handleStepChange}
-                    projectIsLoaded={this.projectCreated}
-                    useRecipeClick={this.handleRecipeForkClick}
+                  <RecipeStarter 
+                  authStatus={this.state.gitHubAuthStatus}
+                  recipeList={this.state.recipeList}
                   />
                 </Box>
               }

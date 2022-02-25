@@ -1,7 +1,7 @@
 import '../App.css';
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Box, Button, FormControl, IconButton, InputLabel, Select, MenuItem } from '@mui/material';
+import { Box, Button, FormControl, IconButton, InputLabel, Select, MenuItem, Paper } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Loader from './Loader';
 
@@ -49,61 +49,63 @@ function RecipeFork(props) {
                 display: 'flex',
                 justifyContent: 'center',
                 flexDirection: 'column',
-                alignItems:'center',
-                my: 4,
+                alignItems: 'center',
                 width: '100%',
             }}
         >
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'flex-start',
-                    alignItems: 'flex-start',
-                    width: '100%',
-                }}
-            >
-                <Link to={`/recipe/${recipeLookup.id}`}>
-                    <IconButton
+
+            <Paper sx={{ width: { xs: "90%", sm: "50%", display: 'flex', flexDirection: 'column' }, my: 2, py: 2 }} elevation={6}>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'flex-start',
+                        alignItems: 'flex-start',
+                        width: '100%',
+                    }}
+                >
+                    <Link to={`/`}>
+                        <IconButton
+                            size="large"
+                            edge="end"
+                            aria-label="menu"
+                        >
+                            <ArrowBackIcon color="primary" />
+                        </IconButton>
+                    </Link>
+                </Box>
+                <Box sx={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', display: 'flex', flexDirection: 'column', height: '75vh' }}>
+                    <p>What is your git organization?</p>
+                    {props.orgs.length <= 0 && <Loader />}
+                    {props.orgs.length > 0 &&
+                        <Box sx={{ minWidth: 200 }}>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label"> Github Organization</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={selectedOrg}
+                                    label="Age"
+                                    onChange={handleOrgSelect}
+                                >
+                                    {props.orgs && props.orgs.map((org) => (
+                                        <MenuItem value={org.Name}>{org.Name}</MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Box>
+                    }
+
+                    <Button
+                        variant="contained"
+                        sx={{ m: 4 }}
+                        disabled={selectedOrg === ''}
+                        onClick={handleSubmit}
                         size="large"
-                        edge="end"
-                        color="inherit"
-                        aria-label="menu"
                     >
-                        <ArrowBackIcon />
-                    </IconButton>
-                </Link>
-            </Box>
-            <Box sx={{justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column'}}>
-                <p>What is your git organization?</p>
-                {props.orgs.length <= 0 && <Loader />}
-                {props.orgs.length > 0 &&
-                    <Box sx={{ minWidth: 200}}>
-                        <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label"> Github Organization</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={selectedOrg}
-                                label="Age"
-                                onChange={handleOrgSelect}
-                            >
-                                {props.orgs && props.orgs.map((org) => (
-                                    <MenuItem value={org.Name}>{org.Name}</MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </Box>
-                }
-            </Box>
-            <Button
-                variant="contained"
-                sx={{ m: 4 }}
-                disabled={selectedOrg === ''}
-                onClick={handleSubmit}
-                size="large"
-            >
-                Submit
-            </Button>
+                        Submit
+                    </Button>
+                </Box>
+            </Paper>
         </Box>
     );
 }

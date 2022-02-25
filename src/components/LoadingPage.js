@@ -1,8 +1,8 @@
 import '../App.css';
 import React from 'react';
-import {Helmet} from "react-helmet";
+import { Helmet } from "react-helmet";
 import LCUComponent from './LCUComponent';
-import { CircularProgress, Box, Button, Link } from '@mui/material';
+import { CircularProgress, Box, Button, Link, Paper } from '@mui/material';
 
 class LoadingPage extends LCUComponent {
   constructor(props) {
@@ -25,42 +25,46 @@ class LoadingPage extends LCUComponent {
     if (!this.props.isProjectLoaded) {
       content = <CircularProgress color="primary" />;
     } else {
-      content = 
-      <Box>
-        <Link href="/dashboard" underline="none">
-          <Button
-          variant="contained"
-          sx={{ mt: 4 }}
-          onClick={this.handleContinueClick}
-          size="large"
-          >
-            Continue to Dashboard
-          </Button>
-        </Link>
-      </Box>
+      content =
+        <Box>
+          <Link href="/dashboard" underline="none">
+            <Button
+              variant="contained"
+              sx={{ mt: 4 }}
+              onClick={this.handleContinueClick}
+              size="large"
+            >
+              Continue to Dashboard
+            </Button>
+          </Link>
+        </Box>
     }
     return (
       <Box
         sx={{
           display: 'flex',
+          justifyContent: 'center',
           flexDirection: 'column',
-          justifyContent: 'space-evenly',
+          alignItems: 'center',
+          width: '100%',
         }}
       >
         <Helmet>
           <title>Fathym - Loading Project</title>
         </Helmet>
-        <Box sx={{}}>
-          <h2>We're configuring your new project</h2>
-          <p>
-            {' '}
-            The next step is to hop into our dashboard and start building your
-            new website!{' '}
-          </p>
-        </Box>
-        <Box sx={{display:'flex', justifyContent:'center', alignItems:'center'}}>
-          {content}
-        </Box>
+        <Paper sx={{ width: { xs: "90%", sm: "50%", display: 'flex', flexDirection: 'column', height: '50vh'}, my: 2, py: 2 }} elevation={6}>
+          <Box sx={{}}>
+            <h2>We're configuring your new project</h2>
+            <p>
+              {' '}
+              The next step is to hop into our dashboard and start building your
+              new website!{' '}
+            </p>
+          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            {content}
+          </Box>
+        </Paper>
       </Box>
     );
   }
