@@ -35,6 +35,7 @@ class HomeComponent extends LCUComponent {
       recipesLoaded: false,
       isProjectCreated: false,
       gitHubAuthStatus: null,
+      basename: '/dashboard/create-project',
       deploy: false,
       orgs: [],
     };
@@ -43,6 +44,14 @@ class HomeComponent extends LCUComponent {
   }
 
   componentDidMount() {
+    console.log(`Base Href: ${this.loadBaseHref()}`);
+    // if(window.location.pathname.includes('/qa/create-project')){
+    //   this.setState({basename: '/qa/create-project'})
+    // } else if(window.location.hostname.includes('localhost')) {
+    //   this.setState({basename:''})
+    // }
+    this.setState({ basename: this.loadBaseHref() });
+    console.log('app component did mount');
     fetch('/api/lowcodeunit/github/connection/valid')
       .then(async (response) => {
         let resp = await response.json();
@@ -101,6 +110,23 @@ class HomeComponent extends LCUComponent {
     this.setState({ isProjectCreated: true });
   }
 
+  loadBaseHref() {
+    var bases = document.getElementsByTagName('base');
+    var baseHref = null;
+
+    if (bases.length > 0) {
+      baseHref = bases[0].href;
+    }
+
+    baseHref = baseHref.replace(window.location.origin, '');
+
+    if (baseHref.endsWith('/')) {
+      baseHref.substring(0, baseHref.length - 2);
+    }
+
+    return baseHref;
+  }
+
   handleStepChange(step) {
     this.setState({ currentStep: step });
   }
@@ -113,15 +139,13 @@ class HomeComponent extends LCUComponent {
 
   render() {
     let content;
-    let progressContent = <Loader />;
-
     if (!this.state.gitHubAuthStatus || !this.state.recipesLoaded) {
-      content = progressContent;
+      content = <Loader />;
     } else {
       content = (
         <Routes>
           <Route
-            path="/"
+            index
             element={
               <WorkspaceSetup
                 authStatus={this.state.gitHubAuthStatus.Code}
@@ -131,7 +155,7 @@ class HomeComponent extends LCUComponent {
             }
           />
           <Route
-            path="custom"
+            path={'custom'}
             element={
               <Box
                 sx={{
@@ -149,7 +173,10 @@ class HomeComponent extends LCUComponent {
               </Box>
             }
           />
-          <Route path="custom/connect" element={<GithubConnect />} />
+          <Route
+            path="custom/connect"
+            element={<GithubConnect base={this.state.basename} />}
+          />
           <Route path="recipe">
             <Route
               path=":id"
@@ -184,12 +211,16 @@ class HomeComponent extends LCUComponent {
                 />
               }
             />
-            <Route path=":id/connect" element={<GithubConnect />} />
+            <Route
+              path=":id/connect"
+              element={<GithubConnect base={this.state.basename} />}
+            />
           </Route>
           <Route
             path="deploy"
             element={
               <LoadingPage
+                loadingMessages={['initializing enterprise', 'configuring project', 'deploying recipe']}
                 isProjectLoaded={this.state.isProjectCreated}
                 onStepChange={this.handleStepChange}
               />
@@ -200,11 +231,11 @@ class HomeComponent extends LCUComponent {
     }
 
     return (
-      <BrowserRouter basename="/dashboard/create-project">
+      <BrowserRouter basename={this.state.basename}>
         <div className="App">
           <ThemeProvider theme={theme}>
             <Helmet>
-              <title>LowCodeUnit - Welcome</title>
+              <title>Fathym - Welcome</title>
             </Helmet>
             <Header />
             <ProgressTracker
