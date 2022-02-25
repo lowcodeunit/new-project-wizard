@@ -347,10 +347,6 @@ class CustomProject extends LCUComponent {
               >
                 <TextField
                   InputLabelProps={{shrink: true}}
-<<<<<<< HEAD
-=======
-                  id="outlined-basic"
->>>>>>> feature/basename
                   label="Output Directory"
                   variant="outlined"
                   value={this.state.buildOutput}

@@ -233,7 +233,7 @@ class HomeComponent extends LCUComponent {
             <Helmet>
               <title>Fathym - Welcome</title>
             </Helmet>
-            <img className='App-logo' src={logo}/>
+            <Header />
             <Box
 
             >

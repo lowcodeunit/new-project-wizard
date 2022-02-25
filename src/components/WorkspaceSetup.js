@@ -1,8 +1,8 @@
 import '../App.css';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { Box, Button, Divider, Tooltip, Link, Paper, Stack, Typography } from '@mui/material';
+import { Box, Button, Divider, Tooltip, Paper, Stack, Typography } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
 
@@ -14,6 +14,9 @@ function WorkspaceSetup(props) {
     } else {
       navigate('/custom');
     }
+  }
+  function capitalize(str){
+    return str.charAt(0).toUpperCase() + str.slice(1);
   }
   function handleForkClick(recipe) {
     props.onStepChange();
@@ -53,20 +56,19 @@ function WorkspaceSetup(props) {
         sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}
       >
         {props.recipeList.map((item) => (
-          <Box sx={{ display: 'flex', width: '100%', alignItems: "center" }}>
+          <Box sx={{ display: 'flex', width: '100%', alignItems: "center"}}>
             <Stack
               direction="row"
               justifyContent="flex-start"
               alignItems="center"
               alignContent='center'
-              sx={{ flexGrow: 1, alignContent: 'center', mb: 7 }}>
+              sx={{ width:'50%', alignContent: 'center', mb: 7 }}>
               <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: "center", pt: 4 }}>
                 <Box
 
                   sx={{
                     display: 'flex',
                     alignItems: "center",
-                    backgroundColor: 'red',
                     pl: [0, 0, 8],
                     width: '10%',
                     Height: '10%'
@@ -77,25 +79,26 @@ function WorkspaceSetup(props) {
                 <img className='recipeImage' src={item.PreviewImage} />
                 <Box sx={{ display: 'flex', alignItems: "center", justifyContent: 'center' }}>
                   <Typography
-                    sx={{ fontFamily: 'Encode Sans Condensed, sans-serif', fontWeight: ['600', '600', '900'], fontSize: ['15px', '20px', '20px'], pl: [1, 1, 2] }}
+                    sx={{ fontWeight: ['600', '600', '900'], fontSize: ['15px', '20px', '20px'], pl: [1, 1, 2] }}
                     noWrap={true}
                   >
-                    {item.Lookup}
+                    {capitalize(item.Lookup)}
                   </Typography>
                 </Box>
               </Box>
             </Stack>
             <Stack
               direction="row"
-              justifyContent="flex-end"
+              justifyContent="center"
               alignItems="center"
               alignContent='center'
+              sx={{width:'100%', alignItems: "center", justifyContent: 'center'}}
             >
-              <Box>
-                <Box>
+              <Box sx={{width:'100%', alignItems: "center", justifyContent: 'center'}}>
+                <Box sx={{display:'flex', flexDirection:'row', width:'100%', alignItems: "center", justifyContent: 'center'}}>
                   <Button
                     variant="contained"
-                    size='small'
+                    className='recipeButtons'
                     sx={{mr:1}}
                     value={item}
                     onClick={() => handleForkClick(item)}
@@ -104,16 +107,15 @@ function WorkspaceSetup(props) {
                   </Button>
                   <Button
                     variant="contained"
-                    size='small'
+                    className='recipeButtons'
                     onClick={handleOpenSource}
                   >
                     Launch
                   </Button>
                 </Box>
-                <Link href={`/recipe/${item.Lookup}`}>More Info</Link>
+                <Link color="primary" to={`/recipe/${item.Lookup}`}>More Info</Link>
               </Box>
             </Stack>
-            <Divider/>
           </Box>
 
         ))}
@@ -124,7 +126,7 @@ function WorkspaceSetup(props) {
   return (
     <Box sx={{
       display: 'flex',
-      justifyContent: 'center',
+      justifyContent: 'center', 
       alignItems: 'center',
       flexDirection: 'column'
     }}>
@@ -140,7 +142,7 @@ function WorkspaceSetup(props) {
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'flex-start', pl: 4 }}>
           <p>
-            Launch from our open source repo or fork to yours to launch. <br />
+            Launch from our open source repo or fork to yours to launch.
             Note: to customize your code you must fork to your own repo
           </p>
         </Box>
