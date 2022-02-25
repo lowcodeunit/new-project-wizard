@@ -7,7 +7,7 @@ import { Box, Button, Grid, Paper, Typography } from '@mui/material';
 function WorkspaceSetup(props) {
   const navigate = useNavigate();
   function handleCustomClick() {
-    if (props.authStatus !== 0) {
+    if (props.authStatus !== 0 || props.authStatus == null) {
       navigate('/custom/connect');
     } else {
       navigate('/custom');
