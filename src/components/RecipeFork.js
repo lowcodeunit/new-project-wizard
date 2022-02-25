@@ -102,7 +102,7 @@ function RecipeFork(props) {
                         onClick={handleSubmit}
                         size="large"
                     >
-                        Submit
+                        Deploy Project
                     </Button>
                 </Box>
             </Paper>

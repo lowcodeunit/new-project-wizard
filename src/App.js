@@ -216,6 +216,7 @@ class HomeComponent extends LCUComponent {
             path="deploy"
             element={
               <LoadingPage
+                loadingMessages={['initializing enterprise', 'configuring project', 'deploying recipe']}
                 isProjectLoaded={this.state.isProjectCreated}
                 onStepChange={this.handleStepChange}
               />
