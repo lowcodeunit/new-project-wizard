@@ -20,7 +20,6 @@ class LoadingPage extends LCUComponent {
 
     if (this.props.loadingMessages?.length > 0) {
       this.setState({
-        LoadingMessageIndex: newIndex,
         LoadingMessage: this.props.loadingMessages[this.state.LoadingMessageIndex],
       });
 
@@ -36,7 +35,7 @@ class LoadingPage extends LCUComponent {
           LoadingMessageIndex: newIndex,
           LoadingMessage: this.props.loadingMessages[newIndex],
         });
-      }, 3000);
+      }, 4000);
       // }, []);
     }
   }
