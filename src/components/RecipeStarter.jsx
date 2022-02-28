@@ -49,7 +49,7 @@ function RecipeStarter(props) {
     }
 
     return (
-        <Paper sx={{ width: { xs: "90%", sm: "50%", display: 'flex', flexDirection: 'column' }, my: 2, py: 2 }} elevation={6}>
+        <Paper sx={{ width: ['90%', '80%', '60%'], display: 'flex', flexDirection: 'column', my: 2, py: 2 }} elevation={6}>
             <Helmet>
                 <title>Fathym - Recipe Project</title>
             </Helmet>
@@ -85,12 +85,12 @@ function RecipeStarter(props) {
                     {recipe &&
                         <Box
                             sx={{
-                                display:'flex',
+                                display: 'flex',
                                 flexDirection: 'column',
                                 justifyContent: 'center',
                                 alignContent: 'center',
                                 alignItems: 'center',
-                                maxWidth:['90%','80%','70%']
+                                maxWidth: ['90%', '80%', '70%']
                             }}
                         >
                             <h2>{recipe.Name}</h2>

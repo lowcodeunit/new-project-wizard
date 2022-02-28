@@ -18,6 +18,13 @@ function RecipeFork(props) {
 
     useEffect(() => onStepChange(1), [onStepChange]);
 
+    useEffect(() => {
+        if (props.authStatus !== 0) {
+            console.log(`authstatus is ${props.authStatus}`)
+            navigate(`/recipe/${recipeLookup.id}/connect`)
+        }
+    }
+    )
 
     function getCurrentRecipe(array, lookup) {
         return array.find((element) => {
@@ -54,7 +61,7 @@ function RecipeFork(props) {
             }}
         >
 
-            <Paper sx={{ width: { xs: "90%", sm: "50%", display: 'flex', flexDirection: 'column' }, my: 2, py: 2 }} elevation={6}>
+            <Paper sx={{ width: ['90%', '80%', '60%'], display: 'flex', flexDirection: 'column', my: 2, py: 2 }} elevation={6}>
                 <Box
                     sx={{
                         display: 'flex',

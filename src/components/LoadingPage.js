@@ -82,7 +82,7 @@ class LoadingPage extends LCUComponent {
         <Helmet>
           <title>Fathym - Loading Project</title>
         </Helmet>
-        <Paper sx={{ width: { xs: "90%", sm: "50%", display: 'flex', flexDirection: 'column', height: '50vh'}, my: 2, py: 2 }} elevation={6}>
+        <Paper sx={{ width:['90%','80%', '60%'], display: 'flex', flexDirection: 'column', my: 2, py: 2 }} elevation={6}>
           <Box sx={{}}>
             <h2>We're configuring your new project</h2>
             <p>

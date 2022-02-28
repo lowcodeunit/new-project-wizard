@@ -165,6 +165,7 @@ class HomeComponent extends LCUComponent {
                 }}
               >
                 <CustomProject
+                  authStatus={this.state.gitHubAuthStatus.Code}
                   orgs={this.state.orgs}
                   onStepChange={this.handleStepChange}
                   projectIsLoaded={this.projectCreated}
@@ -204,6 +205,7 @@ class HomeComponent extends LCUComponent {
               element={
                 <RecipeFork
                   projectIsLoaded={this.projectCreated}
+                  authStatus = {this.state.gitHubAuthStatus.Code}
                   orgs={this.state.orgs}
                   recipeList={this.state.recipeList}
                   onStepChange={this.handleStepChange}

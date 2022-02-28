@@ -68,7 +68,7 @@ function WorkspaceSetup(props) {
               </Box>
             </Grid>
             <Grid item xs={4} md={8}>
-              <Box sx={{ width: '100%', alignItems: "center", justifyContent: 'flex-end' }}>
+              <Box sx={{ width: '100%', alignItems: "center", justifyContent: 'flex-end', pt:[0,1,4] }}>
                 <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%', alignItems: "center", justifyContent: 'center' }}>
                   <Button
                     variant="contained"
@@ -107,7 +107,7 @@ function WorkspaceSetup(props) {
       <Helmet>
         <title>Fathym - Select your project</title>
       </Helmet>
-      <Paper sx={{ width: { xs: "90%", sm: "60%", display: 'flex', flexDirection: 'column' }, my: 2, py: 2 }} elevation={6}>
+      <Paper sx={{ width:['90%','80%', '60%'], display: 'flex', flexDirection: 'column', my: 2, py: 2 }} elevation={6}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', pl: [0, 0, 4], width: '100%', flexDirection: { xs: 'column', sm: 'column', md: 'row' } }}>
           <h2>Get started with a template</h2>
           <Box sx={{ display: 'flex', justifyContent: { xs: 'center', sm: 'center', md: 'flex-end' } }}>
