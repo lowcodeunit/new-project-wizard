@@ -54,8 +54,10 @@ class HomeComponent extends LCUComponent {
     fetch('/api/lowcodeunit/github/connection/valid')
       .then(async (response) => {
         let resp = await response.json();
+        console.log('app component did mount1');
         if (resp.Status.Code === 0) {
           this.getOrgs();
+          console.log('app component did mount2');
           this.lcu.track('github_authorized', 'setup/github/authorized', null);
         } else {
           this.lcu.track(
@@ -63,6 +65,7 @@ class HomeComponent extends LCUComponent {
             'welcome/github/unauthorized',
             null
           );
+          console.log('app component did mount3');
         }
 
         this.lcu.track('github_authorization', null, {
@@ -150,6 +153,7 @@ class HomeComponent extends LCUComponent {
                 authStatus={this.state.gitHubAuthStatus.Code}
                 recipeList={this.state.recipeList}
                 onStepChange={this.handleStepChange}
+                projectIsLoaded={this.projectCreated}
               ></WorkspaceSetup>
             }
           />

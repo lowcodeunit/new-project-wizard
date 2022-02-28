@@ -49,8 +49,8 @@ Link  {
 }
 
 .recipeImage {
-  max-width: 100px;
-  height: auto;
+  max-height: 100px;
+  width: auto;
 }
 .starterImage {
   width: 30%;
@@ -61,7 +61,7 @@ Link  {
 }
 @media only screen and (max-width: 600px) {
   .recipeImage {
-    max-width: 25px;
-    height: auto;
+    max-height: 25px;
+    width: auto;
   }
 }

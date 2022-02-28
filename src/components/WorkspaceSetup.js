@@ -54,44 +54,43 @@ function WorkspaceSetup(props) {
         sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}
       >
         {props.recipeList.map((item) => (
-          <Grid container spacing={2} sx={{mt:2}}>
-            <Grid item xs={8} md={4}>
-              <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                <img className='recipeImage' src={item.PreviewImage} alt={item.Lookup} />
+            <Grid container spacing={2} sx={{ mt: 2 }}>
+              <Grid item xs={8} md={4}>
+                <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                  <img className='recipeImage' src={item.PreviewImage} alt={item.Lookup} />
 
-                <Typography
-                  sx={{ fontWeight: ['600', '600', '900'], fontSize: ['20px'], pl: [1, 1, 2], pt:[0,0,4]}}
-                  noWrap={true}
-                >
-                  {capitalize(item.Lookup)}
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={4} md={8}>
-              <Box sx={{ width: '100%', alignItems: "center", justifyContent: 'flex-end', pt:[0,1,4] }}>
-                <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%', alignItems: "center", justifyContent: 'center' }}>
-                  <Button
-                    variant="contained"
-                    className='recipeButtons'
-                    sx={{ mr: 1 }}
-                    value={item}
-                    onClick={() => handleForkClick(item)}
+                  <Typography
+                    sx={{ fontWeight: ['600', '600', '900'], fontSize: ['20px'], pl: [1, 1, 2], pt: [0, 0, 4] }}
+                    noWrap={true}
                   >
-                    Fork
-                  </Button>
-                  <Button
-                    variant="contained"
-                    className='recipeButtons'
-                    onClick={handleOpenSource}
-                  >
-                    Launch
-                  </Button>
+                    {capitalize(item.Lookup)}
+                  </Typography>
                 </Box>
-                <Link color="primary" to={`/recipe/${item.Lookup}`}>More Info</Link>
-              </Box>
+              </Grid>
+              <Grid item xs={4} md={8}>
+                <Box sx={{ width: '100%', alignItems: "center", justifyContent: 'flex-end', pt: [0, 1, 4] }}>
+                  <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%', alignItems: "center", justifyContent: 'center' }}>
+                    <Button
+                      variant="contained"
+                      className='recipeButtons'
+                      sx={{ mr: 1 }}
+                      value={item}
+                      onClick={() => handleForkClick(item)}
+                    >
+                      Fork
+                    </Button>
+                    <Button
+                      variant="contained"
+                      className='recipeButtons'
+                      onClick={() => handleOpenSource(item)}
+                    >
+                      Launch
+                    </Button>
+                  </Box>
+                  <Link color="primary" to={`/recipe/${item.Lookup}`}>More Info</Link>
+                </Box>
+              </Grid>
             </Grid>
-          </Grid>
-
         ))}
       </Box>
     </Box >
@@ -107,7 +106,7 @@ function WorkspaceSetup(props) {
       <Helmet>
         <title>Fathym - Select your project</title>
       </Helmet>
-      <Paper sx={{ width:['90%','80%', '60%'], display: 'flex', flexDirection: 'column', my: 2, py: 2 }} elevation={6}>
+      <Paper sx={{ width: ['90%', '80%', '60%'], display: 'flex', flexDirection: 'column', my: 2, py: 2 }} elevation={6}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', pl: [0, 0, 4], width: '100%', flexDirection: { xs: 'column', sm: 'column', md: 'row' } }}>
           <h2>Get started with a template</h2>
           <Box sx={{ display: 'flex', justifyContent: { xs: 'center', sm: 'center', md: 'flex-end' } }}>
