@@ -63,14 +63,14 @@ function WorkspaceSetup(props) {
               <Grid item xs={4} md={4}>
                 <Box>
                   <Typography
-                    sx={{ fontWeight: ['600', '600', '900'], fontSize: ['20px'], pl: [1, 1, 2], pt: [0, 0, 4] }}
+                    sx={{ fontWeight: ['600', '600', '900'], fontSize: ['20px']}}
                     align='left'
                     noWrap={true}
                   >
                     {capitalize(item.Lookup)}
                   </Typography>
                   <Typography
-                    sx={{ fontWeight: '400', fontSize: ['15px'], pl: [1, 1, 2], pt: [0, 0, 4], display: ['none', 'none', 'block'] }}
+                    sx={{ fontWeight: '400', fontSize: ['15px'], display: ['none', 'none', 'block'] }}
                     noWrap={false}
                     align='left'
                   >
