@@ -2,12 +2,12 @@ name: GitHub Artifacts - Release
 
 on:
   push:
-    branches: [main]
+    branches: [main,integration,feature/**,bug/**,hotfix/**]
   pull_request:
-    branches: [main]
+    branches: [main,integration,feature/**,bug/**,hotfix/**]
 
 env:
-  Branches: main, integration, feature/**
+  Branches: main,integration,feature/**,bug/**,hotfix/**
   MainBranch: main
   NPMRegistry: https://registry.npmjs.org/
   InstallCommand: npm ci
