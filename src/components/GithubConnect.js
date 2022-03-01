@@ -15,7 +15,7 @@ function GithubConnect(props) {
     if (recipeLookup.id) {
       redirectUri = encodeURI(`${props.base}recipe/${recipeLookup.id}/fork`);
     }
-    window.location.href = `/.oauth/github?redirectUri=${redirectUri}`;
+    window.location.href = `/.oauth/GitHubOAuth?redirectUri=${redirectUri}`;
   }
 
   return (

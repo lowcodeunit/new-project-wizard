@@ -2,12 +2,12 @@ name: GitHub Artifacts - Release
 
 on:
   push:
-    branches: [main,integration,feature/**]
+    branches: [main]
   pull_request:
-    branches: [main,integration,feature/**]
+    branches: [main]
 
 env:
-  Branches: main,integration,feature/**
+  Branches: main
   MainBranch: main
   NPMRegistry: https://registry.npmjs.org/
   InstallCommand: npm ci
@@ -107,9 +107,9 @@ jobs:
           path: ${{ env.Output }}
 
       # webhook to LowCodeUnit
-      - name: Invoke deployment hook
-        uses: fathym/workflow-webhook@v2
-        env:
-          webhook_url: ${{ secrets.LCU_WEBHOOK_URL }}
-          webhook_secret: ${{ secrets.LCU_WEBHOOK_SECRET }}
-          data: '{ "EnterpriseLookup": "${{ secrets.LCU_ENTERPRISE_LOOKUP }}", "Username": "${{ secrets.LCU_USERNAME }}" }'
+      # - name: Invoke deployment hook
+      #   uses: fathym/workflow-webhook@v2
+      #   env:
+      #     webhook_url: ${{ secrets.LCU_WEBHOOK_URL }}
+      #     webhook_secret: ${{ secrets.LCU_WEBHOOK_SECRET }}
+      #     data: '{ "EnterpriseLookup": "${{ secrets.LCU_ENTERPRISE_LOOKUP }}", "Username": "${{ secrets.LCU_USERNAME }}" }'
