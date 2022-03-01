@@ -1,6 +1,6 @@
 import '../App.css';
 import React from 'react';
-import { Link,Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import LCUComponent from './LCUComponent';
 import {
@@ -63,9 +63,9 @@ class CustomProject extends LCUComponent {
       DeployType: 'custom',
     });
     this.props.onStepChange(1);
-    if(this.props.authStatus !== 0){
+    if (this.props.authStatus !== 0) {
       console.log("in auth nav")
-      this.setState({redirect: <Navigate to="connect"/>})
+      this.setState({ redirect: <Navigate to="connect" /> })
     }
   }
   async getBranches() {
@@ -351,7 +351,7 @@ class CustomProject extends LCUComponent {
                 aria-label="outlined primary button group"
               >
                 <TextField
-                  InputLabelProps={{shrink: true}}
+                  InputLabelProps={{ shrink: true }}
                   label="Output Directory"
                   variant="outlined"
                   value={this.state.buildOutput}
@@ -422,7 +422,7 @@ class CustomProject extends LCUComponent {
         <Helmet>
           <title>LowCodeUnit - Custom Project</title>
         </Helmet>
-        <Paper sx={{ width:['90%','80%', '60%'], display: 'flex', flexDirection: 'column', my: 2, py: 2 }} elevation={6}>
+        <Paper sx={{ width: ['90%', '80%', '60%'], display: 'flex', flexDirection: 'column', my: 2, py: 2 }} elevation={6}>
           {this.state.redirect}
           <Box
             sx={{

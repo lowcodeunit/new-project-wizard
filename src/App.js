@@ -209,7 +209,7 @@ class HomeComponent extends LCUComponent {
               element={
                 <RecipeFork
                   projectIsLoaded={this.projectCreated}
-                  authStatus = {this.state.gitHubAuthStatus.Code}
+                  authStatus={this.state.gitHubAuthStatus.Code}
                   orgs={this.state.orgs}
                   recipeList={this.state.recipeList}
                   onStepChange={this.handleStepChange}

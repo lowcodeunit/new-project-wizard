@@ -31,7 +31,7 @@ function GithubConnect(props) {
       <Helmet>
         <title>Fathym - Connect</title>
       </Helmet>
-      <Paper sx={{ width:['90%','80%', '60%'], display: 'flex', flexDirection: 'column', my: 2, py: 2 }} elevation={6}>
+      <Paper sx={{ width: ['90%', '80%', '60%'], display: 'flex', flexDirection: 'column', my: 2, py: 2 }} elevation={6}>
         <Box
           sx={{
             display: 'flex',
@@ -51,7 +51,7 @@ function GithubConnect(props) {
           </Link>
         </Box>
 
-        <Box sx={{ py: 4, px:4 }}>
+        <Box sx={{ py: 4, px: 4 }}>
           <h1>Connect Your GitHub</h1>
           <GitHubIcon color="primary" fontSize='large' />
           <p>
