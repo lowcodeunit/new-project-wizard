@@ -45,7 +45,7 @@ function RecipeStarter(props) {
             console.log('Request complete! response:', res);
             props.projectIsLoaded();
         });
-        navigate('/deploy');
+        navigate(`/recipe/${recipe.Lookup}/deploy`);
     }
 
     return (

@@ -401,7 +401,7 @@ class CustomProject extends LCUComponent {
             onClick={this.handleSubmit}
             size="large"
           >
-            <Link style={{ textDecoration: 'none', color: 'white' }} to="/deploy">
+            <Link style={{ textDecoration: 'none', color: 'white' }} to="/custom/deploy">
               Deploy Project
             </Link>
           </Button>

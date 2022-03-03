@@ -48,6 +48,14 @@ Link  {
   max-height: 100px;
   width: auto;
 }
+.loaderImage {
+  max-height: 80px;
+  width: auto;
+}
+.recipeLoader {
+  max-height:60px;
+  width: auto;
+}
 .starterImage {
   width: 30%;
   height: auto;
