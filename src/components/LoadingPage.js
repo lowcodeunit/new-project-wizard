@@ -2,7 +2,8 @@ import '../App.css';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import LCUComponent from './LCUComponent';
-import { CircularProgress, Box, Button, Link, Paper } from '@mui/material';
+import { CircularProgress, Box, Button, Link, Paper} from '@mui/material';
+import logo from '../recipelogos/thinky.png'
 
 class LoadingPage extends LCUComponent {
   constructor(props) {
@@ -10,6 +11,7 @@ class LoadingPage extends LCUComponent {
     this.state = {
       LoadingMessageIndex: 0,
       LoadingMessage: '',
+      CurrentImage: ''
     };
     this.handleContinueClick = this.handleContinueClick.bind(this);
   }
@@ -17,6 +19,7 @@ class LoadingPage extends LCUComponent {
   componentDidMount() {
     this.lcu.track('project_deploying', 'setup/deploying', null);
     this.props.onStepChange(2);
+    console.log(`the recipe is ${this.props.recipe}`)
 
     if (this.props.loadingMessages?.length > 0) {
       this.setState({
@@ -35,10 +38,35 @@ class LoadingPage extends LCUComponent {
           LoadingMessageIndex: newIndex,
           LoadingMessage: this.props.loadingMessages[newIndex],
         });
+      }, 6000);
+    }
+    if (this.props.recipe) {
+      this.setState({
+        CurrentImage:
+          logo
+      });
+
+      setInterval(() => {
+
+        if (this.state.CurrentImage === logo) {
+          this.setState({
+            CurrentImage:
+              this.props.recipe.PreviewImage
+          });
+        } else {
+          this.setState({
+            CurrentImage:
+              logo
+          });
+        }
       }, 4000);
     }
   }
 
+
+  capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
   handleContinueClick() {
     this.lcu.track('continued_to_dashboard', null, null);
   }
@@ -46,13 +74,31 @@ class LoadingPage extends LCUComponent {
   render() {
     let content;
     if (!this.props.isProjectLoaded) {
-      content = (
+      if (this.props.recipe) {
+        content =
         <Box>
-          <CircularProgress color="primary" />
-
-          <h4>{this.state.LoadingMessage}</h4>
+        <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', pt:1}}>
+          <Box sx={{ position: 'abosolute' }}>
+            <img className='recipeLoader' src={this.state.CurrentImage} alt={`Fatyhm and ${this.props.recipe.Lookup} logos`}/>
+          </Box>
+          <CircularProgress
+            color="primary"
+            size={100}
+            sx={{
+              position: 'absolute',
+              zIndex: 1
+            }} />
         </Box>
-      );
+        <h4>{this.state.LoadingMessage}</h4>
+        </Box>
+      } else {
+        content = (
+          <Box>
+            <CircularProgress color="primary" />
+            <h4>{this.state.LoadingMessage}</h4>
+          </Box>
+        );
+      }
     } else {
       content = (
         <Box>
@@ -82,9 +128,9 @@ class LoadingPage extends LCUComponent {
         <Helmet>
           <title>Fathym - Loading Project</title>
         </Helmet>
-        <Paper sx={{ width:['90%','80%', '60%'], display: 'flex', flexDirection: 'column', my: 2, py: 2 }} elevation={6}>
+        <Paper sx={{ width: ['90%', '80%', '60%'], display: 'flex', flexDirection: 'column', my: 2, py: 2 }} elevation={6}>
           <Box sx={{}}>
-            <h2>We're configuring your new project</h2>
+            <h2>{this.props.isProjectLoaded ? 'We\'ve configured' : 'We\'re configuring'} your new {this.props.recipe ? this.capitalize(this.props.recipe.Lookup) : null} project</h2>
             <p>
               {' '}
               The next step is to hop into our dashboard and start building your

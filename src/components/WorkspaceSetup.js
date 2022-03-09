@@ -18,6 +18,7 @@ function WorkspaceSetup(props) {
   }
   function handleForkClick(recipe) {
     props.onStepChange();
+    props.selectedRecipe(recipe.ID);
     if (props.authStatus !== 0) {
       navigate(`/recipe/${recipe.Lookup}/connect`);
     } else {
@@ -27,6 +28,7 @@ function WorkspaceSetup(props) {
 
   function handleOpenSource(recipe) {
     props.onStepChange();
+    props.selectedRecipe(recipe.ID);
     let data = {
       RecipeID: recipe.ID,
       ProjectName: recipe.Name,
@@ -39,7 +41,7 @@ function WorkspaceSetup(props) {
       console.log('Request complete! response:', res);
       props.projectIsLoaded();
     });
-    navigate('/deploy');
+    navigate(`/recipe/${recipe.Lookup}/deploy`);
   }
   let recipeSection = (
     <Box
@@ -54,20 +56,31 @@ function WorkspaceSetup(props) {
         sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}
       >
         {props.recipeList.map((item) => (
-            <Grid container spacing={2} sx={{ mt: 2 }}>
-              <Grid item xs={8} md={4}>
-                <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                  <img className='recipeImage' src={item.PreviewImage} alt={item.Lookup} />
+          <Box>
+            <Grid container spacing={1} sx={{ mt: 2 }}>
+              <Grid item xs={2} md={2}>
 
+                <img className='recipeImage' src={item.PreviewImage} alt={item.Lookup} />
+              </Grid>
+              <Grid item xs={4} md={4}>
+                <Box>
                   <Typography
-                    sx={{ fontWeight: ['600', '600', '900'], fontSize: ['20px'], pl: [1, 1, 2], pt: [0, 0, 4] }}
+                    sx={{ fontWeight: ['600', '600', '900'], fontSize: ['20px'] }}
+                    align='left'
                     noWrap={true}
                   >
                     {capitalize(item.Lookup)}
                   </Typography>
+                  <Typography
+                    sx={{ fontWeight: '400', fontSize: ['15px'], display: ['none', 'none', 'block'] }}
+                    noWrap={false}
+                    align='left'
+                  >
+                    {`${item.Description.substring(0, 80)}...`}<Link color="primary" to={`/recipe/${item.Lookup}`}>More Info</Link>
+                  </Typography>
                 </Box>
               </Grid>
-              <Grid item xs={4} md={8}>
+              <Grid item xs={6} md={6}>
                 <Box sx={{ width: '100%', alignItems: "center", justifyContent: 'flex-end', pt: [0, 1, 4] }}>
                   <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%', alignItems: "center", justifyContent: 'center' }}>
                     <Button
@@ -87,10 +100,13 @@ function WorkspaceSetup(props) {
                       Launch
                     </Button>
                   </Box>
-                  <Link color="primary" to={`/recipe/${item.Lookup}`}>More Info</Link>
+                  <Link className='recipeLink' color="primary" to={`/recipe/${item.Lookup}`}>More Info</Link>
                 </Box>
+
               </Grid>
             </Grid>
+            <hr />
+          </Box>
         ))}
       </Box>
     </Box >
