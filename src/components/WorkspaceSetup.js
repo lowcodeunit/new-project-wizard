@@ -42,61 +42,6 @@ function WorkspaceSetup(props) {
     navigate('/deploy');
   }
 
-  let buttonBox;
-
-  if (recipe.RecipeType == 'MFE') {
-    buttonBox = (
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          width: '100%',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Button
-          variant="contained"
-          className="recipeButtons"
-          sx={{ mr: 1 }}
-          value={item}
-          onClick={() => handleForkClick(item)}
-        >
-          Launch Micro Frontend
-        </Button>
-      </Box>
-    );
-  } else {
-    buttonBox = (
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          width: '100%',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Button
-          variant="contained"
-          className="recipeButtons"
-          sx={{ mr: 1 }}
-          value={item}
-          onClick={() => handleForkClick(item)}
-        >
-          Fork
-        </Button>
-        <Button
-          variant="contained"
-          className="recipeButtons"
-          onClick={() => handleOpenSource(item)}
-        >
-          Launch
-        </Button>
-      </Box>
-    );
-  }
-
   let recipeSection = (
     <Box
       sx={{
@@ -107,68 +52,125 @@ function WorkspaceSetup(props) {
       }}
     >
       <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-        {props.recipeList.map((item) => (
-          <Box>
-            <Grid container spacing={1} sx={{ mt: 2 }}>
-              <Grid item xs={2} md={2}>
-                <img
-                  className="recipeImage"
-                  src={item.PreviewImage}
-                  alt={item.Lookup}
-                />
-              </Grid>
-              <Grid item xs={4} md={4}>
-                <Box>
-                  <Typography
+        {props.recipeList.map((item) => {
+          let buttonBox;
+
+          if (item.RecipeType === 'MFE') {
+            buttonBox = (
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  width: '100%',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Button
+                  variant="contained"
+                  className="recipeButtons"
+                  sx={{ mr: 1 }}
+                  value={item}
+                  onClick={() => handleForkClick(item)}
+                >
+                  Launch Micro Frontend
+                </Button>
+              </Box>
+            );
+          } else {
+            buttonBox = (
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  width: '100%',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Button
+                  variant="contained"
+                  className="recipeButtons"
+                  sx={{ mr: 1 }}
+                  value={item}
+                  onClick={() => handleForkClick(item)}
+                >
+                  Fork
+                </Button>
+                <Button
+                  variant="contained"
+                  className="recipeButtons"
+                  onClick={() => handleOpenSource(item)}
+                >
+                  Launch
+                </Button>
+              </Box>
+            );
+          }
+
+          return (
+            <Box>
+              <Grid container spacing={1} sx={{ mt: 2 }}>
+                <Grid item xs={2} md={2}>
+                  <img
+                    className="recipeImage"
+                    src={item.PreviewImage}
+                    alt={item.Lookup}
+                  />
+                </Grid>
+                <Grid item xs={4} md={4}>
+                  <Box>
+                    <Typography
+                      sx={{
+                        fontWeight: ['600', '600', '900'],
+                        fontSize: ['20px'],
+                      }}
+                      align="left"
+                      noWrap={true}
+                    >
+                      {capitalize(item.Lookup)}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontWeight: '400',
+                        fontSize: ['15px'],
+                        display: ['none', 'none', 'block'],
+                      }}
+                      noWrap={false}
+                      align="left"
+                    >
+                      {`${item.Description.substring(0, 80)}...`}
+                      <Link color="primary" to={`/recipe/${item.Lookup}`}>
+                        More Info
+                      </Link>
+                    </Typography>
+                  </Box>
+                </Grid>
+                <Grid item xs={6} md={6}>
+                  <Box
                     sx={{
-                      fontWeight: ['600', '600', '900'],
-                      fontSize: ['20px'],
+                      width: '100%',
+                      alignItems: 'center',
+                      justifyContent: 'flex-end',
+                      pt: [0, 1, 4],
                     }}
-                    align="left"
-                    noWrap={true}
                   >
-                    {capitalize(item.Lookup)}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontWeight: '400',
-                      fontSize: ['15px'],
-                      display: ['none', 'none', 'block'],
-                    }}
-                    noWrap={false}
-                    align="left"
-                  >
-                    {`${item.Description.substring(0, 80)}...`}
-                    <Link color="primary" to={`/recipe/${item.Lookup}`}>
+                    {buttonBox}
+
+                    <Link
+                      className="recipeLink"
+                      color="primary"
+                      to={`/recipe/${item.Lookup}`}
+                    >
                       More Info
                     </Link>
-                  </Typography>
-                </Box>
+                  </Box>
+                </Grid>
               </Grid>
-              <Grid item xs={6} md={6}>
-                <Box
-                  sx={{
-                    width: '100%',
-                    alignItems: 'center',
-                    justifyContent: 'flex-end',
-                    pt: [0, 1, 4],
-                  }}
-                >
-                  {buttonBox}
-
-                  <Link
-                    className="recipeLink"
-                    color="primary"
-                    to={`/recipe/${item.Lookup}`}
-                  >
-                    More Info
-                  </Link>
-                </Box>
-              </Grid>
-            </Grid>
-            <hr />
-          </Box>
-        ))}
+              <hr />
+            </Box>
+          );
+        })}
       </Box>
     </Box>
   );
