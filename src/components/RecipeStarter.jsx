@@ -114,9 +114,9 @@ function RecipeStarter(props) {
           )}
         </Box>
 
-        {recipe?.RecipeType === 'MFE' ? (
+        {recipe?.RecipeType !== 'MFE' ? (
           <Box sx={{ marginTop: '4em' }}>
-            <h4>Deploy your micro frontend</h4>
+            <h4>Choose your deployment path</h4>
 
             <Box
               sx={{
@@ -178,7 +178,7 @@ function RecipeStarter(props) {
           </Box>
         ) : (
           <Box sx={{ marginTop: '4em' }}>
-            <h4>Choose your deployment path</h4>
+            <h4>Deploy your micro frontend</h4>
 
             <Box
               sx={{
