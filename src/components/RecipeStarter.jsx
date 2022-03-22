@@ -45,7 +45,7 @@ function RecipeStarter(props) {
             console.log('Request complete! response:', res);
             props.projectIsLoaded();
         });
-        navigate('/deploy');
+        navigate(`/recipe/${recipe.Lookup}/deploy`);
     }
 
     return (
@@ -128,15 +128,14 @@ function RecipeStarter(props) {
                                 width: '100%',
                             }}
                         >
-                            <Button
-                                variant="contained"
-                                sx={{ mb: 2 }}
-                                onClick={handleOpenSource}
-                            >
-                                Deploy from open source
-                            </Button>
-
                             <Paper sx={{ p: 2, m: 2 }}>
+                                <Button
+                                    variant="contained"
+                                    sx={{ mb: 2 }}
+                                    onClick={handleOpenSource}
+                                >
+                                    Deploy from open source
+                                </Button>
                                 <p>
                                     If you use Fathym's deployment, your project will use NPM
                                     package versions of your recipe's ingredients. The result
@@ -152,15 +151,14 @@ function RecipeStarter(props) {
                                 width: '100%',
                             }}
                         >
-                            <Button
-                                variant="contained"
-                                sx={{ mb: 2 }}
-                                onClick={handleForkClick}
-                            >
-                                Fork this Recipe
-                            </Button>
-
                             <Paper sx={{ p: 2, m: 2 }}>
+                                <Button
+                                    variant="contained"
+                                    sx={{ mb: 2 }}
+                                    onClick={handleForkClick}
+                                >
+                                    Fork this Recipe
+                                </Button>
                                 <p>
                                     Fathym will take all your recipe ingredients and create
                                     copies of them in your personal github organization. This

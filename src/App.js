@@ -3,9 +3,8 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import LCUComponent from './components/LCUComponent';
-import { Box, ThemeProvider } from '@mui/material';
+import { Box, ThemeProvider, CircularProgress } from '@mui/material';
 import Header from './components/Header';
-import Loader from './components/Loader';
 import WorkspaceSetup from './components/WorkspaceSetup';
 import CustomProject from './components/CustomProject';
 import RecipeFork from './components/RecipeFork';
@@ -13,6 +12,7 @@ import RecipeStarter from './components/RecipeStarter'
 import GithubConnect from './components/GithubConnect';
 import LoadingPage from './components/LoadingPage';
 import { createTheme } from '@mui/material/styles';
+import logo from './recipelogos/thinky.png'
 
 const theme = createTheme({
   palette: {
@@ -40,6 +40,7 @@ class HomeComponent extends LCUComponent {
     };
     this.handleStepChange = this.handleStepChange.bind(this);
     this.projectCreated = this.projectCreated.bind(this);
+    this.getCurrentRecipe = this.getCurrentRecipe.bind(this);
   }
 
   componentDidMount() {
@@ -133,16 +134,32 @@ class HomeComponent extends LCUComponent {
     this.setState({ currentStep: step });
   }
 
-  getCurrentRecipe(array, ID) {
-    return array.find((element) => {
+  findRecipe(ID) {
+    return this.state.recipeList.find((element) => {
       return element.ID === ID;
     });
+  }
+
+  getCurrentRecipe(ID) {
+    this.setState({ currentRecipe: this.findRecipe(ID) })
   }
 
   render() {
     let content;
     if (!this.state.gitHubAuthStatus || !this.state.recipesLoaded) {
-      content = <Loader />;
+      content =
+        <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', height:'80vh'}}>
+          <Box sx={{ position: 'abosolute' }}>
+            <img className='loaderImage' src={logo} alt="Fathym logo" />
+          </Box>
+          <CircularProgress
+            color="primary"
+            size={150}
+            sx={{
+              position: 'absolute',
+              zIndex: 1
+            }} />
+        </Box>
     } else {
       content = (
         <Routes>
@@ -154,6 +171,7 @@ class HomeComponent extends LCUComponent {
                 recipeList={this.state.recipeList}
                 onStepChange={this.handleStepChange}
                 projectIsLoaded={this.projectCreated}
+                selectedRecipe={this.getCurrentRecipe}
               ></WorkspaceSetup>
             }
           />
@@ -220,18 +238,33 @@ class HomeComponent extends LCUComponent {
               path=":id/connect"
               element={<GithubConnect base={this.state.basename} />}
             />
+            <Route
+              path=":id/deploy"
+              element={
+                <LoadingPage
+                  loadingMessages={['initializing enterprise', 'configuring project', 'deploying recipe']}
+                  recipeList={this.state.recipeList}
+                  isProjectLoaded={this.state.isProjectCreated}
+                  onStepChange={this.handleStepChange}
+                  recipe={this.state.currentRecipe}
+                />
+              }
+            />
+
           </Route>
+
           <Route
-            path="deploy"
+            path="custom/deploy"
             element={
               <LoadingPage
                 loadingMessages={['initializing enterprise', 'configuring project', 'deploying recipe']}
+                recipeList={this.state.recipeList}
                 isProjectLoaded={this.state.isProjectCreated}
                 onStepChange={this.handleStepChange}
               />
             }
           />
-        </Routes>
+        </Routes >
       );
     }
 

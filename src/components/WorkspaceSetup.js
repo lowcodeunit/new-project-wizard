@@ -18,6 +18,7 @@ function WorkspaceSetup(props) {
   }
   function handleForkClick(recipe) {
     props.onStepChange();
+    props.selectedRecipe(recipe.ID);
     if (props.authStatus !== 0) {
       navigate(`/recipe/${recipe.Lookup}/connect`);
     } else {
@@ -27,6 +28,7 @@ function WorkspaceSetup(props) {
 
   function handleOpenSource(recipe) {
     props.onStepChange();
+    props.selectedRecipe(recipe.ID);
     let data = {
       RecipeID: recipe.ID,
       ProjectName: recipe.Name,
@@ -39,7 +41,7 @@ function WorkspaceSetup(props) {
       console.log('Request complete! response:', res);
       props.projectIsLoaded();
     });
-    navigate('/deploy');
+    navigate(`/recipe/${recipe.Lookup}/deploy`);
   }
 
   let recipeSection = (
