@@ -231,6 +231,7 @@ class HomeComponent extends LCUComponent {
                   orgs={this.state.orgs}
                   recipeList={this.state.recipeList}
                   onStepChange={this.handleStepChange}
+                  selectedRecipe={this.getCurrentRecipe}
                 />
               }
             />
