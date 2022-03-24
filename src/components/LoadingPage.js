@@ -11,7 +11,7 @@ class LoadingPage extends LCUComponent {
     this.state = {
       LoadingMessageIndex: 0,
       LoadingMessage: '',
-      CurrentImage: ''
+      CurrentImage: logo
     };
     this.handleContinueClick = this.handleContinueClick.bind(this);
   }
@@ -41,11 +41,6 @@ class LoadingPage extends LCUComponent {
       }, 6000);
     }
     if (this.props.recipe) {
-      this.setState({
-        CurrentImage:
-          logo
-      });
-
       setInterval(() => {
 
         if (this.state.CurrentImage === logo) {
