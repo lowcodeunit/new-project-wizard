@@ -2,7 +2,7 @@ import '../App.css';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import LCUComponent from './LCUComponent';
-import { CircularProgress, Box, Button, Link, Paper} from '@mui/material';
+import { CircularProgress, Box, Button, Link, Paper } from '@mui/material';
 import logo from '../recipelogos/thinky.png'
 
 class LoadingPage extends LCUComponent {
@@ -11,7 +11,7 @@ class LoadingPage extends LCUComponent {
     this.state = {
       LoadingMessageIndex: 0,
       LoadingMessage: '',
-      CurrentImage: ''
+      CurrentImage: logo
     };
     this.handleContinueClick = this.handleContinueClick.bind(this);
   }
@@ -41,11 +41,6 @@ class LoadingPage extends LCUComponent {
       }, 6000);
     }
     if (this.props.recipe) {
-      this.setState({
-        CurrentImage:
-          logo
-      });
-
       setInterval(() => {
 
         if (this.state.CurrentImage === logo) {
@@ -63,7 +58,6 @@ class LoadingPage extends LCUComponent {
     }
   }
 
-
   capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
@@ -74,31 +68,22 @@ class LoadingPage extends LCUComponent {
   render() {
     let content;
     if (!this.props.isProjectLoaded) {
-      if (this.props.recipe) {
-        content =
+      content =
         <Box>
-        <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', pt:1}}>
-          <Box sx={{ position: 'abosolute' }}>
-            <img className='recipeLoader' src={this.state.CurrentImage} alt={`Fatyhm and ${this.props.recipe.Lookup} logos`}/>
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pt: 1 }}>
+            <Box sx={{ position: 'abosolute' }}>
+              <img className='recipeLoader' src={this.state.CurrentImage} alt={`Fatyhm and recipe logos`} />
+            </Box>
+            <CircularProgress
+              color="primary"
+              size={100}
+              sx={{
+                position: 'absolute',
+                zIndex: 1
+              }} />
           </Box>
-          <CircularProgress
-            color="primary"
-            size={100}
-            sx={{
-              position: 'absolute',
-              zIndex: 1
-            }} />
+          <h4>{this.state.LoadingMessage}</h4>
         </Box>
-        <h4>{this.state.LoadingMessage}</h4>
-        </Box>
-      } else {
-        content = (
-          <Box>
-            <CircularProgress color="primary" />
-            <h4>{this.state.LoadingMessage}</h4>
-          </Box>
-        );
-      }
     } else {
       content = (
         <Box>
