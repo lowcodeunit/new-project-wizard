@@ -46,6 +46,7 @@ function RecipeFork(props) {
             console.log('Request complete! response:', res);
             props.projectIsLoaded();
         });
+        props.selectedRecipe(recipe.ID);
         navigate(`/recipe/${recipe.Lookup}/deploy`);
     }
 
