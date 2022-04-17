@@ -130,7 +130,7 @@ function WorkspaceSetup(props) {
                       align="left"
                       noWrap={true}
                     >
-                      {capitalize(item.Lookup)}
+                      {item.Name}
                     </Typography>
                     <Typography
                       sx={{
