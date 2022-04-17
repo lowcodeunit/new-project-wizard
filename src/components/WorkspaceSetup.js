@@ -123,12 +123,12 @@ function WorkspaceSetup(props) {
                     <Typography
                       sx={{
                         fontWeight: ['600', '600', '900'],
-                        fontSize: ['20px'],
+                        fontSize: ['18px'],
                       }}
                       align="left"
                       noWrap={true}
                     >
-                      {capitalize(item.Lookup)}
+                      {item.Name}
                     </Typography>
                     <Typography
                       sx={{
