@@ -175,7 +175,7 @@ function RecipeStarter(props) {
             </Box>
           )}
 
-          {recipe?.RecipeType !== 'MFE' && (
+          {recipe?.RecipeType === 'MFE' && (
             <Box
               sx={{
                 display: 'flex',
