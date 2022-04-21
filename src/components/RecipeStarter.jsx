@@ -117,7 +117,7 @@ function RecipeStarter(props) {
         <Box sx={{ marginTop: '4em' }}>
           <h4>Choose your deployment path</h4>
 
-          {recipe.RecipeType !== 'MFE' && (
+          {recipe?.RecipeType !== 'MFE' && (
             <Box
               sx={{
                 display: 'flex',
@@ -175,7 +175,7 @@ function RecipeStarter(props) {
             </Box>
           )}
 
-          {recipe.RecipeType !== 'MFE' && (
+          {recipe?.RecipeType !== 'MFE' && (
             <Box
               sx={{
                 display: 'flex',
