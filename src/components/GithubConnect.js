@@ -63,8 +63,8 @@ function GithubConnect(props) {
             Connect to Github
           </Button>
           <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', alignItems: "center", justifyContent: 'center' }}>
-            <li>Setup modern DevOps build processes using Github actions</li>
-            <li>Fork and/or setup repositories for your Github code</li>
+            <li>Set up modern DevOps build processes using Github actions</li>
+            <li>Fork and/or set up repositories for your Github code</li>
             <li>
               Provide streamlined source control management for your team
             </li>
