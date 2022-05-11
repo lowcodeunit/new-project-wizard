@@ -75,7 +75,7 @@ function WorkspaceSetup(props) {
                   value={item}
                   onClick={() => handleForkClick(item)}
                 >
-                  Launch Micro Frontend
+                  {item.Button}
                 </Button>
               </Box>
             );
