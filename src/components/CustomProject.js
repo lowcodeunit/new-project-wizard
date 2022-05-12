@@ -254,7 +254,7 @@ class CustomProject extends LCUComponent {
             <p>What is your git organization?</p>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">
-                Github Organization
+                GitHub Organization
               </InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -274,7 +274,7 @@ class CustomProject extends LCUComponent {
             <p>What is your git repository?</p>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">
-                Github Repository
+                GitHub Repository
               </InputLabel>
               <Select
                 disabled={this.state.selectedOrg === ''}

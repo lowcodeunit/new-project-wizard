@@ -87,7 +87,7 @@ function RecipeFork(props) {
                     {props.orgs.length > 0 &&
                         <Box sx={{ minWidth: 200 }}>
                             <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label"> Github Organization</InputLabel>
+                                <InputLabel id="demo-simple-select-label"> GitHub Organization</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
