@@ -73,9 +73,9 @@ function WorkspaceSetup(props) {
                   className="recipeButtons"
                   sx={{ mr: 1 }}
                   value={item}
-                  onClick={() => handleForkClick(item)}
+                  onClick={() => handleOpenSource(item)}
                 >
-                  Launch Micro Frontend
+                  {item.Button}
                 </Button>
               </Box>
             );
