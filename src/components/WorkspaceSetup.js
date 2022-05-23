@@ -16,6 +16,13 @@ function WorkspaceSetup(props) {
   // function capitalize(str) {
   //   return str.charAt(0).toUpperCase() + str.slice(1);
   // }
+  function handleCustom(recipe) {
+    if(recipe.ID === "00000000-0000-0000-0000-000000000009") {
+      handleOpenSource(recipe);
+    } else {
+      handleForkClick(recipe);
+    }
+  }
   function handleForkClick(recipe) {
     props.onStepChange();
     props.selectedRecipe(recipe.ID);
@@ -73,7 +80,7 @@ function WorkspaceSetup(props) {
                   className="recipeButtons"
                   sx={{ mr: 1 }}
                   value={item}
-                  onClick={() => handleOpenSource(item)}
+                  onClick={() => handleCustom(item)}
                 >
                   {item.Button}
                 </Button>
