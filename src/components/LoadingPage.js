@@ -58,9 +58,6 @@ class LoadingPage extends LCUComponent {
     }
   }
 
-  capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
   handleContinueClick() {
     this.lcu.track('continued_to_dashboard', null, null);
   }
@@ -87,7 +84,7 @@ class LoadingPage extends LCUComponent {
     } else {
       content = (
         <Box>
-          <Link href="/dashboard" underline="none">
+          <Link href="/dashboard?direct=true" underline="none">
             <Button
               variant="contained"
               sx={{ mt: 4 }}
@@ -115,7 +112,7 @@ class LoadingPage extends LCUComponent {
         </Helmet>
         <Paper sx={{ width: ['90%', '80%', '60%'], display: 'flex', flexDirection: 'column', my: 2, py: 2 }} elevation={6}>
           <Box sx={{}}>
-            <h2>{this.props.isProjectLoaded ? 'We\'ve configured' : 'We\'re configuring'} your new {this.props.recipe ? this.capitalize(this.props.recipe.Lookup) : null} project</h2>
+            <h2>{this.props.isProjectLoaded ? 'We\'ve configured' : 'We\'re configuring'} your new {this.props.recipe ? this.props.recipe.Name : null} project</h2>
             <p>
               {' '}
               The next step is to hop into our dashboard and start building your

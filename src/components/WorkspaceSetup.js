@@ -13,9 +13,9 @@ function WorkspaceSetup(props) {
       navigate('/custom');
     }
   }
-  function capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
+  // function capitalize(str) {
+  //   return str.charAt(0).toUpperCase() + str.slice(1);
+  // }
   function handleForkClick(recipe) {
     props.onStepChange();
     props.selectedRecipe(recipe.ID);
