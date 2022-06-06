@@ -13,6 +13,7 @@ import GithubConnect from './components/GithubConnect';
 import LoadingPage from './components/LoadingPage';
 import { createTheme } from '@mui/material/styles';
 import logo from './recipelogos/thinky.png'
+import ScrollToTop from './components/ScrollToTop'
 
 const theme = createTheme({
   palette: {
@@ -277,9 +278,8 @@ class HomeComponent extends LCUComponent {
               <title>Fathym - Welcome</title>
             </Helmet>
             <Header />
-            <Box
-
-            >
+            <Box>
+              <ScrollToTop/>
               {content}
             </Box>
           </ThemeProvider>
