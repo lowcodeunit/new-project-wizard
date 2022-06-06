@@ -166,7 +166,7 @@ function RecipeStarter(props) {
                   </Button>
                   <p>
                     Fathym will take all your recipe ingredients and create
-                    copies of them in your personal Github organization. This
+                    copies of them in your personal GitHub organization. This
                     will set up everything you need for modern DevOps; source
                     repositories, build pipelines, and deployments.
                   </p>
