@@ -2,7 +2,7 @@ import '../App.css';
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { Box, Button, Grid, Paper, Typography } from '@mui/material';
+import { Box, Button, Grid, Paper, Typography, Card, CardActions, CardMedia, CardContent } from '@mui/material';
 
 function WorkspaceSetup(props) {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ function WorkspaceSetup(props) {
   //   return str.charAt(0).toUpperCase() + str.slice(1);
   // }
   function handleCustom(recipe) {
-    if(recipe.ID === "00000000-0000-0000-0000-000000000009") {
+    if (recipe.ID === "00000000-0000-0000-0000-000000000009") {
       handleOpenSource(recipe);
     } else {
       handleForkClick(recipe);
@@ -51,137 +51,100 @@ function WorkspaceSetup(props) {
     navigate(`/recipe/${recipe.Lookup}/deploy`);
   }
 
+  let importSection = (
+    <Paper sx={{ height: '150px', width: "350px", textAlign:"center" }}>
+      <h3>Import an existing GitHub project</h3>
+      <Button
+        sx={{}}
+        variant="contained"
+        onClick={handleCustomClick}
+      >
+        Import from GitHub
+      </Button>
+    </Paper>
+  )
+
   let recipeSection = (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        mx: 4,
-      }}
-    >
-      <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-        {props.recipeList.map((item) => {
-          let buttonBox;
+    <Grid container spacing={3}
+      alignItems="center"
+      justify="center"
+      style={{ minHeight: '100vh' }}>
 
-          if (item.RecipeType === 'MFE') {
-            buttonBox = (
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  width: '100%',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
+      {props.recipeList.map((item) => {
+        let buttonBox;
+        let sourceCode;
+
+        if (item.sourceCode) {
+          <Button
+            onClick
+          >
+            Source Code
+          </Button>
+        }
+
+        if (item.RecipeType === 'MFE') {
+          buttonBox = (
+            <CardActions>
+              <Button
+                value={item}
+                onClick={() => handleCustom(item)}
               >
-                <Button
-                  variant="contained"
-                  className="recipeButtons"
-                  sx={{ mr: 1 }}
-                  value={item}
-                  onClick={() => handleCustom(item)}
-                >
-                  {item.Button}
-                </Button>
-              </Box>
-            );
-          } else {
-            buttonBox = (
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  width: '100%',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <Button
-                  variant="contained"
-                  className="recipeButtons"
-                  sx={{ mr: 1 }}
-                  value={item}
-                  onClick={() => handleForkClick(item)}
-                >
-                  Fork
-                </Button>
-                <Button
-                  variant="contained"
-                  className="recipeButtons"
-                  onClick={() => handleOpenSource(item)}
-                >
-                  Launch
-                </Button>
-              </Box>
-            );
-          }
-
-          return (
-            <Box>
-              <Grid container spacing={1} sx={{ mt: 2 }}>
-                <Grid item xs={2} md={2}>
-                  <img
-                    className="recipeImage"
-                    src={item.PreviewImage}
-                    alt={item.Lookup}
-                  />
-                </Grid>
-                <Grid item xs={4} md={4}>
-                  <Box>
-                    <Typography
-                      sx={{
-                        fontWeight: ['600', '600', '900'],
-                        fontSize: ['20px'],
-                      }}
-                      align="left"
-                      noWrap={true}
-                    >
-                      {item.Name}
-                    </Typography>
-                    <Typography
-                      sx={{
-                        fontWeight: '400',
-                        fontSize: ['15px'],
-                        display: ['none', 'none', 'block'],
-                      }}
-                      noWrap={false}
-                      align="left"
-                    >
-                      {`${item.Description.substring(0, 80)}...`}
-                      <Link color="primary" to={`/recipe/${item.Lookup}`}>
-                        More Info
-                      </Link>
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={6} md={6}>
-                  <Box
-                    sx={{
-                      width: '100%',
-                      alignItems: 'center',
-                      justifyContent: 'flex-end',
-                      pt: [0, 1, 4],
-                    }}
-                  >
-                    {buttonBox}
-
-                    <Link
-                      className="recipeLink"
-                      color="primary"
-                      to={`/recipe/${item.Lookup}`}
-                    >
-                      More Info
-                    </Link>
-                  </Box>
-                </Grid>
-              </Grid>
-              <hr />
-            </Box>
+                {item.Button}
+              </Button>
+              {sourceCode}
+            </CardActions>
           );
-        })}
-      </Box>
-    </Box>
+        } else {
+          buttonBox = (
+            <CardActions>
+              <Button
+                value={item}
+                onClick={() => handleForkClick(item)}
+              >
+                Fork
+              </Button>
+              <Button
+                onClick={() => handleOpenSource(item)}
+              >
+                Launch
+              </Button>
+              {sourceCode}
+            </CardActions>
+          );
+        }
+
+        return (
+          <Grid item xs={12} sm={6} md={6} container
+            alignItems="center"
+            justify="center"
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Card sx={{ width: 600 }}>
+              <CardMedia
+                component="img"
+                sx={{ height: "300px" }}
+                image={item.Image}
+              />
+              <CardContent sx={{ minHeight: "170px" }}>
+                <Typography gutterBottom variant="h4" component="div">
+                  {item.Name}
+                </Typography>
+                <p>
+                  {item.Description}
+                </p>
+              </CardContent>
+              {buttonBox}
+            </Card>
+          </Grid>
+
+        );
+      })}
+
+    </Grid>
   );
 
   return (
@@ -209,32 +172,23 @@ function WorkspaceSetup(props) {
         <Box
           sx={{
             display: 'flex',
-            justifyContent: 'space-between',
+            justifyContent: 'flex-start',
             pl: [0, 0, 4],
             width: '100%',
-            flexDirection: { xs: 'column', sm: 'column', md: 'row' },
+            flexDirection:"column",
+            textAlign: "left"
           }}
         >
-          <h2>Get started with a template</h2>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: { xs: 'center', sm: 'center', md: 'flex-end' },
-            }}
-          >
-            <Button
-              sx={{ mr: [0, 0, 5], height: '70%' }}
-              variant="contained"
-              onClick={handleCustomClick}
-            >
-              Create custom project
-            </Button>
-          </Box>
-        </Box>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-start', pl: 4 }}>
+          <h2>Deploy a project</h2>
           <p>
-            Launch from our open source repo or fork to yours to launch. Note:
-            to customize your code you must fork to your own repo
+            Import a project from your GitHub account, or start from one of our templates below.
+          </p>
+
+          {importSection}
+
+          <h2>Start from a template</h2>
+          <p>
+            Start a new project from one of our templates. Note: to edit your project, select fork
           </p>
         </Box>
         <Box>{recipeSection}</Box>
