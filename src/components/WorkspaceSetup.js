@@ -1,6 +1,6 @@
 import '../App.css';
 import React from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Box, Button, Grid, Paper, Typography, Card, CardActions, CardMedia, CardContent } from '@mui/material';
 
