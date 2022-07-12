@@ -3,7 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Box, Button, Grid, Paper, Typography, Card, CardActions, CardMedia, CardContent } from '@mui/material';
-
+import testImg from '../recipelogos/microfe.png'
 function WorkspaceSetup(props) {
   const navigate = useNavigate();
   function handleCustomClick() {
@@ -55,10 +55,9 @@ function WorkspaceSetup(props) {
   }
 
   let importSection = (
-    <Paper sx={{ height: '150px', maxWidth: "350px", textAlign: "center" }}>
+    <Paper sx={{ height: '150px', maxWidth: "350px", textAlign: "center", px: "10px" }}>
       <h3>Import an existing GitHub project</h3>
       <Button
-        sx={{}}
         variant="contained"
         onClick={handleCustomClick}
       >
@@ -66,95 +65,105 @@ function WorkspaceSetup(props) {
       </Button>
     </Paper>
   )
- 
+
 
   let recipeSection = (
 
     <Grid container spacing={3}
       alignItems="center"
       justify="center"
-      style={{ minHeight: '100vh' }}>
+      sx={{
+        px: "10px",
+        minHeight: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
 
-      {props.recipeList.map((item) => {
-        let buttonBox;
-        let sourceCode;
+      {
+        props.recipeList.map((item) => {
+          let buttonBox;
+          let sourceCode;
 
-        if (item.SourceCode !== null) {
-          sourceCode =
-            <Button
-              variant="contained"
-              onClick={() => handleSourceClick(item.SourceCode)}
+          if (item.SourceCode !== null) {
+            sourceCode =
+              <Button
+                variant="outlined"
+                onClick={() => handleSourceClick(item.SourceCode)}
+              >
+                Source Code
+              </Button>
+          }
+
+          if (item.RecipeType === 'MFE') {
+            buttonBox = (
+              <CardActions>
+                <Button
+                  variant="contained"
+                  value={item}
+                  onClick={() => handleCustom(item)}
+                >
+                  {item.Button}
+                </Button>
+                {sourceCode}
+              </CardActions>
+            );
+          } else {
+            buttonBox = (
+              <CardActions>
+                <Button
+                  value={item}
+                  onClick={() => handleForkClick(item)}
+                  variant="contained"
+                >
+                  Fork
+                </Button>
+                <Button
+                  onClick={() => handleOpenSource(item)}
+                  variant="contained"
+                >
+                  Launch
+                </Button>
+                {sourceCode}
+              </CardActions>
+            );
+          }
+
+          return (
+            <Grid item xs={12} sm={6} md={6} container
+              alignItems="center"
+              justify="center"
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
             >
-              Source Code
-            </Button>
-        }
+              <Card sx={{ maxWidth: "600px" }}>
+                <CardMedia
+                  component="img"
+                  sx={{
+                    maxHeight: "300px", border: 1, borderRight: 0, borderLeft: 0
+                  }}
+                  image={testImg}
+                />
+                <CardContent sx={{ height: "200px" }}>
+                  <Typography gutterBottom variant="h4" component="div">
+                    {item.Name}
+                  </Typography>
+                  <p>
+                    {item.Description}
+                  </p>
+                </CardContent>
+                {buttonBox}
+              </Card>
+            </Grid>
 
-        if (item.RecipeType === 'MFE') {
-          buttonBox = (
-            <CardActions>
-              <Button
-                variant="contained"
-                value={item}
-                onClick={() => handleCustom(item)}
-              >
-                {item.Button}
-              </Button>
-              {sourceCode}
-            </CardActions>
           );
-        } else {
-          buttonBox = (
-            <CardActions>
-              <Button
-                value={item}
-                onClick={() => handleForkClick(item)}
-                variant="contained"
-              >
-                Fork
-              </Button>
-              <Button
-                onClick={() => handleOpenSource(item)}
-                variant="contained"
-              >
-                Launch
-              </Button>
-              {sourceCode}
-            </CardActions>
-          );
-        }
+        })
+      }
 
-        return (
-          <Grid item xs={12} sm={6} md={6} container
-            alignItems="center"
-            justify="center"
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <Card sx={{ maxWidth: "600px" }}>
-              <CardMedia
-                component="img"
-                sx={{ maxHeight: "300px" }}
-                image={item.Image}
-              />
-              <CardContent sx={{ minHeight: "170px" }}>
-                <Typography gutterBottom variant="h4" component="div">
-                  {item.Name}
-                </Typography>
-                <p>
-                  {item.Description}
-                </p>
-              </CardContent>
-              {buttonBox}
-            </Card>
-          </Grid>
-
-        );
-      })}
-
-    </Grid>
+    </Grid >
   );
 
   return (
