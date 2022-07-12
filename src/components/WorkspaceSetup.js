@@ -66,7 +66,7 @@ function WorkspaceSetup(props) {
       </Button>
     </Paper>
   )
-  let sourceCode;
+ 
 
   let recipeSection = (
 
@@ -80,7 +80,6 @@ function WorkspaceSetup(props) {
         let sourceCode;
 
         if (item.SourceCode !== null) {
-          { console.log(item) }
           sourceCode =
             <Button
               variant="contained"
