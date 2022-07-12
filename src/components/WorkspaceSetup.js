@@ -3,7 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Box, Button, Grid, Paper, Typography, Card, CardActions, CardMedia, CardContent } from '@mui/material';
-import testImg from '../recipelogos/microfe.png'
+
 function WorkspaceSetup(props) {
   const navigate = useNavigate();
   function handleCustomClick() {
