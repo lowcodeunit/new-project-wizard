@@ -16,6 +16,9 @@ function WorkspaceSetup(props) {
   // function capitalize(str) {
   //   return str.charAt(0).toUpperCase() + str.slice(1);
   // }
+  function handleSourceClick(url) {
+    window.open(url, '_blank').focus();
+  }
   function handleCustom(recipe) {
     if (recipe.ID === "00000000-0000-0000-0000-000000000009") {
       handleOpenSource(recipe);
@@ -52,7 +55,7 @@ function WorkspaceSetup(props) {
   }
 
   let importSection = (
-    <Paper sx={{ height: '150px', width: "350px", textAlign:"center" }}>
+    <Paper sx={{ height: '150px', maxWidth: "350px", textAlign: "center" }}>
       <h3>Import an existing GitHub project</h3>
       <Button
         sx={{}}
@@ -63,8 +66,10 @@ function WorkspaceSetup(props) {
       </Button>
     </Paper>
   )
+  let sourceCode;
 
   let recipeSection = (
+
     <Grid container spacing={3}
       alignItems="center"
       justify="center"
@@ -74,18 +79,22 @@ function WorkspaceSetup(props) {
         let buttonBox;
         let sourceCode;
 
-        if (item.sourceCode) {
-          <Button
-            onClick
-          >
-            Source Code
-          </Button>
+        if (item.SourceCode !== null) {
+          { console.log(item) }
+          sourceCode =
+            <Button
+              variant="contained"
+              onClick={() => handleSourceClick(item.SourceCode)}
+            >
+              Source Code
+            </Button>
         }
 
         if (item.RecipeType === 'MFE') {
           buttonBox = (
             <CardActions>
               <Button
+                variant="contained"
                 value={item}
                 onClick={() => handleCustom(item)}
               >
@@ -100,11 +109,13 @@ function WorkspaceSetup(props) {
               <Button
                 value={item}
                 onClick={() => handleForkClick(item)}
+                variant="contained"
               >
                 Fork
               </Button>
               <Button
                 onClick={() => handleOpenSource(item)}
+                variant="contained"
               >
                 Launch
               </Button>
@@ -123,10 +134,10 @@ function WorkspaceSetup(props) {
               alignItems: 'center',
             }}
           >
-            <Card sx={{ width: 600 }}>
+            <Card sx={{ maxWidth: "600px" }}>
               <CardMedia
                 component="img"
-                sx={{ height: "300px" }}
+                sx={{ maxHeight: "300px" }}
                 image={item.Image}
               />
               <CardContent sx={{ minHeight: "170px" }}>
@@ -175,7 +186,7 @@ function WorkspaceSetup(props) {
             justifyContent: 'flex-start',
             pl: [0, 0, 4],
             width: '100%',
-            flexDirection:"column",
+            flexDirection: "column",
             textAlign: "left"
           }}
         >
@@ -186,9 +197,9 @@ function WorkspaceSetup(props) {
 
           {importSection}
 
-          <h2>Start from a template</h2>
+          <h2>Get Started with a template </h2>
           <p>
-            Start a new project from one of our templates. Note: to edit your project, select fork
+            Launch from our open-source repo or fork to your own. <strong> Note: </strong>To customize the code you must fork to your own repo.
           </p>
         </Box>
         <Box>{recipeSection}</Box>
