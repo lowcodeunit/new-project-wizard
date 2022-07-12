@@ -145,7 +145,7 @@ function WorkspaceSetup(props) {
                   sx={{
                     maxHeight: "300px", border: 1, borderRight: 0, borderLeft: 0
                   }}
-                  image={testImg}
+                  image={item.Image}
                 />
                 <CardContent sx={{ height: "200px" }}>
                   <Typography gutterBottom variant="h4" component="div">
