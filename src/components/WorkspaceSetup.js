@@ -139,15 +139,15 @@ function WorkspaceSetup(props) {
                 alignItems: 'center',
               }}
             >
-              <Card sx={{ maxWidth: "600px" }}>
+              <Card sx={{maxWidth: "600px" }}>
                 <CardMedia
                   component="img"
                   sx={{
-                    maxHeight: "300px", border: 1, borderRight: 0, borderLeft: 0
+                    height: "auto", border: 1, borderRight: 0, borderLeft: 0
                   }}
                   image={item.Image}
                 />
-                <CardContent sx={{ height: "200px" }}>
+                <CardContent sx={{height:"220px"}}>
                   <Typography gutterBottom variant="h4" component="div">
                     {item.Name}
                   </Typography>
