@@ -56,7 +56,7 @@ function WorkspaceSetup(props) {
   }
 
   let importSection = (
-    <Paper sx={{ height: '150px', maxWidth: "600px", textAlign: "center", px: "20px" }}
+    <Paper sx={{ height: '150px', maxWidth: "600px", textAlign: "center", px: "20px", border: 1,  borderRadius: 3 }}
       variant="outlined">
       <h4>Import an existing GitHub project</h4>
       <Button
@@ -141,11 +141,11 @@ function WorkspaceSetup(props) {
                 alignItems: 'center',
               }}
             >
-              <Card sx={{ maxWidth: "600px" }} variant="outlined">
+              <Card sx={{ maxWidth: "600px",border: 1,  borderRadius: 3, width:'100%'}} >
                 <CardMedia
                   component="img"
                   sx={{
-                    height: "auto", borderBottom: 1, borderColor: 'grey.500'
+                    height: "auto", borderBottom: 1, borderRadius: 3
                   }}
                   image={item.Image}
                 />
