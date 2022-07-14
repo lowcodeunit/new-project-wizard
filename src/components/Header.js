@@ -2,8 +2,8 @@ import '../App.css';
 import React from 'react';
 import LCUComponent from './LCUComponent';
 import Box from '@mui/material/Box';
-import { AppBar, Toolbar, Stack, Typography, IconButton } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { AppBar, Toolbar, Stack, Typography, Button } from '@mui/material';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import logo from '../recipelogos/logo.svg'
 
 class Header extends LCUComponent {
@@ -55,15 +55,16 @@ class Header extends LCUComponent {
                 alignItems="center"
                 spacing={0.5}
                 >
-                <IconButton
+                <Button
                     size="large"
                     edge="end"
                     color="inherit"
                     aria-label="menu"
                     onClick={this.handleClose}
                 >
-                    <CloseIcon />
-                </IconButton>
+                    <DashboardIcon />
+                    hello
+                </Button>
                 </Stack>
             </Box>
             </Toolbar>

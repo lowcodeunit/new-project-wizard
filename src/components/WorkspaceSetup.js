@@ -2,7 +2,8 @@ import '../App.css';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { Box, Button, Grid, Paper, Typography, Card, CardActions, CardMedia, CardContent } from '@mui/material';
+import { Box, Button, Grid, Paper, Card, CardActions, CardMedia, CardContent } from '@mui/material';
+
 
 function WorkspaceSetup(props) {
   const navigate = useNavigate();
@@ -55,8 +56,8 @@ function WorkspaceSetup(props) {
   }
 
   let importSection = (
-    <Paper sx={{ height: '150px', maxWidth: "350px", textAlign: "center", px: "10px" }}>
-      <h3>Import an existing GitHub project</h3>
+    <Paper sx={{ height: '150px', maxWidth: "600px", textAlign: "center", px: "20px" }}>
+      <h4>Import an existing GitHub project</h4>
       <Button
         variant="contained"
         onClick={handleCustomClick}
@@ -103,7 +104,7 @@ function WorkspaceSetup(props) {
                   value={item}
                   onClick={() => handleCustom(item)}
                 >
-                  {item.Button}
+                  Launch
                 </Button>
                 {sourceCode}
               </CardActions>
@@ -139,18 +140,18 @@ function WorkspaceSetup(props) {
                 alignItems: 'center',
               }}
             >
-              <Card sx={{maxWidth: "600px" }}>
+              <Card sx={{ maxWidth: "600px" }} variant="outlined">
                 <CardMedia
                   component="img"
                   sx={{
-                    height: "auto", border: 1, borderRight: 0, borderLeft: 0
+                    height: "auto", borderBottom: 1, borderColor: 'grey.500'
                   }}
                   image={item.Image}
                 />
-                <CardContent sx={{height:"220px"}}>
-                  <Typography gutterBottom variant="h4" component="div">
+                <CardContent sx={{ height: "220px" }}>
+                  <h4>
                     {item.Name}
-                  </Typography>
+                  </h4>
                   <p>
                     {item.Description}
                   </p>
@@ -191,11 +192,13 @@ function WorkspaceSetup(props) {
         <Box
           sx={{
             display: 'flex',
-            justifyContent: 'flex-start',
-            pl: [0, 0, 4],
+            width: '100%',
+            justifyContent: 'center',
+            alignContent: 'center',
+            alignItems: 'center',
             width: '100%',
             flexDirection: "column",
-            textAlign: "left"
+            paddingBottom: '20px'
           }}
         >
           <h2>Deploy a project</h2>
@@ -205,9 +208,12 @@ function WorkspaceSetup(props) {
 
           {importSection}
 
-          <h2>Get Started with a template </h2>
+          <h2>Get Started with a template </h2> 
           <p>
-            Launch from our open-source repo or fork to your own. <strong> Note: </strong>To customize the code you must fork to your own repo.
+            Launch from our open-source repo or fork to your own.
+          </p>
+          <p>
+            <strong>Note: </strong>To customize the code you must fork to your own repo.
           </p>
         </Box>
         <Box>{recipeSection}</Box>
