@@ -147,6 +147,10 @@ class HomeComponent extends LCUComponent {
 
   render() {
     let content;
+    let header;
+    if(window.self === window.top) {
+      header = <Header />
+    }
     if (!this.state.gitHubAuthStatus || !this.state.recipesLoaded) {
       content =
         <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', height:'80vh'}}>
@@ -277,7 +281,7 @@ class HomeComponent extends LCUComponent {
             <Helmet>
               <title>Fathym - Welcome</title>
             </Helmet>
-            <Header />
+            {header}
             <Box>
               <ScrollToTop/>
               {content}
