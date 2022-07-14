@@ -197,7 +197,6 @@ function WorkspaceSetup(props) {
             justifyContent: 'center',
             alignContent: 'center',
             alignItems: 'center',
-            width: '100%',
             flexDirection: "column",
             paddingBottom: '20px'
           }}
