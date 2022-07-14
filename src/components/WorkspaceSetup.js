@@ -149,7 +149,7 @@ function WorkspaceSetup(props) {
                   }}
                   image={item.Image}
                 />
-                <CardContent sx={{ height: "220px" }}>
+                <CardContent sx={{ height:{xs:'180px', m:'150px', lg:'150px'} }}>
                   <h4>
                     {item.Name}
                   </h4>

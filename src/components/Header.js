@@ -63,7 +63,9 @@ class Header extends LCUComponent {
                     onClick={this.handleClose}
                 >
                     <DashboardIcon />
-                    hello
+                    <Typography variant="p" sx={{fontSize:'14px'}}>
+                      Dashboard
+                    </Typography>
                 </Button>
                 </Stack>
             </Box>
