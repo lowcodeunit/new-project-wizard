@@ -56,7 +56,8 @@ function WorkspaceSetup(props) {
   }
 
   let importSection = (
-    <Paper sx={{ height: '150px', maxWidth: "600px", textAlign: "center", px: "20px" }}>
+    <Paper sx={{ height: '150px', maxWidth: "600px", textAlign: "center", px: "20px" }}
+      variant="outlined">
       <h4>Import an existing GitHub project</h4>
       <Button
         variant="contained"
@@ -187,7 +188,7 @@ function WorkspaceSetup(props) {
           my: 2,
           py: 2,
         }}
-        elevation={6}
+        variant="outlined"
       >
         <Box
           sx={{
@@ -208,7 +209,7 @@ function WorkspaceSetup(props) {
 
           {importSection}
 
-          <h2>Get Started with a template </h2> 
+          <h2>Get Started with a template </h2>
           <p>
             Launch from our open-source repo or fork to your own.
           </p>
