@@ -2,7 +2,11 @@ import '../App.css';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { Box, Button, Grid, Paper, Card, CardActions, CardMedia, CardContent } from '@mui/material';
+import { Box, Button, Grid, Paper, Card, CardActions, CardMedia, CardContent, Tooltip} from '@mui/material';
+import { SiAzuredevops, SiGithub } from 'react-icons/si';
+import { IoLogoBitbucket } from "react-icons/io5";
+import { AiFillGitlab } from "react-icons/ai";
+
 
 
 function WorkspaceSetup(props) {
@@ -56,8 +60,16 @@ function WorkspaceSetup(props) {
   }
 
   let importSection = (
-    <Paper sx={{ height: '150px', maxWidth: "600px", textAlign: "center", px: "20px", border: 1,  borderRadius: 3 }}
-      variant="outlined">
+    <Paper elevation={6} sx={{ height: '150px', maxWidth:'350px', textAlign: "left", px: ['5px', '10px', '15px'], borderTop:'6px solid #4a918e', marginBottom:'60px'}}>
+
+        <SiGithub size='1.5em' className='GitLogos'/>
+        <Tooltip title="Coming soon">
+        <SiAzuredevops color="lightgrey" size='1.5em' className='GitLogosDisabled'/> 
+        </Tooltip>
+        <IoLogoBitbucket color="lightgrey" size='1.5em' className='GitLogosDisabled'/> 
+        <AiFillGitlab color="lightgrey" size='1.5em' className='GitLogosDisabled'/>
+
+
       <h4>Import an existing GitHub project</h4>
       <Button
         variant="contained"
@@ -122,7 +134,7 @@ function WorkspaceSetup(props) {
                 </Button>
                 <Button
                   onClick={() => handleOpenSource(item)}
-                  variant="contained"
+                  variant="outlined"
                 >
                   Launch
                 </Button>
@@ -141,15 +153,15 @@ function WorkspaceSetup(props) {
                 alignItems: 'center',
               }}
             >
-              <Card sx={{ maxWidth: "600px",border: 1,  borderRadius: 3, width:'100%'}} >
+              <Card elevation={6} sx={{ maxWidth: "600px", width:'100%', backgroundColor:'#ebecf0'}} >
                 <CardMedia
                   component="img"
                   sx={{
-                    height: "auto", borderBottom: 1, borderRadius: 3
+                    height: "auto"
                   }}
                   image={item.Image}
                 />
-                <CardContent sx={{ height:{xs:'180px', m:'150px', lg:'150px'} }}>
+                <CardContent sx={{ height:{xs:'180px', m:'150px', lg:'150px'}, textAlign:'left' }}>
                   <h4>
                     {item.Name}
                   </h4>
@@ -180,7 +192,7 @@ function WorkspaceSetup(props) {
       <Helmet>
         <title>Fathym - Select your project</title>
       </Helmet>
-      <Paper
+      <Box
         sx={{
           width: ['90%', '80%', '60%'],
           display: 'flex',
@@ -188,17 +200,16 @@ function WorkspaceSetup(props) {
           my: 2,
           py: 2,
         }}
-        variant="outlined"
       >
         <Box
           sx={{
-            display: 'flex',
+            display: 'inline-flex',
             width: '100%',
-            justifyContent: 'center',
-            alignContent: 'center',
-            alignItems: 'center',
+            justifyContent: 'flex-start',
+            textAlign: 'left',
             flexDirection: "column",
-            paddingBottom: '20px'
+            paddingBottom: '20px',
+            paddingLeft:['5px', '10px', '20px']
           }}
         >
           <h2>Deploy a project</h2>
@@ -217,7 +228,7 @@ function WorkspaceSetup(props) {
           </p>
         </Box>
         <Box>{recipeSection}</Box>
-      </Paper>
+      </Box>
     </Box>
   );
 }

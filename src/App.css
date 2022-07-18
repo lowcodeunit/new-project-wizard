@@ -2,7 +2,15 @@
   text-align: center;
   background-size: 100%;
   min-height: 100vh;
-  background-color: #ebecf0;
+ 
+}
+
+.GitLogos{
+  padding-top: 10px;
+}
+.GitLogosDisabled {
+  padding-top: 10px;
+  padding-left: 10px;
 }
 
 .App-logo {
