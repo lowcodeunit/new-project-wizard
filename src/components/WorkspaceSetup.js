@@ -2,11 +2,25 @@ import '../App.css';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { Box, Button, Grid, Paper, Card, CardActions, CardMedia, CardContent, Tooltip} from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { Box, Button, Grid, Paper, Card, CardActions, CardMedia, CardContent, Tooltip } from '@mui/material';
 import { SiAzuredevops, SiGithub } from 'react-icons/si';
 import { IoLogoBitbucket } from "react-icons/io5";
 import { AiFillGitlab } from "react-icons/ai";
 
+const ColorButton = styled(Button)({
+  fontFamily: [
+    '-apple-system',
+    'BlinkMacSystemFont',
+    '"Segoe UI"',
+    'Roboto',
+    '"Helvetica Neue"',
+    'Arial',
+    'sans-serif',
+    '"Apple Color Emoji"',
+    '"Segoe UI Emoji"',
+    '"Segoe UI Symbol"',]
+})
 
 
 function WorkspaceSetup(props) {
@@ -60,26 +74,27 @@ function WorkspaceSetup(props) {
   }
 
   let importSection = (
-    <Paper elevation={6} sx={{ height: '150px', maxWidth:'350px', textAlign: "left", px: ['5px', '10px', '15px'], borderTop:'6px solid #4a918e', marginBottom:'60px'}}>
+    <Paper elevation={6} sx={{ height: '150px', maxWidth: '350px', textAlign: "left", px: ['5px', '10px', '15px'], borderTop: '6px solid #4a918e', marginBottom: '60px' }}>
 
-        <SiGithub size='1.5em' className='GitLogos'/>
-        <Tooltip title="Coming soon">
-        <SiAzuredevops color="lightgrey" size='1.5em' className='GitLogosDisabled'/> 
-        </Tooltip>
-        <IoLogoBitbucket color="lightgrey" size='1.5em' className='GitLogosDisabled'/> 
-        <AiFillGitlab color="lightgrey" size='1.5em' className='GitLogosDisabled'/>
+      <SiGithub size='1.5em' className='GitLogos' />
+      <Tooltip title="Coming soon">
+        <SiAzuredevops color="lightgrey" size='1.5em' className='GitLogosDisabled' />
+      </Tooltip>
+      <IoLogoBitbucket color="lightgrey" size='1.5em' className='GitLogosDisabled' />
+      <AiFillGitlab color="lightgrey" size='1.5em' className='GitLogosDisabled' />
 
 
       <h4>Import an existing GitHub project</h4>
-      <Button
+      <ColorButton
+        sx={{ textTransform: 'none' }}
         variant="contained"
         onClick={handleCustomClick}
       >
         Import from GitHub
-      </Button>
+
+      </ColorButton>
     </Paper>
   )
-
 
   let recipeSection = (
 
@@ -101,43 +116,47 @@ function WorkspaceSetup(props) {
 
           if (item.SourceCode !== null) {
             sourceCode =
-              <Button
-                variant="outlined"
+              <ColorButton
+                sx={{ textTransform: 'none' }}
+                variant="text"
                 onClick={() => handleSourceClick(item.SourceCode)}
               >
                 Source Code
-              </Button>
+              </ColorButton>
           }
 
           if (item.RecipeType === 'MFE') {
             buttonBox = (
               <CardActions>
-                <Button
+                <ColorButton
+                  sx={{ textTransform: 'none' }}
                   variant="contained"
                   value={item}
                   onClick={() => handleCustom(item)}
                 >
                   Launch
-                </Button>
+                </ColorButton>
                 {sourceCode}
               </CardActions>
             );
           } else {
             buttonBox = (
               <CardActions>
-                <Button
+                <ColorButton
+                  sx={{ textTransform: 'none' }}
                   value={item}
                   onClick={() => handleForkClick(item)}
                   variant="contained"
                 >
                   Fork
-                </Button>
-                <Button
+                </ColorButton>
+                <ColorButton
+                  sx={{ textTransform: 'none' }}
                   onClick={() => handleOpenSource(item)}
                   variant="outlined"
                 >
                   Launch
-                </Button>
+                </ColorButton>
                 {sourceCode}
               </CardActions>
             );
@@ -153,7 +172,7 @@ function WorkspaceSetup(props) {
                 alignItems: 'center',
               }}
             >
-              <Card elevation={6} sx={{ maxWidth: "600px", width:'100%', backgroundColor:'#ebecf0'}} >
+              <Card elevation={6} sx={{ maxWidth: "600px", width: '100%', backgroundColor: '#ebecf0' }} >
                 <CardMedia
                   component="img"
                   sx={{
@@ -161,7 +180,7 @@ function WorkspaceSetup(props) {
                   }}
                   image={item.Image}
                 />
-                <CardContent sx={{ height:{xs:'180px', m:'150px', lg:'150px'}, textAlign:'left' }}>
+                <CardContent sx={{ height: { xs: '180px', m: '150px', lg: '150px' }, textAlign: 'left' }}>
                   <h4>
                     {item.Name}
                   </h4>
@@ -209,15 +228,17 @@ function WorkspaceSetup(props) {
             textAlign: 'left',
             flexDirection: "column",
             paddingBottom: '20px',
-            paddingLeft:['5px', '10px', '20px']
+            paddingLeft: ['5px', '10px', '20px']
           }}
         >
           <h2>Deploy a project</h2>
           <p>
             Import a project from your GitHub account, or start from one of our templates below.
           </p>
-
-          {importSection}
+          <Box sx = {{display:'flex', flexDirection:'row'}}>
+            {importSection}
+            {customSection}
+          </Box>
 
           <h2>Get Started with a template </h2>
           <p>
