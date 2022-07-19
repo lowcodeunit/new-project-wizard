@@ -237,7 +237,6 @@ function WorkspaceSetup(props) {
           </p>
           <Box sx = {{display:'flex', flexDirection:'row'}}>
             {importSection}
-            {customSection}
           </Box>
 
           <h2>Get Started with a template </h2>
