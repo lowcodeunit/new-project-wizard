@@ -48,8 +48,12 @@ function WorkspaceSetup(props) {
   function handleForkClick(recipe) {
     props.onStepChange();
     props.selectedRecipe(recipe.ID);
-    if (props.authStatus !== 0) {
+    if (props.authStatus !== 0 && window.self !== window.top) {
+      window.open(window.self + `/recipe/${recipe.Lookup}/connect`, '_top').focus();
+    } else if (props.authStatus !== 0) {
       navigate(`/recipe/${recipe.Lookup}/connect`);
+    } else if (window.self !== window.top) {
+      window.open(window.self + `/recipe/${recipe.Lookup}/fork`, '_top').focus();
     } else {
       navigate(`/recipe/${recipe.Lookup}/fork`);
     }
@@ -70,18 +74,25 @@ function WorkspaceSetup(props) {
       console.log('Request complete! response:', res);
       props.projectIsLoaded();
     });
+    if (window.self !== window.top) {
+      window.open(window.self +`/recipe/${recipe.Lookup}/deploy`, '_top').focus();
+    } else {
     navigate(`/recipe/${recipe.Lookup}/deploy`);
+    }
   }
 
   let importSection = (
-    <Paper elevation={6} sx={{ height: '150px', maxWidth: '350px', textAlign: "left", px: ['5px', '10px', '15px'], borderTop: '6px solid #4a918e', marginBottom: '60px' }}>
-
-      <SiGithub size='1.5em' className='GitLogos' />
-      <Tooltip title="Coming soon">
-        <SiAzuredevops color="lightgrey" size='1.5em' className='GitLogosDisabled' />
-      </Tooltip>
-      <IoLogoBitbucket color="lightgrey" size='1.5em' className='GitLogosDisabled' />
-      <AiFillGitlab color="lightgrey" size='1.5em' className='GitLogosDisabled' />
+    <Paper elevation={6} sx={{ height: '150px', maxWidth: '600px', textAlign: "left", px: ['5px', '10px', '15px'], borderTop: '6px solid #4a918e', marginBottom: '60px'}}>
+      <Box sx={{display:'flex', flexDirection:'row'}}>
+        <SiGithub size='1.5em' className='GitLogos' />
+        <Tooltip title="Coming soon">
+          <Box>
+            <SiAzuredevops color="lightgrey" size='1.5em' className='GitLogosDisabled' />
+            <IoLogoBitbucket color="lightgrey" size='1.5em' className='GitLogosDisabled' />
+            <AiFillGitlab color="lightgrey" size='1.5em' className='GitLogosDisabled' />
+          </Box>
+        </Tooltip>
+      </Box>
 
 
       <h4>Import an existing GitHub project</h4>
@@ -90,7 +101,7 @@ function WorkspaceSetup(props) {
         variant="contained"
         onClick={handleCustomClick}
       >
-        Import from GitHub
+        Import from Git
 
       </ColorButton>
     </Paper>
@@ -151,9 +162,10 @@ function WorkspaceSetup(props) {
                   Fork
                 </ColorButton>
                 <ColorButton
-                  sx={{ textTransform: 'none' }}
+                  sx={{ textTransform: 'none', backgroundColor:'white' }}
                   onClick={() => handleOpenSource(item)}
                   variant="outlined"
+
                 >
                   Launch
                 </ColorButton>
@@ -213,7 +225,7 @@ function WorkspaceSetup(props) {
       </Helmet>
       <Box
         sx={{
-          width: ['90%', '80%', '60%'],
+          width: ['90%', '80%', '70%'],
           display: 'flex',
           flexDirection: 'column',
           my: 2,
@@ -235,7 +247,7 @@ function WorkspaceSetup(props) {
           <p>
             Import a project from your GitHub account, or start from one of our templates below.
           </p>
-          <Box sx = {{display:'flex', flexDirection:'row'}}>
+          <Box sx={{ display: 'flex', flexDirection: 'row' }}>
             {importSection}
           </Box>
 
