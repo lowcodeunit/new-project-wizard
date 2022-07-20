@@ -225,7 +225,7 @@ function WorkspaceSetup(props) {
       </Helmet>
       <Box
         sx={{
-          width: ['90%', '80%', '70%'],
+          width: ['90%', '80%', '60%'],
           display: 'flex',
           flexDirection: 'column',
           my: 2,
