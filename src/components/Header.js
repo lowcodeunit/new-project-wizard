@@ -3,8 +3,9 @@ import React from 'react';
 import LCUComponent from './LCUComponent';
 import Box from '@mui/material/Box';
 import { AppBar, Toolbar, Stack, Typography, Button } from '@mui/material';
-import DashboardIcon from '@mui/icons-material/Dashboard';
+import ViewCompactIcon from '@mui/icons-material/ViewCompact';
 import logo from '../recipelogos/logo.svg'
+
 
 class Header extends LCUComponent {
   constructor(props) {
@@ -21,7 +22,7 @@ class Header extends LCUComponent {
 
   render() {
     return (
-        <AppBar position="static">
+        <AppBar position="static" elevation={0}>
             <Toolbar>
             <Box sx={{display: 'flex', width:'100%'}}>
                 <Stack
@@ -30,11 +31,11 @@ class Header extends LCUComponent {
                 alignItems="center"
                 spacing={0.5}
                 sx={{flexGrow: 1, alignContent:'start'}}>
-                <Box sx={{display:'flex',flexDirection:'row',  alignItems:"center"}}>
+                <Box sx={{display:'flex',flexDirection:'row',  alignItems:"center", height: '100%'}}>
                     <Box
                     component="img"
                     sx={{ 
-                    height: {xs:20, s:20, m:40, lg:50}
+                    height: '65%'
                     }}
                     alt="Your logo."
                     src={logo}
@@ -62,9 +63,9 @@ class Header extends LCUComponent {
                     aria-label="menu"
                     onClick={this.handleClose}
                 >
-                    <DashboardIcon />
-                    <Typography variant="p" sx={{fontSize:'14px'}}>
-                      Dashboard
+                    <ViewCompactIcon />
+                    <Typography sx={{fontFamily: 'Roboto, Helvetica Neue, sans-serif',fontSize:'14px', textTransform:'none', pl:1}}>
+                      <p>Dashboard</p>
                     </Typography>
                 </Button>
                 </Stack>
