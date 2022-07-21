@@ -6,6 +6,7 @@ import { AppBar, Toolbar, Stack, Typography, Button } from '@mui/material';
 import ViewCompactIcon from '@mui/icons-material/ViewCompact';
 import logo from '../recipelogos/logo.svg'
 
+
 class Header extends LCUComponent {
   constructor(props) {
     super(props);
@@ -63,7 +64,7 @@ class Header extends LCUComponent {
                     onClick={this.handleClose}
                 >
                     <ViewCompactIcon />
-                    <Typography sx={{fontFamily: 'Roboto',fontSize:'14px', textTransform:'none', pl:1}}>
+                    <Typography sx={{fontFamily: 'Roboto, Helvetica Neue, sans-serif',fontSize:'14px', textTransform:'none', pl:1}}>
                       <p>Dashboard</p>
                     </Typography>
                 </Button>

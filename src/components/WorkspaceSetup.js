@@ -106,6 +106,14 @@ function WorkspaceSetup(props) {
       </ColorButton>
     </Paper>
   )
+  let pageWidth;
+  if(window.self !== window.top){
+    pageWidth = "90%"
+    console.log("in iframe");
+  } else {
+    pageWidth = ['90%', '80%', '65%']
+    console.log("window self is " + window.self + " top is " + window.top.toString());
+  }
 
   let recipeSection = (
 
@@ -225,7 +233,7 @@ function WorkspaceSetup(props) {
       </Helmet>
       <Box
         sx={{
-          width: ['90%', '80%', '60%'],
+          width: pageWidth,
           display: 'flex',
           flexDirection: 'column',
           my: 2,
