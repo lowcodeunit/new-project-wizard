@@ -1,5 +1,6 @@
 import '../App.css';
 import React from 'react';
+import { styled } from '@mui/material/styles';
 import { Link, Navigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import LCUComponent from './LCUComponent';
@@ -21,6 +22,19 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
+const ColorButton = styled(Button)({
+  fontFamily: [
+    '-apple-system',
+    'BlinkMacSystemFont',
+    '"Segoe UI"',
+    'Roboto',
+    '"Helvetica Neue"',
+    'Arial',
+    'sans-serif',
+    '"Apple Color Emoji"',
+    '"Segoe UI Emoji"',
+    '"Segoe UI Symbol"',]
+})
 
 class CustomProject extends LCUComponent {
   constructor(props) {
@@ -224,7 +238,7 @@ class CustomProject extends LCUComponent {
     let formPage;
     if (this.state.step === 0) {
       formPage = (
-        <Box sx={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', display: 'flex', flexDirection: 'column', height: '75vh' }}>
+        <Box sx={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', display: 'flex', flexDirection: 'column', minHeight: '75vh' }}>
           <p>Welcome! Let's start with the project basics</p>
           <p>What is your project name?</p>
           <Box>
@@ -238,18 +252,18 @@ class CustomProject extends LCUComponent {
               onKeyDown={this.keyPress}
             />
           </Box>
-          <Button
+          <ColorButton
             variant="contained"
-            sx={{ mt: 4 }}
+            sx={{ mt: 4, textTransform:'none' }}
             onClick={this.incrementStep}
           >
             Next
-          </Button>
+          </ColorButton>
         </Box>
       );
     } else if (this.state.step === 1) {
       formPage = (
-        <Box sx={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', display: 'flex', flexDirection: 'column', height: '75vh' }}>
+        <Box sx={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', display: 'flex', flexDirection: 'column', minHeight: '75vh' }}>
           <Box>
             <p>What is your git organization?</p>
             <FormControl fullWidth>
@@ -292,7 +306,7 @@ class CustomProject extends LCUComponent {
             </FormControl>
           </Box>
           <Box>
-            <p>What is your main branch</p>
+            <p>What is your main branch?</p>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Main Branch</InputLabel>
               <Select
@@ -310,19 +324,19 @@ class CustomProject extends LCUComponent {
               </Select>
             </FormControl>
           </Box>
-          <Button
+          <ColorButton
             variant="contained"
-            sx={{ mt: 4 }}
+            sx={{ mt: 4, textTransform:'none'}}
             onClick={this.incrementStep}
             size="large"
           >
             Next
-          </Button>
+          </ColorButton>
         </Box>
       );
     } else if (this.state.step === 2) {
       formPage = (
-        <Box sx={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', display: 'flex', flexDirection: 'column', height: '75vh' }}>
+        <Box sx={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', display: 'flex', flexDirection: 'column', minHeight: '75vh' }}>
           <Box>
             <p>What is your build command?</p>
             <TextField
@@ -334,7 +348,7 @@ class CustomProject extends LCUComponent {
             />
           </Box>
           <Box>
-            <p>what is your install command</p>
+            <p>what is your install command?</p>
             <TextField
               id="outlined-basic"
               label="Install Command"
@@ -344,7 +358,7 @@ class CustomProject extends LCUComponent {
             />
           </Box>
           <Box>
-            <p>What is the build output directory</p>
+            <p>What is the build output directory?</p>
             <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap' }}>
               <ButtonGroup
                 variant="contained"
@@ -394,9 +408,9 @@ class CustomProject extends LCUComponent {
               Select a predefined value or enter your custom output directory.
             </p>
           </Box>
-          <Button
+          <ColorButton
             variant="contained"
-            sx={{ mt: 4 }}
+            sx={{ mt: 4, textTransform:'none' }}
             disabled={!this.state.readyToSubmit}
             onClick={this.handleSubmit}
             size="large"
@@ -404,7 +418,7 @@ class CustomProject extends LCUComponent {
             <Link style={{ textDecoration: 'none', color: 'white' }} to="/custom/deploy">
               Deploy Project
             </Link>
-          </Button>
+          </ColorButton>
 
         </Box >
       );
