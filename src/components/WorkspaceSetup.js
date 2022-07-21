@@ -49,11 +49,11 @@ function WorkspaceSetup(props) {
     props.onStepChange();
     props.selectedRecipe(recipe.ID);
     if (props.authStatus !== 0 && window.self !== window.top) {
-      window.open(window.self + `/recipe/${recipe.Lookup}/connect`, '_top').focus();
+      window.open(`/recipe/${recipe.Lookup}/connect`, '_top').focus();
     } else if (props.authStatus !== 0) {
       navigate(`/recipe/${recipe.Lookup}/connect`);
     } else if (window.self !== window.top) {
-      window.open(window.self + `/recipe/${recipe.Lookup}/fork`, '_top').focus();
+      window.open(`/recipe/${recipe.Lookup}/fork`, '_top').focus();
     } else {
       navigate(`/recipe/${recipe.Lookup}/fork`);
     }
@@ -75,7 +75,7 @@ function WorkspaceSetup(props) {
       props.projectIsLoaded();
     });
     if (window.self !== window.top) {
-      window.open(window.self +`/recipe/${recipe.Lookup}/deploy`, '_top').focus();
+      window.open(`/recipe/${recipe.Lookup}/deploy`, '_top').focus();
     } else {
     navigate(`/recipe/${recipe.Lookup}/deploy`);
     }
