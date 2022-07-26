@@ -2,8 +2,23 @@ import '../App.css';
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { styled } from '@mui/material/styles';
 import { Box, Button, Paper, IconButton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
+const StyledButton = styled(Button)({
+  fontFamily: [
+    '-apple-system',
+    'BlinkMacSystemFont',
+    '"Segoe UI"',
+    'Roboto',
+    '"Helvetica Neue"',
+    'Arial',
+    'sans-serif',
+    '"Apple Color Emoji"',
+    '"Segoe UI Emoji"',
+    '"Segoe UI Symbol"',]
+})
 
 function RecipeStarter(props) {
   const recipeLookup = useParams();
@@ -134,13 +149,13 @@ function RecipeStarter(props) {
                 }}
               >
                 <Paper sx={{ p: 2, m: 2 }}>
-                  <Button
+                  <StyledButton
                     variant="contained"
-                    sx={{ mb: 2 }}
+                    sx={{textTransform: 'none', mb: 2 }}
                     onClick={handleOpenSource}
                   >
-                    Deploy from open source
-                  </Button>
+                    Launch
+                  </StyledButton>
                   <p>
                     If you use Fathym's deployment, your project will use NPM
                     package versions of your recipe's ingredients. The result
@@ -157,13 +172,13 @@ function RecipeStarter(props) {
                 }}
               >
                 <Paper sx={{ p: 2, m: 2 }}>
-                  <Button
+                  <StyledButton
                     variant="contained"
-                    sx={{ mb: 2 }}
+                    sx={{textTransform: 'none', mb: 2 }}
                     onClick={handleForkClick}
                   >
-                    Fork this Recipe
-                  </Button>
+                    Fork
+                  </StyledButton>
                   <p>
                     Fathym will take all your recipe ingredients and create
                     copies of them in your personal Github organization. This
@@ -192,13 +207,13 @@ function RecipeStarter(props) {
                 }}
               >
                 <Paper sx={{ p: 2, m: 2 }}>
-                  <Button
+                  <StyledButton
                     variant="contained"
-                    sx={{ mb: 2 }}
+                    sx={{textTransform: 'none', mb: 2 }}
                     onClick={handleForkClick}
                   >
-                    Launch Micro Frontend
-                  </Button>
+                    Launch
+                  </StyledButton>
                   <p>
                     Fathym will take all your recipe ingredients and create
                     copies of them in your personal GitHub organization. This

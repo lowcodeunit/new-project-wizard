@@ -22,7 +22,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
-const ColorButton = styled(Button)({
+const StyledButton = styled(Button)({
   fontFamily: [
     '-apple-system',
     'BlinkMacSystemFont',
@@ -252,13 +252,13 @@ class CustomProject extends LCUComponent {
               onKeyDown={this.keyPress}
             />
           </Box>
-          <ColorButton
+          <StyledButton
             variant="contained"
             sx={{ mt: 4, textTransform:'none' }}
             onClick={this.incrementStep}
           >
             Next
-          </ColorButton>
+          </StyledButton>
         </Box>
       );
     } else if (this.state.step === 1) {
@@ -324,14 +324,14 @@ class CustomProject extends LCUComponent {
               </Select>
             </FormControl>
           </Box>
-          <ColorButton
+          <StyledButton
             variant="contained"
             sx={{ mt: 4, textTransform:'none'}}
             onClick={this.incrementStep}
             size="large"
           >
             Next
-          </ColorButton>
+          </StyledButton>
         </Box>
       );
     } else if (this.state.step === 2) {
@@ -408,7 +408,7 @@ class CustomProject extends LCUComponent {
               Select a predefined value or enter your custom output directory.
             </p>
           </Box>
-          <ColorButton
+          <StyledButton
             variant="contained"
             sx={{ mt: 4, textTransform:'none' }}
             disabled={!this.state.readyToSubmit}
@@ -418,7 +418,7 @@ class CustomProject extends LCUComponent {
             <Link style={{ textDecoration: 'none', color: 'white' }} to="/custom/deploy">
               Deploy Project
             </Link>
-          </ColorButton>
+          </StyledButton>
 
         </Box >
       );
