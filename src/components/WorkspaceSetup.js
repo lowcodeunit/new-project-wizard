@@ -8,7 +8,7 @@ import { SiAzuredevops, SiGithub } from 'react-icons/si';
 import { IoLogoBitbucket } from "react-icons/io5";
 import { AiFillGitlab } from "react-icons/ai";
 
-const ColorButton = styled(Button)({
+const StyledButton = styled(Button)({
   fontFamily: [
     '-apple-system',
     'BlinkMacSystemFont',
@@ -96,14 +96,14 @@ function WorkspaceSetup(props) {
 
 
       <h4>Import an existing GitHub project</h4>
-      <ColorButton
+      <StyledButton
         sx={{ textTransform: 'none' }}
         variant="contained"
         onClick={handleCustomClick}
       >
         Import from Git
 
-      </ColorButton>
+      </StyledButton>
     </Paper>
   )
   let pageWidth;
@@ -135,48 +135,48 @@ function WorkspaceSetup(props) {
 
           if (item.SourceCode !== null) {
             sourceCode =
-              <ColorButton
+              <StyledButton
                 sx={{ textTransform: 'none' }}
                 variant="text"
                 onClick={() => handleSourceClick(item.SourceCode)}
               >
                 Source Code
-              </ColorButton>
+              </StyledButton>
           }
 
           if (item.RecipeType === 'MFE') {
             buttonBox = (
               <CardActions>
-                <ColorButton
+                <StyledButton
                   sx={{ textTransform: 'none' }}
                   variant="contained"
                   value={item}
                   onClick={() => handleCustom(item)}
                 >
                   Launch
-                </ColorButton>
+                </StyledButton>
                 {sourceCode}
               </CardActions>
             );
           } else {
             buttonBox = (
               <CardActions>
-                <ColorButton
+                <StyledButton
                   sx={{ textTransform: 'none' }}
                   value={item}
                   onClick={() => handleForkClick(item)}
                   variant="contained"
                 >
                   Fork
-                </ColorButton>
-                <ColorButton
+                </StyledButton>
+                <StyledButton
                   sx={{ textTransform: 'none', backgroundColor:'white' }}
                   onClick={() => handleOpenSource(item)}
                   variant="outlined"
 
                 >
                   Launch
-                </ColorButton>
+                </StyledButton>
                 {sourceCode}
               </CardActions>
             );
