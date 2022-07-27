@@ -1,9 +1,24 @@
 import '../App.css';
 import React, { useState, useEffect } from 'react';
+import { styled } from '@mui/material/styles';
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Box, Button, FormControl, IconButton, InputLabel, Select, MenuItem, Paper } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Loader from './Loader';
+
+const StyledButton = styled(Button)({
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',]
+  })
 
 function RecipeFork(props) {
     const recipeLookup = useParams();
@@ -103,15 +118,15 @@ function RecipeFork(props) {
                         </Box>
                     }
 
-                    <Button
+                    <StyledButton
                         variant="contained"
-                        sx={{ m: 4 }}
+                        sx={{ m: 4, textTransform:'none' }}
                         disabled={selectedOrg === ''}
                         onClick={handleSubmit}
                         size="large"
                     >
                         Deploy Project
-                    </Button>
+                    </StyledButton>
                 </Box>
             </Paper>
         </Box>
