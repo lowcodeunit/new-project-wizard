@@ -1,9 +1,25 @@
 import '../App.css';
 import React from 'react';
+import { styled } from '@mui/material/styles';
 import { Helmet } from 'react-helmet';
 import LCUComponent from './LCUComponent';
 import { CircularProgress, Box, Button, Link, Paper } from '@mui/material';
 import logo from '../recipelogos/thinky.png'
+
+const StyledButton = styled(Button)({
+  fontFamily: [
+    '-apple-system',
+    'BlinkMacSystemFont',
+    '"Segoe UI"',
+    'Roboto',
+    '"Helvetica Neue"',
+    'Arial',
+    'sans-serif',
+    '"Apple Color Emoji"',
+    '"Segoe UI Emoji"',
+    '"Segoe UI Symbol"',]
+})
+
 
 class LoadingPage extends LCUComponent {
   constructor(props) {
@@ -85,14 +101,14 @@ class LoadingPage extends LCUComponent {
       content = (
         <Box>
           <Link href="/dashboard?direct=true" underline="none">
-            <Button
+            <StyledButton
               variant="contained"
-              sx={{ mt: 4 }}
+              sx={{ mt: 4,  textTransform:'none' }}
               onClick={this.handleContinueClick}
               size="large"
             >
               Continue to Dashboard
-            </Button>
+            </StyledButton>
           </Link>
         </Box>
       );
