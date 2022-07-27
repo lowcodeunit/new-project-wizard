@@ -74,7 +74,7 @@ function GithubConnect(props) {
             and we'll help you with the following:
           </p>
 
-          <StyledButton variant="contained" sx={{ mb: 2 }} onClick={authGit}>
+          <StyledButton variant="contained" sx={{ mb: 2, textTransform:'none'  }} onClick={authGit}>
             Connect to GitHub
           </StyledButton>
           <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', alignItems: "center", justifyContent: 'center' }}>
