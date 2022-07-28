@@ -26,9 +26,14 @@ const StyledButton = styled(Button)({
 function WorkspaceSetup(props) {
   const navigate = useNavigate();
   function handleCustomClick() {
-    if (props.authStatus !== 0) {
+    if (props.authStatus !== 0 && window.self !== window.top) {
+      window.open(window.self.location.href + `/custom/connect`, '_top').focus();
+    } else if(props.authStatus !== 0) {      
       navigate('/custom/connect');
-    } else {
+    } else if(window.self !== window.top) {
+      window.open(window.self.location.href + `/custom`, '_top').focus();
+    }
+    else {
       navigate('/custom');
     }
   }
