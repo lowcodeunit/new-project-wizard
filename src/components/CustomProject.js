@@ -434,7 +434,7 @@ class CustomProject extends LCUComponent {
         }}
       >
         <Helmet>
-          <title>LowCodeUnit - Custom Project</title>
+          <title>Fathym - Custom Project</title>
         </Helmet>
         <Paper sx={{ width: ['90%', '80%', '60%'], display: 'flex', flexDirection: 'column', my: 2, py: 2 }} elevation={6}>
           {this.state.redirect}
