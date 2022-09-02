@@ -1,26 +1,64 @@
 import '../App.css';
 import React from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { Box, Button, Grid, Paper, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { Box, Button, Grid, Paper, Card, CardActions, CardMedia, CardContent, Tooltip } from '@mui/material';
+import { SiAzuredevops, SiGithub } from 'react-icons/si';
+import { IoLogoBitbucket } from "react-icons/io5";
+import { AiFillGitlab } from "react-icons/ai";
+
+const StyledButton = styled(Button)({
+  fontFamily: [
+    '-apple-system',
+    'BlinkMacSystemFont',
+    '"Segoe UI"',
+    'Roboto',
+    '"Helvetica Neue"',
+    'Arial',
+    'sans-serif',
+    '"Apple Color Emoji"',
+    '"Segoe UI Emoji"',
+    '"Segoe UI Symbol"',]
+})
+
 
 function WorkspaceSetup(props) {
   const navigate = useNavigate();
   function handleCustomClick() {
-    if (props.authStatus !== 0) {
+    if (props.authStatus !== 0 && window.self !== window.top) {
+      window.open(window.self.location.href + `/custom/connect`, '_top').focus();
+    } else if(props.authStatus !== 0) {      
       navigate('/custom/connect');
-    } else {
+    } else if(window.self !== window.top) {
+      window.open(window.self.location.href + `/custom`, '_top').focus();
+    }
+    else {
       navigate('/custom');
     }
   }
-  function capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+  // function capitalize(str) {
+  //   return str.charAt(0).toUpperCase() + str.slice(1);
+  // }
+  function handleSourceClick(url) {
+    window.open(url, '_blank').focus();
+  }
+  function handleCustom(recipe) {
+    if (recipe.ID === "00000000-0000-0000-0000-000000000009") {
+      handleOpenSource(recipe);
+    } else {
+      handleForkClick(recipe);
+    }
   }
   function handleForkClick(recipe) {
     props.onStepChange();
     props.selectedRecipe(recipe.ID);
-    if (props.authStatus !== 0) {
+    if (props.authStatus !== 0 && window.self !== window.top) {
+      window.open(window.self.location.href + `/recipe/${recipe.Lookup}/connect`, '_top').focus();
+    } else if (props.authStatus !== 0) {
       navigate(`/recipe/${recipe.Lookup}/connect`);
+    } else if (window.self !== window.top) {
+      window.open(window.self.location.href + `/recipe/${recipe.Lookup}/fork`, '_top').focus();
     } else {
       navigate(`/recipe/${recipe.Lookup}/fork`);
     }
@@ -41,140 +79,149 @@ function WorkspaceSetup(props) {
       console.log('Request complete! response:', res);
       props.projectIsLoaded();
     });
+    if (window.self !== window.top) {
+      window.open(window.self.location.href + `/recipe/${recipe.Lookup}/deploy`, '_top').focus();
+    } else {
     navigate(`/recipe/${recipe.Lookup}/deploy`);
+    }
+  }
+
+  let importSection = (
+    <Paper elevation={6} sx={{ height: '150px', maxWidth: '600px', textAlign: "left", px: ['5px', '10px', '15px'], borderTop: '6px solid #4a918e', marginBottom: '60px'}}>
+      <Box sx={{display:'flex', flexDirection:'row'}}>
+        <SiGithub size='1.5em' className='GitLogos' />
+        <Tooltip title="Coming soon">
+          <Box>
+            <SiAzuredevops color="lightgrey" size='1.5em' className='GitLogosDisabled' />
+            <IoLogoBitbucket color="lightgrey" size='1.5em' className='GitLogosDisabled' />
+            <AiFillGitlab color="lightgrey" size='1.5em' className='GitLogosDisabled' />
+          </Box>
+        </Tooltip>
+      </Box>
+
+
+      <h4>Import an existing GitHub project</h4>
+      <StyledButton
+        sx={{ textTransform: 'none' }}
+        variant="contained"
+        onClick={handleCustomClick}
+      >
+        Import from Git
+
+      </StyledButton>
+    </Paper>
+  )
+  let pageWidth;
+  if(window.self !== window.top){
+    pageWidth = "90%"
+    console.log("in iframe");
+  } else {
+    pageWidth = ['90%', '80%', '65%']
+    console.log("window self is " + window.self + " top is " + window.top.toString());
   }
 
   let recipeSection = (
-    <Box
+
+    <Grid container spacing={3}
+      alignItems="center"
+      justify="center"
       sx={{
+        px: "10px",
+        minHeight: '100vh',
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center',
-        mx: 4,
-      }}
-    >
-      <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-        {props.recipeList.map((item) => {
+        alignItems: 'center'
+      }}>
+
+      {
+        props.recipeList.map((item) => {
           let buttonBox;
+          let sourceCode;
+
+          if (item.SourceCode !== null) {
+            sourceCode =
+              <StyledButton
+                sx={{ textTransform: 'none' }}
+                variant="text"
+                onClick={() => handleSourceClick(item.SourceCode)}
+              >
+                Source Code
+              </StyledButton>
+          }
 
           if (item.RecipeType === 'MFE') {
             buttonBox = (
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  width: '100%',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <Button
+              <CardActions>
+                <StyledButton
+                  sx={{ textTransform: 'none' }}
                   variant="contained"
-                  className="recipeButtons"
-                  sx={{ mr: 1 }}
                   value={item}
-                  onClick={() => handleForkClick(item)}
+                  onClick={() => handleCustom(item)}
                 >
-                  Launch Micro Frontend
-                </Button>
-              </Box>
+                  Launch
+                </StyledButton>
+                {sourceCode}
+              </CardActions>
             );
           } else {
             buttonBox = (
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  width: '100%',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <Button
-                  variant="contained"
-                  className="recipeButtons"
-                  sx={{ mr: 1 }}
+              <CardActions>
+                <StyledButton
+                  sx={{ textTransform: 'none' }}
                   value={item}
                   onClick={() => handleForkClick(item)}
+                  variant="contained"
                 >
                   Fork
-                </Button>
-                <Button
-                  variant="contained"
-                  className="recipeButtons"
+                </StyledButton>
+                <StyledButton
+                  sx={{ textTransform: 'none', backgroundColor:'white' }}
                   onClick={() => handleOpenSource(item)}
+                  variant="outlined"
+
                 >
                   Launch
-                </Button>
-              </Box>
+                </StyledButton>
+                {sourceCode}
+              </CardActions>
             );
           }
 
           return (
-            <Box>
-              <Grid container spacing={1} sx={{ mt: 2 }}>
-                <Grid item xs={2} md={2}>
-                  <img
-                    className="recipeImage"
-                    src={item.PreviewImage}
-                    alt={item.Lookup}
-                  />
-                </Grid>
-                <Grid item xs={4} md={4}>
-                  <Box>
-                    <Typography
-                      sx={{
-                        fontWeight: ['600', '600', '900'],
-                        fontSize: ['20px'],
-                      }}
-                      align="left"
-                      noWrap={true}
-                    >
-                      {item.Name}
-                    </Typography>
-                    <Typography
-                      sx={{
-                        fontWeight: '400',
-                        fontSize: ['15px'],
-                        display: ['none', 'none', 'block'],
-                      }}
-                      noWrap={false}
-                      align="left"
-                    >
-                      {`${item.Description.substring(0, 80)}...`}
-                      <Link color="primary" to={`/recipe/${item.Lookup}`}>
-                        More Info
-                      </Link>
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={6} md={6}>
-                  <Box
-                    sx={{
-                      width: '100%',
-                      alignItems: 'center',
-                      justifyContent: 'flex-end',
-                      pt: [0, 1, 4],
-                    }}
-                  >
-                    {buttonBox}
+            <Grid item xs={12} sm={6} md={6} container
+              alignItems="center"
+              justify="center"
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Card elevation={6} sx={{ maxWidth: "600px", width: '100%', backgroundColor: '#ebecf0' }} >
+                <CardMedia
+                  component="img"
+                  sx={{
+                    height: "auto"
+                  }}
+                  image={item.Image}
+                />
+                <CardContent sx={{ height: { xs: '180px', m: '150px', lg: '150px' }, textAlign: 'left' }}>
+                  <h4>
+                    {item.Name}
+                  </h4>
+                  <p>
+                    {item.Description}
+                  </p>
+                </CardContent>
+                {buttonBox}
+              </Card>
+            </Grid>
 
-                    <Link
-                      className="recipeLink"
-                      color="primary"
-                      to={`/recipe/${item.Lookup}`}
-                    >
-                      More Info
-                    </Link>
-                  </Box>
-                </Grid>
-              </Grid>
-              <hr />
-            </Box>
           );
-        })}
-      </Box>
-    </Box>
+        })
+      }
+
+    </Grid >
   );
 
   return (
@@ -189,49 +236,44 @@ function WorkspaceSetup(props) {
       <Helmet>
         <title>Fathym - Select your project</title>
       </Helmet>
-      <Paper
+      <Box
         sx={{
-          width: ['90%', '80%', '60%'],
+          width: pageWidth,
           display: 'flex',
           flexDirection: 'column',
           my: 2,
           py: 2,
         }}
-        elevation={6}
       >
         <Box
           sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            pl: [0, 0, 4],
+            display: 'inline-flex',
             width: '100%',
-            flexDirection: { xs: 'column', sm: 'column', md: 'row' },
+            justifyContent: 'flex-start',
+            textAlign: 'left',
+            flexDirection: "column",
+            paddingBottom: '20px',
+            paddingLeft: ['5px', '10px', '20px']
           }}
         >
-          <h2>Get started with a template</h2>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: { xs: 'center', sm: 'center', md: 'flex-end' },
-            }}
-          >
-            <Button
-              sx={{ mr: [0, 0, 5], height: '70%' }}
-              variant="contained"
-              onClick={handleCustomClick}
-            >
-              Create custom project
-            </Button>
-          </Box>
-        </Box>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-start', pl: 4 }}>
+          <h2>Deploy a project</h2>
           <p>
-            Launch from our open source repo or fork to yours to launch. Note:
-            to customize your code you must fork to your own repo
+            Import a project from your GitHub account, or start from one of our templates below.
+          </p>
+          <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+            {importSection}
+          </Box>
+
+          <h2>Get Started with a template </h2>
+          <p>
+            Launch from our open-source repo or fork to your own.
+          </p>
+          <p>
+            <strong>Note: </strong>To customize the code you must fork to your own repo.
           </p>
         </Box>
         <Box>{recipeSection}</Box>
-      </Paper>
+      </Box>
     </Box>
   );
 }

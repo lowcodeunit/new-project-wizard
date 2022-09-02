@@ -1,5 +1,6 @@
 import '../App.css';
 import React from 'react';
+import { styled } from '@mui/material/styles';
 import { Link, Navigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import LCUComponent from './LCUComponent';
@@ -21,6 +22,19 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
+const StyledButton = styled(Button)({
+  fontFamily: [
+    '-apple-system',
+    'BlinkMacSystemFont',
+    '"Segoe UI"',
+    'Roboto',
+    '"Helvetica Neue"',
+    'Arial',
+    'sans-serif',
+    '"Apple Color Emoji"',
+    '"Segoe UI Emoji"',
+    '"Segoe UI Symbol"',]
+})
 
 class CustomProject extends LCUComponent {
   constructor(props) {
@@ -224,7 +238,7 @@ class CustomProject extends LCUComponent {
     let formPage;
     if (this.state.step === 0) {
       formPage = (
-        <Box sx={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', display: 'flex', flexDirection: 'column', height: '75vh' }}>
+        <Box sx={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', display: 'flex', flexDirection: 'column', minHeight: '75vh' }}>
           <p>Welcome! Let's start with the project basics</p>
           <p>What is your project name?</p>
           <Box>
@@ -238,23 +252,23 @@ class CustomProject extends LCUComponent {
               onKeyDown={this.keyPress}
             />
           </Box>
-          <Button
+          <StyledButton
             variant="contained"
-            sx={{ mt: 4 }}
+            sx={{ mt: 4, textTransform:'none' }}
             onClick={this.incrementStep}
           >
             Next
-          </Button>
+          </StyledButton>
         </Box>
       );
     } else if (this.state.step === 1) {
       formPage = (
-        <Box sx={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', display: 'flex', flexDirection: 'column', height: '75vh' }}>
+        <Box sx={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', display: 'flex', flexDirection: 'column', minHeight: '75vh' }}>
           <Box>
             <p>What is your git organization?</p>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">
-                Github Organization
+                GitHub Organization
               </InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -274,7 +288,7 @@ class CustomProject extends LCUComponent {
             <p>What is your git repository?</p>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">
-                Github Repository
+                GitHub Repository
               </InputLabel>
               <Select
                 disabled={this.state.selectedOrg === ''}
@@ -292,7 +306,7 @@ class CustomProject extends LCUComponent {
             </FormControl>
           </Box>
           <Box>
-            <p>What is your main branch</p>
+            <p>What is your main branch?</p>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Main Branch</InputLabel>
               <Select
@@ -310,19 +324,19 @@ class CustomProject extends LCUComponent {
               </Select>
             </FormControl>
           </Box>
-          <Button
+          <StyledButton
             variant="contained"
-            sx={{ mt: 4 }}
+            sx={{ mt: 4, textTransform:'none'}}
             onClick={this.incrementStep}
             size="large"
           >
             Next
-          </Button>
+          </StyledButton>
         </Box>
       );
     } else if (this.state.step === 2) {
       formPage = (
-        <Box sx={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', display: 'flex', flexDirection: 'column', height: '75vh' }}>
+        <Box sx={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', display: 'flex', flexDirection: 'column', minHeight: '75vh' }}>
           <Box>
             <p>What is your build command?</p>
             <TextField
@@ -334,7 +348,7 @@ class CustomProject extends LCUComponent {
             />
           </Box>
           <Box>
-            <p>what is your install command</p>
+            <p>what is your install command?</p>
             <TextField
               id="outlined-basic"
               label="Install Command"
@@ -344,7 +358,7 @@ class CustomProject extends LCUComponent {
             />
           </Box>
           <Box>
-            <p>What is the build output directory</p>
+            <p>What is the build output directory?</p>
             <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap' }}>
               <ButtonGroup
                 variant="contained"
@@ -394,9 +408,9 @@ class CustomProject extends LCUComponent {
               Select a predefined value or enter your custom output directory.
             </p>
           </Box>
-          <Button
+          <StyledButton
             variant="contained"
-            sx={{ mt: 4 }}
+            sx={{ mt: 4, textTransform:'none' }}
             disabled={!this.state.readyToSubmit}
             onClick={this.handleSubmit}
             size="large"
@@ -404,7 +418,7 @@ class CustomProject extends LCUComponent {
             <Link style={{ textDecoration: 'none', color: 'white' }} to="/custom/deploy">
               Deploy Project
             </Link>
-          </Button>
+          </StyledButton>
 
         </Box >
       );
@@ -420,7 +434,7 @@ class CustomProject extends LCUComponent {
         }}
       >
         <Helmet>
-          <title>LowCodeUnit - Custom Project</title>
+          <title>Fathym - Custom Project</title>
         </Helmet>
         <Paper sx={{ width: ['90%', '80%', '60%'], display: 'flex', flexDirection: 'column', my: 2, py: 2 }} elevation={6}>
           {this.state.redirect}

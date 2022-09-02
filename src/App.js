@@ -13,6 +13,7 @@ import GithubConnect from './components/GithubConnect';
 import LoadingPage from './components/LoadingPage';
 import { createTheme } from '@mui/material/styles';
 import logo from './recipelogos/thinky.png'
+import ScrollToTop from './components/ScrollToTop'
 
 const theme = createTheme({
   palette: {
@@ -20,7 +21,7 @@ const theme = createTheme({
       main: '#4a918e',
     },
     secondary: {
-      main: '#f50057',
+      main: '#ffffff',
     },
   },
 });
@@ -146,6 +147,10 @@ class HomeComponent extends LCUComponent {
 
   render() {
     let content;
+    let header;
+    if(window.self === window.top) {
+      header = <Header />
+    }
     if (!this.state.gitHubAuthStatus || !this.state.recipesLoaded) {
       content =
         <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', height:'80vh'}}>
@@ -276,10 +281,9 @@ class HomeComponent extends LCUComponent {
             <Helmet>
               <title>Fathym - Welcome</title>
             </Helmet>
-            <Header />
-            <Box
-
-            >
+            {header}
+            <Box>
+              <ScrollToTop/>
               {content}
             </Box>
           </ThemeProvider>
