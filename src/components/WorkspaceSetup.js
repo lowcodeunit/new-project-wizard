@@ -7,6 +7,7 @@ import { Box, Button, Grid, Paper, Card, CardActions, CardMedia, CardContent, To
 import { SiAzuredevops, SiGithub } from 'react-icons/si';
 import { IoLogoBitbucket } from "react-icons/io5";
 import { AiFillGitlab } from "react-icons/ai";
+import Dropzone from "./Dropzone";
 
 const StyledButton = styled(Button)({
   fontFamily: [
@@ -263,6 +264,7 @@ function WorkspaceSetup(props) {
           <Box sx={{ display: 'flex', flexDirection: 'row' }}>
             {importSection}
           </Box>
+          <Dropzone />
 
           <h2>Get Started with a template </h2>
           <p>
