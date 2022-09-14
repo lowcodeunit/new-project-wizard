@@ -21,6 +21,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 const StyledButton = styled(Button)({
   fontFamily: [
@@ -54,6 +55,7 @@ class CustomProject extends LCUComponent {
       selectedRepo: '',
       selectedBranch: '',
       readyToSubmit: false,
+      captchaValue: ''
     };
     this.handBuildMenuToggle = this.handBuildMenuToggle.bind(this);
     this.handleBuildMenuClose = this.handleBuildMenuClose.bind(this);
@@ -69,6 +71,7 @@ class CustomProject extends LCUComponent {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleProjectNameChange = this.handleProjectNameChange.bind(this);
     this.keyPress = this.keyPress.bind(this);
+    this.handleReCaptchaChange =  this.handleReCaptchaChange.bind(this)
   }
 
   async componentDidMount() {
@@ -139,6 +142,14 @@ class CustomProject extends LCUComponent {
     });
   }
 
+  handleReCaptchaChange(value) {    
+    console.log("Captcha value:", value);
+    this.setState ({
+      captchaValue: value
+    })
+
+  }
+
   handleRepoSelect(event) {
     this.setState({ selectedRepo: event.target.value }, () => {
       this.readyToSubmit();
@@ -199,6 +210,7 @@ class CustomProject extends LCUComponent {
       OutputDirectory: this.state.buildOutput,
       ProjectName: this.state.ProjectName,
       Repository: this.state.selectedRepo,
+      CaptchaValue: this.state.captchaValue
     };
     fetch('/api/lowcodeunit/create/project', {
       method: 'POST',
@@ -408,10 +420,14 @@ class CustomProject extends LCUComponent {
               Select a predefined value or enter your custom output directory.
             </p>
           </Box>
+          <ReCAPTCHA
+            sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+            onChange={this.handleReCaptchaChange}
+            />
           <StyledButton
             variant="contained"
             sx={{ mt: 4, textTransform:'none' }}
-            disabled={!this.state.readyToSubmit}
+            disabled={!this.state.readyToSubmit && this.state.captchaValue != ''}
             onClick={this.handleSubmit}
             size="large"
           >
