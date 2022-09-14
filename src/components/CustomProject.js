@@ -427,7 +427,7 @@ class CustomProject extends LCUComponent {
           <StyledButton
             variant="contained"
             sx={{ mt: 4, textTransform:'none' }}
-            disabled={!this.state.readyToSubmit && this.state.captchaValue != ''}
+            disabled={!this.state.readyToSubmit && this.state.captchaValue !== ''}
             onClick={this.handleSubmit}
             size="large"
           >
