@@ -1,24 +1,10 @@
 import '../App.css';
 import React, { useState, useEffect } from 'react';
-import { styled } from '@mui/material/styles';
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Box, Button, FormControl, IconButton, InputLabel, Select, MenuItem, Paper } from '@mui/material';
+import { Box, FormControl, IconButton, InputLabel, Select, MenuItem, Paper } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Loader from './Loader';
-
-const StyledButton = styled(Button)({
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',]
-  })
+import DeployDialog from './DeployDialog';
 
 function RecipeFork(props) {
     const recipeLookup = useParams();
@@ -45,24 +31,6 @@ function RecipeFork(props) {
         return array.find((element) => {
             return element.Lookup === lookup;
         });
-    }
-
-    function handleSubmit() {
-        let data = {
-            Organization: selectedOrg,
-            RecipeID: recipe.ID,
-            ProjectName: recipe.Name,
-        };
-        fetch('/api/lowcodeunit/create/project', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data),
-        }).then((res) => {
-            console.log('Request complete! response:', res);
-            props.projectIsLoaded();
-        });
-        props.selectedRecipe(recipe.ID);
-        navigate(`/recipe/${recipe.Lookup}/deploy`);
     }
 
     return (
@@ -118,7 +86,7 @@ function RecipeFork(props) {
                         </Box>
                     }
 
-                    <StyledButton
+                    {/* <StyledButton
                         variant="contained"
                         sx={{ m: 4, textTransform:'none' }}
                         disabled={selectedOrg === ''}
@@ -126,7 +94,19 @@ function RecipeFork(props) {
                         size="large"
                     >
                         Deploy Project
-                    </StyledButton>
+                    </StyledButton> */}
+                    <DeployDialog
+                        ButtonLabel="Deploy Project"
+                        recipeType="fork"
+                        deployPage={`/recipe/${recipe.Lookup}/deploy`}
+                        data={ {
+                            Organization: selectedOrg,
+                            RecipeID: recipe.ID,
+                            ProjectName: recipe.Name,
+                        }}
+                        IsDisabled={selectedOrg === ''}
+                        projectIsLoaded = {props.projectIsLoaded}
+                    />
                 </Box>
             </Paper>
         </Box>

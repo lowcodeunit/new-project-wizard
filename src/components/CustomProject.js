@@ -21,7 +21,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ReCAPTCHA from 'react-google-recaptcha';
+import DeployDialog from './DeployDialog';
 
 const StyledButton = styled(Button)({
   fontFamily: [
@@ -36,7 +36,6 @@ const StyledButton = styled(Button)({
     '"Segoe UI Emoji"',
     '"Segoe UI Symbol"',]
 })
-
 class CustomProject extends LCUComponent {
   constructor(props) {
     super(props);
@@ -47,6 +46,7 @@ class CustomProject extends LCUComponent {
       buildOutput: './',
       buildInstall: 'npm i',
       buildMenuOpen: false,
+      callData: null,
       step: 0,
       ProjectName: '',
       branches: [],
@@ -68,10 +68,9 @@ class CustomProject extends LCUComponent {
     this.handleInstallChange = this.handleInstallChange.bind(this);
     this.handleOutputChange = this.handleOutputChange.bind(this);
     this.handleRepoSelect = this.handleRepoSelect.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleProjectNameChange = this.handleProjectNameChange.bind(this);
     this.keyPress = this.keyPress.bind(this);
-    this.handleReCaptchaChange =  this.handleReCaptchaChange.bind(this)
+    this.handleReCaptchaChange = this.handleReCaptchaChange.bind(this)
   }
 
   async componentDidMount() {
@@ -81,7 +80,6 @@ class CustomProject extends LCUComponent {
     });
     this.props.onStepChange(1);
     if (this.props.authStatus !== 0) {
-      console.log("in auth nav")
       this.setState({ redirect: <Navigate to="connect" /> })
     }
   }
@@ -129,7 +127,9 @@ class CustomProject extends LCUComponent {
     this.props.buttonClick('');
   }
   handleBranchSelect(event) {
-    this.setState({ selectedBranch: event.target.value }, () => {
+    this.setState({ 
+      selectedBranch: event.target.value,
+     }, () => {
       this.readyToSubmit();
     });
   }
@@ -142,9 +142,9 @@ class CustomProject extends LCUComponent {
     });
   }
 
-  handleReCaptchaChange(value) {    
+  handleReCaptchaChange(value) {
     console.log("Captcha value:", value);
-    this.setState ({
+    this.setState({
       captchaValue: value
     })
 
@@ -201,31 +201,30 @@ class CustomProject extends LCUComponent {
     });
   }
 
-  handleSubmit() {
-    let data = {
-      Branch: this.state.selectedBranch,
-      BuildCommand: this.state.buildCommand,
-      InstallCommand: this.state.buildInstall,
-      Organization: this.state.selectedOrg,
-      OutputDirectory: this.state.buildOutput,
-      ProjectName: this.state.ProjectName,
-      Repository: this.state.selectedRepo,
-      CaptchaValue: this.state.captchaValue
-    };
-    fetch('/api/lowcodeunit/create/project', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    }).then((res) => {
-      console.log('Request complete! response:', res);
-      this.props.projectIsLoaded('custom', data);
-    });
-    this.props.onStepChange();
-    this.lcu.track('project_submitted', null, {
-      DeployType: 'custom',
-      DeployData: data,
-    });
-  }
+  // handleSubmit() {
+  //   let data = {
+  //     Branch: this.state.selectedBranch,
+  //     BuildCommand: this.state.buildCommand,
+  //     InstallCommand: this.state.buildInstall,
+  //     Organization: this.state.selectedOrg,
+  //     OutputDirectory: this.state.buildOutput,
+  //     ProjectName: this.state.ProjectName,
+  //     Repository: this.state.selectedRepo,
+  //   };
+  //   fetch('/api/lowcodeunit/create/project', {
+  //     method: 'POST',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify(data),
+  //   }).then((res) => {
+  //     console.log('Request complete! response:', res);
+  //     this.props.projectIsLoaded('custom', data);
+  //   });
+  //   this.props.onStepChange();
+  //   this.lcu.track('project_submitted', null, {
+  //     DeployType: 'custom',
+  //     DeployData: data,
+  //   });
+  // }
 
   keyPress(e) {
     if (e.keyCode === 13) {
@@ -242,7 +241,18 @@ class CustomProject extends LCUComponent {
       this.state.selectedRepo !== '' &&
       this.state.ProjectName !== ''
     ) {
-      this.setState({ readyToSubmit: true });
+      this.setState({ 
+        readyToSubmit: true,
+        callData: {
+          Branch: this.state.selectedBranch,
+          BuildCommand: this.state.buildCommand,
+          InstallCommand: this.state.buildInstall,
+          Organization: this.state.selectedOrg,
+          OutputDirectory: this.state.buildOutput,
+          ProjectName: this.state.ProjectName,
+          Repository: this.state.selectedRepo,
+        }
+       });
     }
   }
 
@@ -266,7 +276,7 @@ class CustomProject extends LCUComponent {
           </Box>
           <StyledButton
             variant="contained"
-            sx={{ mt: 4, textTransform:'none' }}
+            sx={{ mt: 4, textTransform: 'none' }}
             onClick={this.incrementStep}
           >
             Next
@@ -338,7 +348,7 @@ class CustomProject extends LCUComponent {
           </Box>
           <StyledButton
             variant="contained"
-            sx={{ mt: 4, textTransform:'none'}}
+            sx={{ mt: 4, textTransform: 'none' }}
             onClick={this.incrementStep}
             size="large"
           >
@@ -380,7 +390,7 @@ class CustomProject extends LCUComponent {
                   InputLabelProps={{ shrink: true }}
                   label="Output Directory"
                   variant="outlined"
-                  value={this.state.buildOutput}
+                  // value={this.state.buildOutput}
                   onChange={this.handleOutputChange}
                   defaultValue={this.state.buildOutput}
                 />
@@ -420,11 +430,7 @@ class CustomProject extends LCUComponent {
               Select a predefined value or enter your custom output directory.
             </p>
           </Box>
-          <ReCAPTCHA
-            sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
-            onChange={this.handleReCaptchaChange}
-            />
-          <StyledButton
+          {/* <StyledButton
             variant="contained"
             sx={{ mt: 4, textTransform:'none' }}
             disabled={!this.state.readyToSubmit && this.state.captchaValue !== ''}
@@ -434,8 +440,15 @@ class CustomProject extends LCUComponent {
             <Link style={{ textDecoration: 'none', color: 'white' }} to="/custom/deploy">
               Deploy Project
             </Link>
-          </StyledButton>
-
+            
+          </StyledButton> */}
+          <DeployDialog
+            ButtonLabel = "Deploy"
+            data = {this.state.callData}
+            deployPage = "/custom/deploy"
+            IsDisabled = {!this.state.readyToSubmit}
+            projectIsLoaded = {this.props.projectIsLoaded}
+            />
         </Box >
       );
     }

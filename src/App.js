@@ -33,7 +33,7 @@ class HomeComponent extends LCUComponent {
       recipeList: [],
       currentRecipe: '',
       recipesLoaded: false,
-      isProjectCreated: false,
+      projectCreatedResponse: null,
       gitHubAuthStatus: null,
       basename: '/dashboard/create-project',
       deploy: false,
@@ -105,13 +105,13 @@ class HomeComponent extends LCUComponent {
     });
   }
 
-  projectCreated(type, data) {
+  projectCreated(type, data, resp) {
     this.lcu.track('project_deployed', 'setup/deployed', {
       DeployType: type,
       DeployData: data,
     });
 
-    this.setState({ isProjectCreated: true });
+    this.setState({ projectCreatedResponse: resp });
   }
 
   loadBaseHref() {
@@ -250,7 +250,7 @@ class HomeComponent extends LCUComponent {
                 <LoadingPage
                   loadingMessages={['initializing enterprise', 'configuring project', 'deploying recipe']}
                   recipeList={this.state.recipeList}
-                  isProjectLoaded={this.state.isProjectCreated}
+                  isProjectLoaded={this.state.projectCreatedResponse}
                   onStepChange={this.handleStepChange}
                   recipe={this.state.currentRecipe}
                 />
@@ -265,7 +265,7 @@ class HomeComponent extends LCUComponent {
               <LoadingPage
                 loadingMessages={['initializing enterprise', 'configuring project', 'deploying recipe']}
                 recipeList={this.state.recipeList}
-                isProjectLoaded={this.state.isProjectCreated}
+                isProjectLoaded={this.state.projectCreatedResponse}
                 onStepChange={this.handleStepChange}
               />
             }
