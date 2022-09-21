@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet';
 import { styled } from '@mui/material/styles';
 import { Box, Button, Paper, IconButton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import DeployDialog from './DeployDialog';
 
 const StyledButton = styled(Button)({
   fontFamily: [
@@ -46,22 +47,6 @@ function RecipeStarter(props) {
     }
   }
 
-  function handleOpenSource() {
-    props.onStepChange();
-    let data = {
-      RecipeID: recipe.ID,
-      ProjectName: recipe.Name,
-    };
-    fetch('/api/lowcodeunit/create/project', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    }).then((res) => {
-      console.log('Request complete! response:', res);
-      props.projectIsLoaded();
-    });
-    navigate(`/recipe/${recipe.Lookup}/deploy`);
-  }
 
   return (
     <Paper
@@ -149,13 +134,17 @@ function RecipeStarter(props) {
                 }}
               >
                 <Paper sx={{ p: 2, m: 2 }}>
-                  <StyledButton
-                    variant="contained"
-                    sx={{textTransform: 'none', mb: 2 }}
-                    onClick={handleOpenSource}
-                  >
-                    Launch
-                  </StyledButton>
+                  <DeployDialog
+                    ButtonLabel="Launch"
+                    recipe={recipe}
+                    recipeType="opensource"
+                    deployPage={`/recipe/${recipe.Lookup}/deploy`}
+                    data={{
+                      RecipeID: recipe.ID,
+                      ProjectName: recipe.Name,
+                    }}
+                    projectIsLoaded={props.projectIsLoaded}
+                  />
                   <p>
                     If you use Fathym's deployment, your project will use NPM
                     package versions of your recipe's ingredients. The result
@@ -174,7 +163,7 @@ function RecipeStarter(props) {
                 <Paper sx={{ p: 2, m: 2 }}>
                   <StyledButton
                     variant="contained"
-                    sx={{textTransform: 'none', mb: 2 }}
+                    sx={{ textTransform: 'none', mb: 2 }}
                     onClick={handleForkClick}
                   >
                     Fork
@@ -209,7 +198,7 @@ function RecipeStarter(props) {
                 <Paper sx={{ p: 2, m: 2 }}>
                   <StyledButton
                     variant="contained"
-                    sx={{textTransform: 'none', mb: 2 }}
+                    sx={{ textTransform: 'none', mb: 2 }}
                     onClick={handleForkClick}
                   >
                     Launch
