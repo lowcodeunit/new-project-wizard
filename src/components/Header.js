@@ -22,56 +22,56 @@ class Header extends LCUComponent {
 
   render() {
     return (
-        <AppBar position="static" elevation={0}>
-            <Toolbar>
-            <Box sx={{display: 'flex', width:'100%'}}>
-                <Stack
-                direction="row"
-                justifyContent="flex-start"
-                alignItems="center"
-                spacing={0.5}
-                sx={{flexGrow: 1, alignContent:'start'}}>
-                <Box sx={{display:'flex',flexDirection:'row',  alignItems:"center", height: '100%'}}>
-                    <Box
-                    component="img"
-                    sx={{ 
+      <AppBar position="static" elevation={0}>
+        <Toolbar>
+          <Box sx={{ display: 'flex', width: '100%' }}>
+            <Stack
+              direction="row"
+              justifyContent="flex-start"
+              alignItems="center"
+              spacing={0.5}
+              sx={{ flexGrow: 1, alignContent: 'start' }}>
+              <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: "center", height: '100%' }}>
+                <Box
+                  component="img"
+                  sx={{
                     height: '65%'
-                    }}
-                    alt="Your logo."
-                    src={logo}
-                    />
-                    <Box>
-                    <Typography
-                        sx={{fontFamily: 'Encode Sans Condensed, sans-serif', fontWeight: '900', fontSize:'20px', pl: 2}}
-                        noWrap={true}
-                    > 
+                  }}
+                  alt="Your logo."
+                  src={logo}
+                />
+                <Box>
+                  <Typography
+                    sx={{ fontFamily: 'Encode Sans Condensed, sans-serif', fontWeight: '900', fontSize: '20px', pl: 2 }}
+                    noWrap={true}
+                  >
 
-                    </Typography>
-                    </Box>
+                  </Typography>
                 </Box>
-                </Stack>
-                <Stack
-                direction="row"
-                justifyContent="flex-end"
-                alignItems="center"
-                spacing={0.5}
-                >
-                <Button
-                    size="large"
-                    edge="end"
-                    color="inherit"
-                    aria-label="menu"
-                    onClick={this.handleClose}
-                >
-                    <ViewCompactIcon />
-                    <Typography sx={{fontFamily: 'Roboto, Helvetica Neue, sans-serif',fontSize:'14px', textTransform:'none', pl:1}}>
-                      <p>Dashboard</p>
-                    </Typography>
-                </Button>
-                </Stack>
-            </Box>
-            </Toolbar>
-        </AppBar>
+              </Box>
+            </Stack>
+            <Stack
+              direction="row"
+              justifyContent="flex-end"
+              alignItems="center"
+              spacing={0.5}
+            >
+              <Button
+                size="large"
+                edge="end"
+                color="inherit"
+                aria-label="menu"
+                onClick={this.handleClose}
+              >
+                <ViewCompactIcon />
+                <Typography sx={{ fontFamily: 'Roboto, Helvetica Neue, sans-serif', fontSize: '14px', textTransform: 'none', pl: 1 }}>
+                  Dashboard
+                </Typography>
+              </Button>
+            </Stack>
+          </Box>
+        </Toolbar>
+      </AppBar>
     );
   }
 }
