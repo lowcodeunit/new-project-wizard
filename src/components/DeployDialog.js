@@ -41,10 +41,6 @@ export default function DeployDialog(props) {
     setOpen(true);
   };
 
-  function handleReCaptchaChange(value) {
-    handleSubmit(value);
-  }
-
   function handleSubmit(value) {
     let obj = props.data;
     obj = {...obj, captchaValue: value};
@@ -87,7 +83,7 @@ export default function DeployDialog(props) {
         <DialogContent>
           <ReCAPTCHA
             sitekey="6Le6dd8hAAAAAMCKiEwWpmiwbGRii5_aMeWnN_tq"
-            onChange={handleReCaptchaChange}
+            onChange={handleSubmit}
           />
         </DialogContent>
 

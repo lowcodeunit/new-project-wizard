@@ -10,14 +10,12 @@ function RecipeFork(props) {
     const recipeLookup = useParams();
     const [selectedOrg, setSelectedOrg] = useState('');
     const [recipe] = useState(getCurrentRecipe(props.recipeList, recipeLookup.id));
-    const { onStepChange } = props;
 
     const navigate = useNavigate();
     const handleOrgSelect = e => {
         setSelectedOrg(e.target.value);
+        props.selectedRecipe(recipe.ID);
     }
-
-    useEffect(() => onStepChange(1), [onStepChange]);
 
     useEffect(() => {
         if (props.authStatus !== 0) {
@@ -68,7 +66,7 @@ function RecipeFork(props) {
                     <p>What is your git organization?</p>
                     {props.orgs.length <= 0 && <Loader />}
                     {props.orgs.length > 0 &&
-                        <Box sx={{ minWidth: 200 }}>
+                        <Box sx={{ minWidth: 200, pb:2 }}>
                             <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label"> GitHub Organization</InputLabel>
                                 <Select

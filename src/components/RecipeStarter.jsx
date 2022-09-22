@@ -24,10 +24,8 @@ const StyledButton = styled(Button)({
 function RecipeStarter(props) {
   const recipeLookup = useParams();
   const [recipe, setRecipe] = useState();
-  const { onStepChange } = props;
 
   const navigate = useNavigate();
-  useEffect(() => onStepChange(1), [onStepChange]);
   useEffect(
     () => getCurrentRecipe(props.recipeList, recipeLookup.id),
     [props.recipeList, recipeLookup.id]
@@ -39,7 +37,6 @@ function RecipeStarter(props) {
   }
 
   function handleForkClick() {
-    props.onStepChange();
     if (props.authStatus !== 0) {
       navigate(`/recipe/${recipe.Lookup}/connect`);
     } else {

@@ -64,7 +64,6 @@ function WorkspaceSetup(props) {
 
   function handleOpenSource(recipe) {
     console.log("handling open source " + recipe);
-    props.onStepChange();
     props.selectedRecipe(recipe.ID);
     let recipeData = {
       RecipeID: props.recipe.ID,

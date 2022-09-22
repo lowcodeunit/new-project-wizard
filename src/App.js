@@ -39,7 +39,6 @@ class HomeComponent extends LCUComponent {
       deploy: false,
       orgs: [],
     };
-    this.handleStepChange = this.handleStepChange.bind(this);
     this.projectCreated = this.projectCreated.bind(this);
     this.getCurrentRecipe = this.getCurrentRecipe.bind(this);
   }
@@ -131,10 +130,6 @@ class HomeComponent extends LCUComponent {
     return baseHref;
   }
 
-  handleStepChange(step) {
-    this.setState({ currentStep: step });
-  }
-
   findRecipe(ID) {
     return this.state.recipeList.find((element) => {
       return element.ID === ID;
@@ -174,7 +169,6 @@ class HomeComponent extends LCUComponent {
               <WorkspaceSetup
                 authStatus={this.state.gitHubAuthStatus.Code}
                 recipeList={this.state.recipeList}
-                onStepChange={this.handleStepChange}
                 projectIsLoaded={this.projectCreated}
                 selectedRecipe={this.getCurrentRecipe}
               ></WorkspaceSetup>
@@ -194,7 +188,6 @@ class HomeComponent extends LCUComponent {
                 <CustomProject
                   authStatus={this.state.gitHubAuthStatus.Code}
                   orgs={this.state.orgs}
-                  onStepChange={this.handleStepChange}
                   projectIsLoaded={this.projectCreated}
                 />
               </Box>
@@ -220,7 +213,6 @@ class HomeComponent extends LCUComponent {
                     authStatus={this.state.gitHubAuthStatus.Code}
                     recipeID={this.state.workspace}
                     recipeList={this.state.recipeList}
-                    onStepChange={this.handleStepChange}
                     projectIsLoaded={this.projectCreated}
                     useRecipeClick={this.handleRecipeForkClick}
                   />
@@ -235,7 +227,6 @@ class HomeComponent extends LCUComponent {
                   authStatus={this.state.gitHubAuthStatus.Code}
                   orgs={this.state.orgs}
                   recipeList={this.state.recipeList}
-                  onStepChange={this.handleStepChange}
                   selectedRecipe={this.getCurrentRecipe}
                 />
               }
@@ -251,7 +242,6 @@ class HomeComponent extends LCUComponent {
                   loadingMessages={['initializing enterprise', 'configuring project', 'deploying recipe']}
                   recipeList={this.state.recipeList}
                   isProjectLoaded={this.state.projectCreatedResponse}
-                  onStepChange={this.handleStepChange}
                   recipe={this.state.currentRecipe}
                 />
               }
@@ -266,7 +256,6 @@ class HomeComponent extends LCUComponent {
                 loadingMessages={['initializing enterprise', 'configuring project', 'deploying recipe']}
                 recipeList={this.state.recipeList}
                 isProjectLoaded={this.state.projectCreatedResponse}
-                onStepChange={this.handleStepChange}
               />
             }
           />

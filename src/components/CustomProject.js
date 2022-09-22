@@ -78,7 +78,6 @@ class CustomProject extends LCUComponent {
     this.lcu.track('project_selected', null, {
       DeployType: 'custom',
     });
-    this.props.onStepChange(1);
     if (this.props.authStatus !== 0) {
       this.setState({ redirect: <Navigate to="connect" /> })
     }
@@ -425,7 +424,7 @@ class CustomProject extends LCUComponent {
 
             </Box>
           </Box>
-          <Box sx={{ width: '40%', pt: 2 }}>
+          <Box sx={{ width: ['80%', '60%', '40%'], pt: 2, pb:2}}>
             <p>
               Select a predefined value or enter your custom output directory.
             </p>
