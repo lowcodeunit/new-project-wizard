@@ -8,9 +8,6 @@ import {
   Box,
   Button,
   ButtonGroup,
-  FormControl,
-  Select,
-  InputLabel,
   MenuItem,
   TextField,
   IconButton,
@@ -69,6 +66,7 @@ class CustomProject extends LCUComponent {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleProjectNameChange = this.handleProjectNameChange.bind(this);
     this.keyPress = this.keyPress.bind(this);
+    this.handleLinkClick = this.handleLinkClick.bind(this);
   }
 
   async componentDidMount() {
@@ -182,6 +180,14 @@ class CustomProject extends LCUComponent {
       anchorEl: null,
       buildMenuOpen: !this.state.buildMenuOpen,
     })
+  }
+
+  handleLinkClick() {
+    if(this.state.step === 0) {
+      this.setState({ redirect: <Navigate to={`/`} />});
+    } else {
+      this.decrementStep();
+    }
   }
 
   handleProjectNameChange(event) {
@@ -435,7 +441,7 @@ class CustomProject extends LCUComponent {
               width: '100%',
             }}
           >
-            <Link to="/">
+            <Box onClick={this.handleLinkClick}>
               <IconButton
                 size="large"
                 edge="end"
@@ -444,7 +450,7 @@ class CustomProject extends LCUComponent {
               >
                 <ArrowBackIcon color="primary" />
               </IconButton>
-            </Link>
+            </Box>
           </Box>
           {formPage}
           <Box sx={{ flexDirection: 'row-reverse', mt: 'auto' }}>
