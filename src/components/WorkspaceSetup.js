@@ -1,5 +1,5 @@
 import '../App.css';
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { styled } from '@mui/material/styles';
@@ -137,18 +137,19 @@ function WorkspaceSetup(props) {
           if (item.ID === "00000000-0000-0000-0000-000000000009") {
             buttonBox = (
               <CardActions>
-                <DeployDialog
-                  onClick={() => handleOpenSource(item)}
-                  ButtonLabel="Launch"
-                  recipe={item}
-                  recipeType="opensource"
-                  deployPage={`/recipe/${item.Lookup}/deploy`}
-                  data={{
-                    RecipeID: item.ID,
-                    ProjectName: item.Name,
-                  }}
-                  projectIsLoaded = {props.projectIsLoaded}
-                />
+                <div onClick={() => handleOpenSource(item)}>
+                  <DeployDialog
+                    ButtonLabel="Launch"
+                    recipe={item}
+                    recipeType="opensource"
+                    deployPage={`/recipe/${item.Lookup}/deploy`}
+                    data={{
+                      RecipeID: item.ID,
+                      ProjectName: item.Name,
+                    }}
+                    projectIsLoaded={props.projectIsLoaded}
+                  />
+                </div>
                 {sourceCode}
               </CardActions>
             )
@@ -185,18 +186,18 @@ function WorkspaceSetup(props) {
                 >
                   Launch
                 </StyledButton> */}
-                <div  onClick={() => handleOpenSource(item)}>
-                <DeployDialog
-                  ButtonLabel="Launch"
-                  recipe={item}
-                  recipeType="opensource"
-                  deployPage={`/recipe/${item.Lookup}/deploy`}
-                  data={{
-                    RecipeID: item.ID,
-                    ProjectName: item.Name,
-                  }}
-                  projectIsLoaded = {props.projectIsLoaded}
-                />
+                <div onClick={() => handleOpenSource(item)}>
+                  <DeployDialog
+                    ButtonLabel="Launch"
+                    recipe={item}
+                    recipeType="opensource"
+                    deployPage={`/recipe/${item.Lookup}/deploy`}
+                    data={{
+                      RecipeID: item.ID,
+                      ProjectName: item.Name,
+                    }}
+                    projectIsLoaded={props.projectIsLoaded}
+                  />
                 </div>
                 {sourceCode}
               </CardActions>
