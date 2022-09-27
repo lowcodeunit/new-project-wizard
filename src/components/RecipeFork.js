@@ -1,7 +1,7 @@
 import '../App.css';
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Box, FormControl, IconButton, InputLabel, Select, MenuItem, Paper } from '@mui/material';
+import { Box, IconButton, MenuItem, Paper, TextField } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Loader from './Loader';
 import DeployDialog from './DeployDialog';
@@ -66,8 +66,8 @@ function RecipeFork(props) {
                     <p>What is your git organization?</p>
                     {props.orgs.length <= 0 && <Loader />}
                     {props.orgs.length > 0 &&
-                        <Box sx={{ minWidth: 200, pb:2 }}>
-                            <FormControl fullWidth>
+                        <Box sx={{ minWidth: 200 }}>
+                            {/* <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label"> GitHub Organization</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
@@ -80,13 +80,24 @@ function RecipeFork(props) {
                                         <MenuItem value={org.Name}>{org.Name}</MenuItem>
                                     ))}
                                 </Select>
-                            </FormControl>
+                            </FormControl> */}
+                            <TextField
+                                fullWidth
+                                value={selectedOrg}
+                                onChange={handleOrgSelect}
+                                select // tell TextField to render select
+                                label="GitHub Organization"
+                            >
+                                {props.orgs && props.orgs.map((org) => (
+                                    <MenuItem value={org.Name}>{org.Name}</MenuItem>
+                                ))}
+                            </TextField>
                         </Box>
                     }
 
                     {/* <StyledButton
                         variant="contained"
-                        sx={{ m: 4, textTransform:'none' }}
+                        sx={{ m: 4, textTransform: 'none' }}
                         disabled={selectedOrg === ''}
                         onClick={handleSubmit}
                         size="large"
