@@ -1,5 +1,5 @@
 import '../App.css';
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { styled } from '@mui/material/styles';
@@ -7,6 +7,8 @@ import { Box, Button, Grid, Paper, Card, CardActions, CardMedia, CardContent, To
 import { SiAzuredevops, SiGithub } from 'react-icons/si';
 import { IoLogoBitbucket } from "react-icons/io5";
 import { AiFillGitlab } from "react-icons/ai";
+import DeployDialog from './DeployDialog';
+
 
 const StyledButton = styled(Button)({
   fontFamily: [
@@ -24,13 +26,14 @@ const StyledButton = styled(Button)({
 
 
 function WorkspaceSetup(props) {
+  const [data, setData] = useState(null);
   const navigate = useNavigate();
   function handleCustomClick() {
     if (props.authStatus !== 0 && window.self !== window.top) {
       window.open(window.self.location.href + `/custom/connect`, '_top').focus();
-    } else if(props.authStatus !== 0) {      
+    } else if (props.authStatus !== 0) {
       navigate('/custom/connect');
-    } else if(window.self !== window.top) {
+    } else if (window.self !== window.top) {
       window.open(window.self.location.href + `/custom`, '_top').focus();
     }
     else {
@@ -40,19 +43,10 @@ function WorkspaceSetup(props) {
   // function capitalize(str) {
   //   return str.charAt(0).toUpperCase() + str.slice(1);
   // }
-  function handleSourceClick(url) {
-    window.open(url, '_blank').focus();
-  }
-  function handleCustom(recipe) {
-    if (recipe.ID === "00000000-0000-0000-0000-000000000009") {
-      handleOpenSource(recipe);
-    } else {
-      handleForkClick(recipe);
-    }
-  }
+
   function handleForkClick(recipe) {
-    props.onStepChange();
-    props.selectedRecipe(recipe.ID);
+    // props.onStepChange();
+    // props.selectedRecipe(recipe.ID);
     if (props.authStatus !== 0 && window.self !== window.top) {
       window.open(window.self.location.href + `/recipe/${recipe.Lookup}/connect`, '_top').focus();
     } else if (props.authStatus !== 0) {
@@ -64,31 +58,25 @@ function WorkspaceSetup(props) {
     }
   }
 
-  function handleOpenSource(recipe) {
-    props.onStepChange();
-    props.selectedRecipe(recipe.ID);
-    let data = {
-      RecipeID: recipe.ID,
-      ProjectName: recipe.Name,
-    };
-    fetch('/api/lowcodeunit/create/project', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    }).then((res) => {
-      console.log('Request complete! response:', res);
-      props.projectIsLoaded();
-    });
-    if (window.self !== window.top) {
-      window.open(window.self.location.href + `/recipe/${recipe.Lookup}/deploy`, '_top').focus();
-    } else {
-    navigate(`/recipe/${recipe.Lookup}/deploy`);
-    }
+  function handleSourceClick(url) {
+    window.open(url, '_blank').focus();
   }
 
+  function handleOpenSource(recipe) {
+    console.log("handling open source " + recipe);
+    props.selectedRecipe(recipe.ID);
+    let recipeData = {
+      RecipeID: props.recipe.ID,
+      ProjectName: props.recipe.Name,
+    };
+    setData(recipeData);
+    console.log("set data is " + data);
+  }
+
+
   let importSection = (
-    <Paper elevation={6} sx={{ height: '150px', maxWidth: '600px', textAlign: "left", px: ['5px', '10px', '15px'], borderTop: '6px solid #4a918e', marginBottom: '60px'}}>
-      <Box sx={{display:'flex', flexDirection:'row'}}>
+    <Paper elevation={6} sx={{ height: '150px', maxWidth: '600px', textAlign: "left", px: ['5px', '10px', '15px'], borderTop: '6px solid #4a918e', marginBottom: '60px' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
         <SiGithub size='1.5em' className='GitLogos' />
         <Tooltip title="Coming soon">
           <Box>
@@ -112,12 +100,10 @@ function WorkspaceSetup(props) {
     </Paper>
   )
   let pageWidth;
-  if(window.self !== window.top){
+  if (window.self !== window.top) {
     pageWidth = "90%"
-    console.log("in iframe");
   } else {
     pageWidth = ['90%', '80%', '65%']
-    console.log("window self is " + window.self + " top is " + window.top.toString());
   }
 
   let recipeSection = (
@@ -148,15 +134,33 @@ function WorkspaceSetup(props) {
                 Source Code
               </StyledButton>
           }
-
-          if (item.RecipeType === 'MFE') {
+          if (item.ID === "00000000-0000-0000-0000-000000000009") {
+            buttonBox = (
+              <CardActions>
+                <div onClick={() => handleOpenSource(item)}>
+                  <DeployDialog
+                    ButtonLabel="Launch"
+                    recipe={item}
+                    recipeType="opensource"
+                    deployPage={`/recipe/${item.Lookup}/deploy`}
+                    data={{
+                      RecipeID: item.ID,
+                      ProjectName: item.Name,
+                    }}
+                    projectIsLoaded={props.projectIsLoaded}
+                  />
+                </div>
+                {sourceCode}
+              </CardActions>
+            )
+          } else if (item.RecipeType === 'MFE') {
             buttonBox = (
               <CardActions>
                 <StyledButton
                   sx={{ textTransform: 'none' }}
                   variant="contained"
                   value={item}
-                  onClick={() => handleCustom(item)}
+                  onClick={() => handleForkClick(item)}
                 >
                   Launch
                 </StyledButton>
@@ -167,21 +171,34 @@ function WorkspaceSetup(props) {
             buttonBox = (
               <CardActions>
                 <StyledButton
-                  sx={{ textTransform: 'none' }}
+                  sx={{ textTransform: 'none', mr: 2 }}
                   value={item}
                   onClick={() => handleForkClick(item)}
                   variant="contained"
                 >
                   Fork
                 </StyledButton>
-                <StyledButton
+                {/* <StyledButton
                   sx={{ textTransform: 'none', backgroundColor:'white' }}
                   onClick={() => handleOpenSource(item)}
                   variant="outlined"
 
                 >
                   Launch
-                </StyledButton>
+                </StyledButton> */}
+                <div onClick={() => handleOpenSource(item)}>
+                  <DeployDialog
+                    ButtonLabel="Launch"
+                    recipe={item}
+                    recipeType="opensource"
+                    deployPage={`/recipe/${item.Lookup}/deploy`}
+                    data={{
+                      RecipeID: item.ID,
+                      ProjectName: item.Name,
+                    }}
+                    projectIsLoaded={props.projectIsLoaded}
+                  />
+                </div>
                 {sourceCode}
               </CardActions>
             );
@@ -263,7 +280,6 @@ function WorkspaceSetup(props) {
           <Box sx={{ display: 'flex', flexDirection: 'row' }}>
             {importSection}
           </Box>
-
           <h2>Get Started with a template </h2>
           <p>
             Launch from our open-source repo or fork to your own.
