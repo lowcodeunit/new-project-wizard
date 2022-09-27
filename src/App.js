@@ -13,6 +13,7 @@ import GithubConnect from './components/GithubConnect';
 import LoadingPage from './components/LoadingPage';
 import { createTheme } from '@mui/material/styles';
 import logo from './recipelogos/thinky.png'
+import ScrollToTop from './components/ScrollToTop'
 
 const theme = createTheme({
   palette: {
@@ -20,7 +21,7 @@ const theme = createTheme({
       main: '#4a918e',
     },
     secondary: {
-      main: '#f50057',
+      main: '#ffffff',
     },
   },
 });
@@ -32,13 +33,12 @@ class HomeComponent extends LCUComponent {
       recipeList: [],
       currentRecipe: '',
       recipesLoaded: false,
-      isProjectCreated: false,
+      projectCreatedResponse: null,
       gitHubAuthStatus: null,
       basename: '/dashboard/create-project',
       deploy: false,
       orgs: [],
     };
-    this.handleStepChange = this.handleStepChange.bind(this);
     this.projectCreated = this.projectCreated.bind(this);
     this.getCurrentRecipe = this.getCurrentRecipe.bind(this);
   }
@@ -104,13 +104,13 @@ class HomeComponent extends LCUComponent {
     });
   }
 
-  projectCreated(type, data) {
+  projectCreated(type, data, resp) {
     this.lcu.track('project_deployed', 'setup/deployed', {
       DeployType: type,
       DeployData: data,
     });
 
-    this.setState({ isProjectCreated: true });
+    this.setState({ projectCreatedResponse: resp });
   }
 
   loadBaseHref() {
@@ -130,10 +130,6 @@ class HomeComponent extends LCUComponent {
     return baseHref;
   }
 
-  handleStepChange(step) {
-    this.setState({ currentStep: step });
-  }
-
   findRecipe(ID) {
     return this.state.recipeList.find((element) => {
       return element.ID === ID;
@@ -146,6 +142,10 @@ class HomeComponent extends LCUComponent {
 
   render() {
     let content;
+    let header;
+    if(window.self === window.top) {
+      header = <Header />
+    }
     if (!this.state.gitHubAuthStatus || !this.state.recipesLoaded) {
       content =
         <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', height:'80vh'}}>
@@ -169,7 +169,6 @@ class HomeComponent extends LCUComponent {
               <WorkspaceSetup
                 authStatus={this.state.gitHubAuthStatus.Code}
                 recipeList={this.state.recipeList}
-                onStepChange={this.handleStepChange}
                 projectIsLoaded={this.projectCreated}
                 selectedRecipe={this.getCurrentRecipe}
               ></WorkspaceSetup>
@@ -189,7 +188,6 @@ class HomeComponent extends LCUComponent {
                 <CustomProject
                   authStatus={this.state.gitHubAuthStatus.Code}
                   orgs={this.state.orgs}
-                  onStepChange={this.handleStepChange}
                   projectIsLoaded={this.projectCreated}
                 />
               </Box>
@@ -215,7 +213,6 @@ class HomeComponent extends LCUComponent {
                     authStatus={this.state.gitHubAuthStatus.Code}
                     recipeID={this.state.workspace}
                     recipeList={this.state.recipeList}
-                    onStepChange={this.handleStepChange}
                     projectIsLoaded={this.projectCreated}
                     useRecipeClick={this.handleRecipeForkClick}
                   />
@@ -230,7 +227,6 @@ class HomeComponent extends LCUComponent {
                   authStatus={this.state.gitHubAuthStatus.Code}
                   orgs={this.state.orgs}
                   recipeList={this.state.recipeList}
-                  onStepChange={this.handleStepChange}
                   selectedRecipe={this.getCurrentRecipe}
                 />
               }
@@ -245,8 +241,7 @@ class HomeComponent extends LCUComponent {
                 <LoadingPage
                   loadingMessages={['initializing enterprise', 'configuring project', 'deploying recipe']}
                   recipeList={this.state.recipeList}
-                  isProjectLoaded={this.state.isProjectCreated}
-                  onStepChange={this.handleStepChange}
+                  isProjectLoaded={this.state.projectCreatedResponse}
                   recipe={this.state.currentRecipe}
                 />
               }
@@ -260,8 +255,7 @@ class HomeComponent extends LCUComponent {
               <LoadingPage
                 loadingMessages={['initializing enterprise', 'configuring project', 'deploying recipe']}
                 recipeList={this.state.recipeList}
-                isProjectLoaded={this.state.isProjectCreated}
-                onStepChange={this.handleStepChange}
+                isProjectLoaded={this.state.projectCreatedResponse}
               />
             }
           />
@@ -276,10 +270,9 @@ class HomeComponent extends LCUComponent {
             <Helmet>
               <title>Fathym - Welcome</title>
             </Helmet>
-            <Header />
-            <Box
-
-            >
+            {header}
+            <Box>
+              <ScrollToTop/>
               {content}
             </Box>
           </ThemeProvider>
