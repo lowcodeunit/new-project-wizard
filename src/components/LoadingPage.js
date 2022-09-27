@@ -34,7 +34,6 @@ class LoadingPage extends LCUComponent {
 
   componentDidMount() {
     this.lcu.track('project_deploying', 'setup/deploying', null);
-    this.props.onStepChange(2);
     console.log(`the recipe is ${this.props.recipe}`)
 
     if (this.props.loadingMessages?.length > 0) {
@@ -97,7 +96,7 @@ class LoadingPage extends LCUComponent {
           </Box>
           <h4>{this.state.LoadingMessage}</h4>
         </Box>
-    } else {
+    } else if(this.props.isProjectLoaded  === 200) {
       content = (
         <Box>
           <Link href="/dashboard?direct=true" underline="none">
@@ -112,7 +111,14 @@ class LoadingPage extends LCUComponent {
           </Link>
         </Box>
       );
+    } else if(this.props.isProjectLoaded  === 401) {
+      <Box>
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pt: 1 }}>
+            <h4>Captcha failed, please try again. </h4>
+          </Box>
+      </Box>
     }
+
     return (
       <Box
         sx={{
