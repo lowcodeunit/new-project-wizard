@@ -2,23 +2,23 @@ import '../App.css';
 import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Box, Button, FormControl, IconButton, InputLabel, Select, MenuItem, Paper } from '@mui/material';
+import { Box, Button, IconButton, MenuItem, Paper, TextField } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Loader from './Loader';
 
 const StyledButton = styled(Button)({
     fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',]
-  })
+        '-apple-system',
+        'BlinkMacSystemFont',
+        '"Segoe UI"',
+        'Roboto',
+        '"Helvetica Neue"',
+        'Arial',
+        'sans-serif',
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"',]
+})
 
 function RecipeFork(props) {
     const recipeLookup = useParams();
@@ -101,7 +101,7 @@ function RecipeFork(props) {
                     {props.orgs.length <= 0 && <Loader />}
                     {props.orgs.length > 0 &&
                         <Box sx={{ minWidth: 200 }}>
-                            <FormControl fullWidth>
+                            {/* <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label"> GitHub Organization</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
@@ -114,13 +114,24 @@ function RecipeFork(props) {
                                         <MenuItem value={org.Name}>{org.Name}</MenuItem>
                                     ))}
                                 </Select>
-                            </FormControl>
+                            </FormControl> */}
+                            <TextField
+                                fullWidth
+                                value={selectedOrg}
+                                onChange={handleOrgSelect}
+                                select // tell TextField to render select
+                                label="GitHub Organization"
+                            >
+                                {props.orgs && props.orgs.map((org) => (
+                                    <MenuItem value={org.Name}>{org.Name}</MenuItem>
+                                ))}
+                            </TextField>
                         </Box>
                     }
 
                     <StyledButton
                         variant="contained"
-                        sx={{ m: 4, textTransform:'none' }}
+                        sx={{ m: 4, textTransform: 'none' }}
                         disabled={selectedOrg === ''}
                         onClick={handleSubmit}
                         size="large"

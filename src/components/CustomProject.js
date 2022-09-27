@@ -8,9 +8,6 @@ import {
   Box,
   Button,
   ButtonGroup,
-  FormControl,
-  Select,
-  InputLabel,
   MenuItem,
   TextField,
   IconButton,
@@ -69,6 +66,7 @@ class CustomProject extends LCUComponent {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleProjectNameChange = this.handleProjectNameChange.bind(this);
     this.keyPress = this.keyPress.bind(this);
+    this.handleLinkClick = this.handleLinkClick.bind(this);
   }
 
   async componentDidMount() {
@@ -184,6 +182,14 @@ class CustomProject extends LCUComponent {
     })
   }
 
+  handleLinkClick() {
+    if(this.state.step === 0) {
+      this.setState({ redirect: <Navigate to={`/`} />});
+    } else {
+      this.decrementStep();
+    }
+  }
+
   handleProjectNameChange(event) {
     this.setState({ ProjectName: event.target.value }, () => {
       this.readyToSubmit();
@@ -254,7 +260,7 @@ class CustomProject extends LCUComponent {
           </Box>
           <StyledButton
             variant="contained"
-            sx={{ mt: 4, textTransform:'none' }}
+            sx={{ mt: 4, textTransform: 'none' }}
             onClick={this.incrementStep}
           >
             Next
@@ -266,67 +272,56 @@ class CustomProject extends LCUComponent {
         <Box sx={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', display: 'flex', flexDirection: 'column', minHeight: '75vh' }}>
           <Box>
             <p>What is your git organization?</p>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">
-                GitHub Organization
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                onChange={this.handleOrgSelect}
-                value={this.state.selectedOrg}
-              >
+            <TextField
+              fullWidth
+              value={this.state.selectedOrg}
+              onChange={this.handleOrgSelect}
+              select // tell TextField to render select
+              label="GitHub Organization"
+            >
                 {this.props.orgs &&
                   this.props.orgs.map((org) => (
                     <MenuItem value={org.Name}>{org.Name}</MenuItem>
                   ))}
-                ;
-              </Select>
-            </FormControl>
+            </TextField>
           </Box>
           <Box>
             <p>What is your git repository?</p>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">
-                GitHub Repository
-              </InputLabel>
-              <Select
-                disabled={this.state.selectedOrg === ''}
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                onChange={this.handleRepoSelect}
-                value={this.state.selectedRepo}
-              >
+            <TextField
+              fullWidth
+              disabled={this.state.selectedOrg === ''}
+              onChange={this.handleRepoSelect}
+              value={this.state.selectedRepo}
+              select // tell TextField to render select
+              label="GitHub Repository"
+            >
                 {this.state.repos &&
                   this.state.repos.map((repo) => (
                     <MenuItem value={repo.Name}>{repo.Name}</MenuItem>
                   ))}
                 ;
-              </Select>
-            </FormControl>
+            </TextField>
           </Box>
           <Box>
             <p>What is your main branch?</p>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Main Branch</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                onChange={this.handleBranchSelect}
-                value={this.state.selectedBranch}
-                disabled={this.state.selectedRepo === ''}
-              >
+            <TextField
+              fullWidth
+              disabled={this.state.selectedRepo === ''}
+              onChange={this.handleBranchSelect}
+              value={this.state.selectedBranch}
+              select // tell TextField to render select
+              label="Main Branch"
+            >
                 {this.state.branches &&
                   this.state.branches.map((branch) => (
                     <MenuItem value={branch.Name}>{branch.Name}</MenuItem>
                   ))}
                 ;
-              </Select>
-            </FormControl>
+            </TextField>
           </Box>
           <StyledButton
             variant="contained"
-            sx={{ mt: 4, textTransform:'none'}}
+            sx={{ mt: 4, textTransform: 'none' }}
             onClick={this.incrementStep}
             size="large"
           >
@@ -410,7 +405,7 @@ class CustomProject extends LCUComponent {
           </Box>
           <StyledButton
             variant="contained"
-            sx={{ mt: 4, textTransform:'none' }}
+            sx={{ mt: 4, textTransform: 'none' }}
             disabled={!this.state.readyToSubmit}
             onClick={this.handleSubmit}
             size="large"
@@ -446,7 +441,7 @@ class CustomProject extends LCUComponent {
               width: '100%',
             }}
           >
-            <Link to="/">
+            <Box onClick={this.handleLinkClick}>
               <IconButton
                 size="large"
                 edge="end"
@@ -455,7 +450,7 @@ class CustomProject extends LCUComponent {
               >
                 <ArrowBackIcon color="primary" />
               </IconButton>
-            </Link>
+            </Box>
           </Box>
           {formPage}
           <Box sx={{ flexDirection: 'row-reverse', mt: 'auto' }}>
