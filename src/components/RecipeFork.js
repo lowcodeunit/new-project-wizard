@@ -104,6 +104,7 @@ function RecipeFork(props) {
                     >
                         Deploy Project
                     </StyledButton> */}
+                    <Box sx={{pt:2}}>
                     <DeployDialog
                         ButtonLabel="Deploy Project"
                         recipeType="fork"
@@ -116,6 +117,7 @@ function RecipeFork(props) {
                         IsDisabled={selectedOrg === ''}
                         projectIsLoaded = {props.projectIsLoaded}
                     />
+                    </Box>
                 </Box>
             </Paper>
         </Box>
