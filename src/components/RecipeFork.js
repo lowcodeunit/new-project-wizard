@@ -1,22 +1,21 @@
 import '../App.css';
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Box, Button, FormControl, IconButton, InputLabel, Select, MenuItem, Paper } from '@mui/material';
+import { Box, IconButton, MenuItem, Paper, TextField } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Loader from './Loader';
+import DeployDialog from './DeployDialog';
 
 function RecipeFork(props) {
     const recipeLookup = useParams();
     const [selectedOrg, setSelectedOrg] = useState('');
     const [recipe] = useState(getCurrentRecipe(props.recipeList, recipeLookup.id));
-    const { onStepChange } = props;
 
     const navigate = useNavigate();
     const handleOrgSelect = e => {
         setSelectedOrg(e.target.value);
+        props.selectedRecipe(recipe.ID);
     }
-
-    useEffect(() => onStepChange(1), [onStepChange]);
 
     useEffect(() => {
         if (props.authStatus !== 0) {
@@ -30,24 +29,6 @@ function RecipeFork(props) {
         return array.find((element) => {
             return element.Lookup === lookup;
         });
-    }
-
-    function handleSubmit() {
-        let data = {
-            Organization: selectedOrg,
-            RecipeID: recipe.ID,
-            ProjectName: recipe.Name,
-        };
-        fetch('/api/lowcodeunit/create/project', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data),
-        }).then((res) => {
-            console.log('Request complete! response:', res);
-            props.projectIsLoaded();
-        });
-        props.selectedRecipe(recipe.ID);
-        navigate(`/recipe/${recipe.Lookup}/deploy`);
     }
 
     return (
@@ -86,8 +67,8 @@ function RecipeFork(props) {
                     {props.orgs.length <= 0 && <Loader />}
                     {props.orgs.length > 0 &&
                         <Box sx={{ minWidth: 200 }}>
-                            <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label"> Github Organization</InputLabel>
+                            {/* <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label"> GitHub Organization</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
@@ -99,19 +80,44 @@ function RecipeFork(props) {
                                         <MenuItem value={org.Name}>{org.Name}</MenuItem>
                                     ))}
                                 </Select>
-                            </FormControl>
+                            </FormControl> */}
+                            <TextField
+                                fullWidth
+                                value={selectedOrg}
+                                onChange={handleOrgSelect}
+                                select // tell TextField to render select
+                                label="GitHub Organization"
+                            >
+                                {props.orgs && props.orgs.map((org) => (
+                                    <MenuItem value={org.Name}>{org.Name}</MenuItem>
+                                ))}
+                            </TextField>
                         </Box>
                     }
 
-                    <Button
+                    {/* <StyledButton
                         variant="contained"
-                        sx={{ m: 4 }}
+                        sx={{ m: 4, textTransform: 'none' }}
                         disabled={selectedOrg === ''}
                         onClick={handleSubmit}
                         size="large"
                     >
                         Deploy Project
-                    </Button>
+                    </StyledButton> */}
+                    <Box sx={{pt:2}}>
+                    <DeployDialog
+                        ButtonLabel="Deploy Project"
+                        recipeType="fork"
+                        deployPage={`/recipe/${recipe.Lookup}/deploy`}
+                        data={ {
+                            Organization: selectedOrg,
+                            RecipeID: recipe.ID,
+                            ProjectName: recipe.Name,
+                        }}
+                        IsDisabled={selectedOrg === ''}
+                        projectIsLoaded = {props.projectIsLoaded}
+                    />
+                    </Box>
                 </Box>
             </Paper>
         </Box>
