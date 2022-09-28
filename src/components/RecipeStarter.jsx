@@ -2,16 +2,30 @@ import '../App.css';
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { styled } from '@mui/material/styles';
 import { Box, Button, Paper, IconButton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import DeployDialog from './DeployDialog';
+
+const StyledButton = styled(Button)({
+  fontFamily: [
+    '-apple-system',
+    'BlinkMacSystemFont',
+    '"Segoe UI"',
+    'Roboto',
+    '"Helvetica Neue"',
+    'Arial',
+    'sans-serif',
+    '"Apple Color Emoji"',
+    '"Segoe UI Emoji"',
+    '"Segoe UI Symbol"',]
+})
 
 function RecipeStarter(props) {
   const recipeLookup = useParams();
   const [recipe, setRecipe] = useState();
-  const { onStepChange } = props;
 
   const navigate = useNavigate();
-  useEffect(() => onStepChange(1), [onStepChange]);
   useEffect(
     () => getCurrentRecipe(props.recipeList, recipeLookup.id),
     [props.recipeList, recipeLookup.id]
@@ -23,7 +37,6 @@ function RecipeStarter(props) {
   }
 
   function handleForkClick() {
-    props.onStepChange();
     if (props.authStatus !== 0) {
       navigate(`/recipe/${recipe.Lookup}/connect`);
     } else {
@@ -31,22 +44,6 @@ function RecipeStarter(props) {
     }
   }
 
-  function handleOpenSource() {
-    props.onStepChange();
-    let data = {
-      RecipeID: recipe.ID,
-      ProjectName: recipe.Name,
-    };
-    fetch('/api/lowcodeunit/create/project', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    }).then((res) => {
-      console.log('Request complete! response:', res);
-      props.projectIsLoaded();
-    });
-    navigate(`/recipe/${recipe.Lookup}/deploy`);
-  }
 
   return (
     <Paper
@@ -117,7 +114,7 @@ function RecipeStarter(props) {
         <Box sx={{ marginTop: '4em' }}>
           <h4>Choose your deployment path</h4>
 
-          {recipe.RecipeType !== 'MFE' && (
+          {recipe?.RecipeType !== 'MFE' && (
             <Box
               sx={{
                 display: 'flex',
@@ -134,13 +131,17 @@ function RecipeStarter(props) {
                 }}
               >
                 <Paper sx={{ p: 2, m: 2 }}>
-                  <Button
-                    variant="contained"
-                    sx={{ mb: 2 }}
-                    onClick={handleOpenSource}
-                  >
-                    Deploy from open source
-                  </Button>
+                  <DeployDialog
+                    ButtonLabel="Launch"
+                    recipe={recipe}
+                    recipeType="opensource"
+                    deployPage={`/recipe/${recipe.Lookup}/deploy`}
+                    data={{
+                      RecipeID: recipe.ID,
+                      ProjectName: recipe.Name,
+                    }}
+                    projectIsLoaded={props.projectIsLoaded}
+                  />
                   <p>
                     If you use Fathym's deployment, your project will use NPM
                     package versions of your recipe's ingredients. The result
@@ -157,17 +158,17 @@ function RecipeStarter(props) {
                 }}
               >
                 <Paper sx={{ p: 2, m: 2 }}>
-                  <Button
+                  <StyledButton
                     variant="contained"
-                    sx={{ mb: 2 }}
+                    sx={{ textTransform: 'none', mb: 2 }}
                     onClick={handleForkClick}
                   >
-                    Fork this Recipe
-                  </Button>
+                    Fork
+                  </StyledButton>
                   <p>
                     Fathym will take all your recipe ingredients and create
-                    copies of them in your personal github organization. This
-                    will setup everything you need for modern DevOps; source
+                    copies of them in your personal GitHub organization. This
+                    will set up everything you need for modern DevOps; source
                     repositories, build pipelines, and deployments.
                   </p>
                 </Paper>
@@ -175,7 +176,7 @@ function RecipeStarter(props) {
             </Box>
           )}
 
-          {recipe.RecipeType !== 'MFE' && (
+          {recipe?.RecipeType === 'MFE' && (
             <Box
               sx={{
                 display: 'flex',
@@ -192,17 +193,17 @@ function RecipeStarter(props) {
                 }}
               >
                 <Paper sx={{ p: 2, m: 2 }}>
-                  <Button
+                  <StyledButton
                     variant="contained"
-                    sx={{ mb: 2 }}
+                    sx={{ textTransform: 'none', mb: 2 }}
                     onClick={handleForkClick}
                   >
-                    Launch Micro Frontend
-                  </Button>
+                    Launch
+                  </StyledButton>
                   <p>
                     Fathym will take all your recipe ingredients and create
-                    copies of them in your personal github organization. This
-                    will setup everything you need for modern DevOps; source
+                    copies of them in your personal GitHub organization. This
+                    will set up everything you need for modern DevOps; source
                     repositories, build pipelines, and deployments.
                   </p>
                 </Paper>

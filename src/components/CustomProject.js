@@ -1,15 +1,13 @@
 import '../App.css';
 import React from 'react';
-import { Link, Navigate } from "react-router-dom";
+import { styled } from '@mui/material/styles';
+import { Navigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import LCUComponent from './LCUComponent';
 import {
   Box,
   Button,
   ButtonGroup,
-  FormControl,
-  Select,
-  InputLabel,
   MenuItem,
   TextField,
   IconButton,
@@ -20,8 +18,21 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import DeployDialog from './DeployDialog';
 
-
+const StyledButton = styled(Button)({
+  fontFamily: [
+    '-apple-system',
+    'BlinkMacSystemFont',
+    '"Segoe UI"',
+    'Roboto',
+    '"Helvetica Neue"',
+    'Arial',
+    'sans-serif',
+    '"Apple Color Emoji"',
+    '"Segoe UI Emoji"',
+    '"Segoe UI Symbol"',]
+})
 class CustomProject extends LCUComponent {
   constructor(props) {
     super(props);
@@ -32,6 +43,7 @@ class CustomProject extends LCUComponent {
       buildOutput: './',
       buildInstall: 'npm i',
       buildMenuOpen: false,
+      callData: null,
       step: 0,
       ProjectName: '',
       branches: [],
@@ -40,6 +52,7 @@ class CustomProject extends LCUComponent {
       selectedRepo: '',
       selectedBranch: '',
       readyToSubmit: false,
+      captchaValue: ''
     };
     this.handBuildMenuToggle = this.handBuildMenuToggle.bind(this);
     this.handleBuildMenuClose = this.handleBuildMenuClose.bind(this);
@@ -52,9 +65,10 @@ class CustomProject extends LCUComponent {
     this.handleInstallChange = this.handleInstallChange.bind(this);
     this.handleOutputChange = this.handleOutputChange.bind(this);
     this.handleRepoSelect = this.handleRepoSelect.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleProjectNameChange = this.handleProjectNameChange.bind(this);
     this.keyPress = this.keyPress.bind(this);
+    this.handleReCaptchaChange = this.handleReCaptchaChange.bind(this)
+    this.handleLinkClick = this.handleLinkClick.bind(this);
   }
 
   async componentDidMount() {
@@ -62,9 +76,7 @@ class CustomProject extends LCUComponent {
     this.lcu.track('project_selected', null, {
       DeployType: 'custom',
     });
-    this.props.onStepChange(1);
     if (this.props.authStatus !== 0) {
-      console.log("in auth nav")
       this.setState({ redirect: <Navigate to="connect" /> })
     }
   }
@@ -112,7 +124,9 @@ class CustomProject extends LCUComponent {
     this.props.buttonClick('');
   }
   handleBranchSelect(event) {
-    this.setState({ selectedBranch: event.target.value }, () => {
+    this.setState({ 
+      selectedBranch: event.target.value,
+     }, () => {
       this.readyToSubmit();
     });
   }
@@ -123,6 +137,14 @@ class CustomProject extends LCUComponent {
 
       this.getOrgRepositories();
     });
+  }
+
+  handleReCaptchaChange(value) {
+    console.log("Captcha value:", value);
+    this.setState({
+      captchaValue: value
+    })
+
   }
 
   handleRepoSelect(event) {
@@ -170,36 +192,44 @@ class CustomProject extends LCUComponent {
     })
   }
 
+  handleLinkClick() {
+    if(this.state.step === 0) {
+      this.setState({ redirect: <Navigate to={`/`} />});
+    } else {
+      this.decrementStep();
+    }
+  }
+
   handleProjectNameChange(event) {
     this.setState({ ProjectName: event.target.value }, () => {
       this.readyToSubmit();
     });
   }
 
-  handleSubmit() {
-    let data = {
-      Branch: this.state.selectedBranch,
-      BuildCommand: this.state.buildCommand,
-      InstallCommand: this.state.buildInstall,
-      Organization: this.state.selectedOrg,
-      OutputDirectory: this.state.buildOutput,
-      ProjectName: this.state.ProjectName,
-      Repository: this.state.selectedRepo,
-    };
-    fetch('/api/lowcodeunit/create/project', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    }).then((res) => {
-      console.log('Request complete! response:', res);
-      this.props.projectIsLoaded('custom', data);
-    });
-    this.props.onStepChange();
-    this.lcu.track('project_submitted', null, {
-      DeployType: 'custom',
-      DeployData: data,
-    });
-  }
+  // handleSubmit() {
+  //   let data = {
+  //     Branch: this.state.selectedBranch,
+  //     BuildCommand: this.state.buildCommand,
+  //     InstallCommand: this.state.buildInstall,
+  //     Organization: this.state.selectedOrg,
+  //     OutputDirectory: this.state.buildOutput,
+  //     ProjectName: this.state.ProjectName,
+  //     Repository: this.state.selectedRepo,
+  //   };
+  //   fetch('/api/lowcodeunit/create/project', {
+  //     method: 'POST',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify(data),
+  //   }).then((res) => {
+  //     console.log('Request complete! response:', res);
+  //     this.props.projectIsLoaded('custom', data);
+  //   });
+  //   this.props.onStepChange();
+  //   this.lcu.track('project_submitted', null, {
+  //     DeployType: 'custom',
+  //     DeployData: data,
+  //   });
+  // }
 
   keyPress(e) {
     if (e.keyCode === 13) {
@@ -216,7 +246,18 @@ class CustomProject extends LCUComponent {
       this.state.selectedRepo !== '' &&
       this.state.ProjectName !== ''
     ) {
-      this.setState({ readyToSubmit: true });
+      this.setState({ 
+        readyToSubmit: true,
+        callData: {
+          Branch: this.state.selectedBranch,
+          BuildCommand: this.state.buildCommand,
+          InstallCommand: this.state.buildInstall,
+          Organization: this.state.selectedOrg,
+          OutputDirectory: this.state.buildOutput,
+          ProjectName: this.state.ProjectName,
+          Repository: this.state.selectedRepo,
+        }
+       });
     }
   }
 
@@ -224,7 +265,7 @@ class CustomProject extends LCUComponent {
     let formPage;
     if (this.state.step === 0) {
       formPage = (
-        <Box sx={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', display: 'flex', flexDirection: 'column', height: '75vh' }}>
+        <Box sx={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', display: 'flex', flexDirection: 'column', minHeight: '75vh' }}>
           <p>Welcome! Let's start with the project basics</p>
           <p>What is your project name?</p>
           <Box>
@@ -238,91 +279,80 @@ class CustomProject extends LCUComponent {
               onKeyDown={this.keyPress}
             />
           </Box>
-          <Button
+          <StyledButton
             variant="contained"
-            sx={{ mt: 4 }}
+            sx={{ mt: 4, textTransform: 'none' }}
             onClick={this.incrementStep}
           >
             Next
-          </Button>
+          </StyledButton>
         </Box>
       );
     } else if (this.state.step === 1) {
       formPage = (
-        <Box sx={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', display: 'flex', flexDirection: 'column', height: '75vh' }}>
+        <Box sx={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', display: 'flex', flexDirection: 'column', minHeight: '75vh' }}>
           <Box>
             <p>What is your git organization?</p>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">
-                Github Organization
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                onChange={this.handleOrgSelect}
-                value={this.state.selectedOrg}
-              >
+            <TextField
+              fullWidth
+              value={this.state.selectedOrg}
+              onChange={this.handleOrgSelect}
+              select // tell TextField to render select
+              label="GitHub Organization"
+            >
                 {this.props.orgs &&
                   this.props.orgs.map((org) => (
                     <MenuItem value={org.Name}>{org.Name}</MenuItem>
                   ))}
-                ;
-              </Select>
-            </FormControl>
+            </TextField>
           </Box>
           <Box>
             <p>What is your git repository?</p>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">
-                Github Repository
-              </InputLabel>
-              <Select
-                disabled={this.state.selectedOrg === ''}
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                onChange={this.handleRepoSelect}
-                value={this.state.selectedRepo}
-              >
+            <TextField
+              fullWidth
+              disabled={this.state.selectedOrg === ''}
+              onChange={this.handleRepoSelect}
+              value={this.state.selectedRepo}
+              select // tell TextField to render select
+              label="GitHub Repository"
+            >
                 {this.state.repos &&
                   this.state.repos.map((repo) => (
                     <MenuItem value={repo.Name}>{repo.Name}</MenuItem>
                   ))}
                 ;
-              </Select>
-            </FormControl>
+            </TextField>
           </Box>
           <Box>
-            <p>What is your main branch</p>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Main Branch</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                onChange={this.handleBranchSelect}
-                value={this.state.selectedBranch}
-                disabled={this.state.selectedRepo === ''}
-              >
+            <p>What is your main branch?</p>
+            <TextField
+              fullWidth
+              disabled={this.state.selectedRepo === ''}
+              onChange={this.handleBranchSelect}
+              value={this.state.selectedBranch}
+              select // tell TextField to render select
+              label="Main Branch"
+            >
                 {this.state.branches &&
                   this.state.branches.map((branch) => (
                     <MenuItem value={branch.Name}>{branch.Name}</MenuItem>
                   ))}
                 ;
-              </Select>
-            </FormControl>
+            </TextField>
           </Box>
-          <Button
+          <StyledButton
             variant="contained"
-            sx={{ mt: 4 }}
+            sx={{ mt: 4, textTransform: 'none' }}
             onClick={this.incrementStep}
             size="large"
           >
             Next
-          </Button>
+          </StyledButton>
         </Box>
       );
     } else if (this.state.step === 2) {
       formPage = (
-        <Box sx={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', display: 'flex', flexDirection: 'column', height: '75vh' }}>
+        <Box sx={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', display: 'flex', flexDirection: 'column', minHeight: '75vh' }}>
           <Box>
             <p>What is your build command?</p>
             <TextField
@@ -334,7 +364,7 @@ class CustomProject extends LCUComponent {
             />
           </Box>
           <Box>
-            <p>what is your install command</p>
+            <p>what is your install command?</p>
             <TextField
               id="outlined-basic"
               label="Install Command"
@@ -344,7 +374,7 @@ class CustomProject extends LCUComponent {
             />
           </Box>
           <Box>
-            <p>What is the build output directory</p>
+            <p>What is the build output directory?</p>
             <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap' }}>
               <ButtonGroup
                 variant="contained"
@@ -354,7 +384,7 @@ class CustomProject extends LCUComponent {
                   InputLabelProps={{ shrink: true }}
                   label="Output Directory"
                   variant="outlined"
-                  value={this.state.buildOutput}
+                  // value={this.state.buildOutput}
                   onChange={this.handleOutputChange}
                   defaultValue={this.state.buildOutput}
                 />
@@ -389,23 +419,30 @@ class CustomProject extends LCUComponent {
 
             </Box>
           </Box>
-          <Box sx={{ width: '40%', pt: 2 }}>
+          <Box sx={{ width: ['80%', '60%', '40%'], pt: 2, pb:2}}>
             <p>
               Select a predefined value or enter your custom output directory.
             </p>
           </Box>
-          <Button
+          {/* <StyledButton
             variant="contained"
-            sx={{ mt: 4 }}
-            disabled={!this.state.readyToSubmit}
+            sx={{ mt: 4, textTransform:'none' }}
+            disabled={!this.state.readyToSubmit && this.state.captchaValue !== ''}
             onClick={this.handleSubmit}
             size="large"
           >
             <Link style={{ textDecoration: 'none', color: 'white' }} to="/custom/deploy">
               Deploy Project
             </Link>
-          </Button>
-
+            
+          </StyledButton> */}
+          <DeployDialog
+            ButtonLabel = "Deploy"
+            data = {this.state.callData}
+            deployPage = "/custom/deploy"
+            IsDisabled = {!this.state.readyToSubmit}
+            projectIsLoaded = {this.props.projectIsLoaded}
+            />
         </Box >
       );
     }
@@ -420,7 +457,7 @@ class CustomProject extends LCUComponent {
         }}
       >
         <Helmet>
-          <title>LowCodeUnit - Custom Project</title>
+          <title>Fathym - Custom Project</title>
         </Helmet>
         <Paper sx={{ width: ['90%', '80%', '60%'], display: 'flex', flexDirection: 'column', my: 2, py: 2 }} elevation={6}>
           {this.state.redirect}
@@ -432,7 +469,7 @@ class CustomProject extends LCUComponent {
               width: '100%',
             }}
           >
-            <Link to="/">
+            <Box onClick={this.handleLinkClick}>
               <IconButton
                 size="large"
                 edge="end"
@@ -441,7 +478,7 @@ class CustomProject extends LCUComponent {
               >
                 <ArrowBackIcon color="primary" />
               </IconButton>
-            </Link>
+            </Box>
           </Box>
           {formPage}
           <Box sx={{ flexDirection: 'row-reverse', mt: 'auto' }}>

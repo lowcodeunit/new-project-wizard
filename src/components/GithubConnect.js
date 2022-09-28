@@ -1,11 +1,26 @@
 import '../App.css';
 import React from 'react';
+import { styled } from '@mui/material/styles';
 import { Link, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Box, Button, IconButton } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
+const StyledButton = styled(Button)({
+  fontFamily: [
+    '-apple-system',
+    'BlinkMacSystemFont',
+    '"Segoe UI"',
+    'Roboto',
+    '"Helvetica Neue"',
+    'Arial',
+    'sans-serif',
+    '"Apple Color Emoji"',
+    '"Segoe UI Emoji"',
+    '"Segoe UI Symbol"',]
+})
 
 function GithubConnect(props) {
   const recipeLookup = useParams();
@@ -59,12 +74,12 @@ function GithubConnect(props) {
             and we'll help you with the following:
           </p>
 
-          <Button variant="contained" sx={{ mb: 2 }} onClick={authGit}>
-            Connect to Github
-          </Button>
+          <StyledButton variant="contained" sx={{ mb: 2, textTransform:'none'  }} onClick={authGit}>
+            Connect to GitHub
+          </StyledButton>
           <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', alignItems: "center", justifyContent: 'center' }}>
-            <li>Setup modern DevOps build processes using Github actions</li>
-            <li>Fork and/or setup repositories for your Github code</li>
+            <li>Set up modern DevOps build processes using GitHub actions</li>
+            <li>Fork and/or set up repositories for your GitHub code</li>
             <li>
               Provide streamlined source control management for your team
             </li>
