@@ -42,7 +42,7 @@ class Header extends LCUComponent {
                     />
                     <Box>
                     <Typography
-                        sx={{fontFamily: 'Encode Sans Condensed, sans-serif', fontWeight: '900', fontSize:'20px', pl: 2}}
+                        sx={{pl: 2}}
                         noWrap={true}
                     > 
 

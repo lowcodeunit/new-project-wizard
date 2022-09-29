@@ -22,16 +22,7 @@ import DeployDialog from './DeployDialog';
 
 const StyledButton = styled(Button)({
   fontFamily: [
-    '-apple-system',
-    'BlinkMacSystemFont',
-    '"Segoe UI"',
-    'Roboto',
-    '"Helvetica Neue"',
-    'Arial',
-    'sans-serif',
-    '"Apple Color Emoji"',
-    '"Segoe UI Emoji"',
-    '"Segoe UI Symbol"',]
+    'Roboto']
 })
 class CustomProject extends LCUComponent {
   constructor(props) {
@@ -124,9 +115,9 @@ class CustomProject extends LCUComponent {
     this.props.buttonClick('');
   }
   handleBranchSelect(event) {
-    this.setState({ 
+    this.setState({
       selectedBranch: event.target.value,
-     }, () => {
+    }, () => {
       this.readyToSubmit();
     });
   }
@@ -193,8 +184,8 @@ class CustomProject extends LCUComponent {
   }
 
   handleLinkClick() {
-    if(this.state.step === 0) {
-      this.setState({ redirect: <Navigate to={`/`} />});
+    if (this.state.step === 0) {
+      this.setState({ redirect: <Navigate to={`/`} /> });
     } else {
       this.decrementStep();
     }
@@ -246,7 +237,7 @@ class CustomProject extends LCUComponent {
       this.state.selectedRepo !== '' &&
       this.state.ProjectName !== ''
     ) {
-      this.setState({ 
+      this.setState({
         readyToSubmit: true,
         callData: {
           Branch: this.state.selectedBranch,
@@ -257,7 +248,7 @@ class CustomProject extends LCUComponent {
           ProjectName: this.state.ProjectName,
           Repository: this.state.selectedRepo,
         }
-       });
+      });
     }
   }
 
@@ -300,10 +291,10 @@ class CustomProject extends LCUComponent {
               select // tell TextField to render select
               label="GitHub Organization"
             >
-                {this.props.orgs &&
-                  this.props.orgs.map((org) => (
-                    <MenuItem value={org.Name}>{org.Name}</MenuItem>
-                  ))}
+              {this.props.orgs &&
+                this.props.orgs.map((org) => (
+                  <MenuItem value={org.Name}>{org.Name}</MenuItem>
+                ))}
             </TextField>
           </Box>
           <Box>
@@ -316,11 +307,11 @@ class CustomProject extends LCUComponent {
               select // tell TextField to render select
               label="GitHub Repository"
             >
-                {this.state.repos &&
-                  this.state.repos.map((repo) => (
-                    <MenuItem value={repo.Name}>{repo.Name}</MenuItem>
-                  ))}
-                ;
+              {this.state.repos &&
+                this.state.repos.map((repo) => (
+                  <MenuItem value={repo.Name}>{repo.Name}</MenuItem>
+                ))}
+              ;
             </TextField>
           </Box>
           <Box>
@@ -333,11 +324,11 @@ class CustomProject extends LCUComponent {
               select // tell TextField to render select
               label="Main Branch"
             >
-                {this.state.branches &&
-                  this.state.branches.map((branch) => (
-                    <MenuItem value={branch.Name}>{branch.Name}</MenuItem>
-                  ))}
-                ;
+              {this.state.branches &&
+                this.state.branches.map((branch) => (
+                  <MenuItem value={branch.Name}>{branch.Name}</MenuItem>
+                ))}
+              ;
             </TextField>
           </Box>
           <StyledButton
@@ -384,7 +375,7 @@ class CustomProject extends LCUComponent {
                   InputLabelProps={{ shrink: true }}
                   label="Output Directory"
                   variant="outlined"
-                  // value={this.state.buildOutput}
+                  value={this.state.buildOutput}
                   onChange={this.handleOutputChange}
                   defaultValue={this.state.buildOutput}
                 />
@@ -410,7 +401,7 @@ class CustomProject extends LCUComponent {
                   'aria-labelledby': 'basic-button',
                 }}
               >
-                <MenuItem onClick={() => this.handleBuildMenuClose("./")}>Basic HTML' - ./</MenuItem>
+                <MenuItem onClick={() => this.handleBuildMenuClose("./")}>Basic HTML - ./</MenuItem>
                 <MenuItem onClick={() => this.handleBuildMenuClose("./build")}>React - ./build</MenuItem>
                 <MenuItem onClick={() => this.handleBuildMenuClose("./dist")}>Angular, Vue - ./dist</MenuItem>
                 <MenuItem onClick={() => this.handleBuildMenuClose("./public")}>Svelte - ./public</MenuItem>
@@ -419,7 +410,7 @@ class CustomProject extends LCUComponent {
 
             </Box>
           </Box>
-          <Box sx={{ width: ['80%', '60%', '40%'], pt: 2, pb:2}}>
+          <Box sx={{ width: ['80%', '60%', '40%'], pt: 2, pb: 2 }}>
             <p>
               Select a predefined value or enter your custom output directory.
             </p>
@@ -437,12 +428,12 @@ class CustomProject extends LCUComponent {
             
           </StyledButton> */}
           <DeployDialog
-            ButtonLabel = "Deploy"
-            data = {this.state.callData}
-            deployPage = "/custom/deploy"
-            IsDisabled = {!this.state.readyToSubmit}
-            projectIsLoaded = {this.props.projectIsLoaded}
-            />
+            ButtonLabel="Deploy"
+            data={this.state.callData}
+            deployPage="/custom/deploy"
+            IsDisabled={!this.state.readyToSubmit}
+            projectIsLoaded={this.props.projectIsLoaded}
+          />
         </Box >
       );
     }
