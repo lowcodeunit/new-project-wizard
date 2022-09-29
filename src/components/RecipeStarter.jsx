@@ -9,16 +9,7 @@ import DeployDialog from './DeployDialog';
 
 const StyledButton = styled(Button)({
   fontFamily: [
-    '-apple-system',
-    'BlinkMacSystemFont',
-    '"Segoe UI"',
-    'Roboto',
-    '"Helvetica Neue"',
-    'Arial',
-    'sans-serif',
-    '"Apple Color Emoji"',
-    '"Segoe UI Emoji"',
-    '"Segoe UI Symbol"',]
+    'Roboto']
 })
 
 function RecipeStarter(props) {
