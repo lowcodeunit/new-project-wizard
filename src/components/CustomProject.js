@@ -12,8 +12,7 @@ import {
   TextField,
   IconButton,
   Menu,
-  Paper,
-  CircularProgress
+  Paper
 } from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
