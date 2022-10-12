@@ -12,7 +12,8 @@ import {
   TextField,
   IconButton,
   Menu,
-  Paper
+  Paper,
+  CircularProgress
 } from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -181,6 +182,7 @@ class CustomProject extends LCUComponent {
       anchorEl: null,
       buildMenuOpen: !this.state.buildMenuOpen,
     })
+    this.readyToSubmit();
   }
 
   handleLinkClick() {
@@ -324,6 +326,7 @@ class CustomProject extends LCUComponent {
               select // tell TextField to render select
               label="Main Branch"
             >
+
               {this.state.branches &&
                 this.state.branches.map((branch) => (
                   <MenuItem value={branch.Name}>{branch.Name}</MenuItem>
