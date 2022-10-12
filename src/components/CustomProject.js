@@ -131,7 +131,6 @@ class CustomProject extends LCUComponent {
   }
 
   handleReCaptchaChange(value) {
-    console.log("Captcha value:", value);
     this.setState({
       captchaValue: value
     })
@@ -158,30 +157,25 @@ class CustomProject extends LCUComponent {
   }
 
   handleOutputChange(event) {
-    console.log("== " + event.target.value)
-    this.setState({ buildOutput: event.target.value, buildMenuOpen: false }, () => {
+    this.setState({ buildMenuOpen: false }, () => {
       this.readyToSubmit();
     });
   }
 
   handBuildMenuToggle(event) {
-    console.log("toggled anchor " + this.state.anchorEl)
-
     this.setState({
       buildMenuOpen: !this.state.buildMenuOpen,
       anchorEl: event.currentTarget
     });
-
-    console.log(`anchor el is ${this.state.anchorEl}`)
   };
   handleBuildMenuClose(event) {
-    console.log(`event is ${event} `)
     this.setState({
       buildOutput: event,
       anchorEl: null,
-      buildMenuOpen: !this.state.buildMenuOpen,
-    })
-    this.readyToSubmit();
+      buildMenuOpen: !this.state.buildMenuOpen
+    }, () => {
+      this.readyToSubmit();
+    });
   }
 
   handleLinkClick() {
