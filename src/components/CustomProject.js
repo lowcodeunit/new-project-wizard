@@ -157,7 +157,7 @@ class CustomProject extends LCUComponent {
   }
 
   handleOutputChange(event) {
-    this.setState({ buildMenuOpen: false }, () => {
+    this.setState({ buildOutput: event.target.value, buildMenuOpen: false }, () => {
       this.readyToSubmit();
     });
   }
@@ -245,6 +245,7 @@ class CustomProject extends LCUComponent {
         }
       });
     }
+    console.log("HERE IS BUILD OUTPUT " + this.state.buildOutput)
   }
 
   render() {
@@ -391,7 +392,7 @@ class CustomProject extends LCUComponent {
                 id="basic-menu"
                 anchorEl={this.state.anchorEl}
                 open={this.state.buildMenuOpen}
-                onClose={this.handleOutputChange}
+                onClose={() => this.setState({ buildMenuOpen: false })}
                 onChange={this.handleOutputChange}
                 MenuListProps={{
                   'aria-labelledby': 'basic-button',
