@@ -110,11 +110,13 @@ class LoadingPage extends LCUComponent {
         </Box>
       );
     } else if (this.props.isProjectLoaded === 401) {
-      <Box>
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pt: 1 }}>
-          <h4>Captcha failed, please try again. </h4>
+      content = (
+        <Box>
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pt: 1 }}>
+            <h4>Captcha failed, please try again. </h4>
+          </Box>
         </Box>
-      </Box>
+      )
     } else {
       content = (
         <Box>
