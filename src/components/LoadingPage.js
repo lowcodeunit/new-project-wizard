@@ -3,7 +3,7 @@ import React from 'react';
 import { styled } from '@mui/material/styles';
 import { Helmet } from 'react-helmet';
 import LCUComponent from './LCUComponent';
-import { CircularProgress, Box, Button, Link, Paper } from '@mui/material';
+import { CircularProgress, Box, Button, Paper } from '@mui/material';
 import logo from '../recipelogos/thinky.png'
 
 const StyledButton = styled(Button)({
@@ -66,6 +66,7 @@ class LoadingPage extends LCUComponent {
 
   handleContinueClick() {
     this.lcu.track('continued_to_dashboard', null, null);
+    window.open(`/dashboard?direct=true`, '_top').focus();
   }
 
   render() {
@@ -87,26 +88,24 @@ class LoadingPage extends LCUComponent {
           </Box>
           <h4>{this.state.LoadingMessage}</h4>
         </Box>
-    } else if(this.props.isProjectLoaded  === 200) {
+    } else if (this.props.isProjectLoaded === 200) {
       content = (
         <Box>
-          <Link href="/dashboard?direct=true" underline="none">
-            <StyledButton
-              variant="contained"
-              sx={{ mt: 4,  textTransform:'none' }}
-              onClick={this.handleContinueClick}
-              size="large"
-            >
-              Continue to Dashboard
-            </StyledButton>
-          </Link>
+          <StyledButton
+            variant="contained"
+            sx={{ mt: 4, textTransform: 'none' }}
+            onClick={this.handleContinueClick}
+            size="large"
+          >
+            Continue to Dashboard
+          </StyledButton>
         </Box>
       );
-    } else if(this.props.isProjectLoaded  === 401) {
+    } else if (this.props.isProjectLoaded === 401) {
       <Box>
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pt: 1 }}>
-            <h4>Captcha failed, please try again. </h4>
-          </Box>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pt: 1 }}>
+          <h4>Captcha failed, please try again. </h4>
+        </Box>
       </Box>
     }
 
