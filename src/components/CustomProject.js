@@ -401,7 +401,7 @@ class CustomProject extends LCUComponent {
                 <MenuItem onClick={() => this.handleBuildMenuClose("./")}>Basic HTML - ./</MenuItem>
                 <MenuItem onClick={() => this.handleBuildMenuClose("./build")}>React - ./build</MenuItem>
                 <MenuItem onClick={() => this.handleBuildMenuClose("./dist")}>Angular, Vue - ./dist</MenuItem>
-                <MenuItem onClick={() => this.handleBuildMenuClose("./public")}>Svelte - ./public</MenuItem>
+                <MenuItem onClick={() => this.handleBuildMenuClose("./public")}>Svelte, Gatsby - ./public</MenuItem>
               </Menu>
 
 

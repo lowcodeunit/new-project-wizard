@@ -2,6 +2,7 @@ import '../App.css';
 import React from 'react';
 import { styled } from '@mui/material/styles';
 import { Helmet } from 'react-helmet';
+import { Navigate } from 'react-router';
 import LCUComponent from './LCUComponent';
 import { CircularProgress, Box, Button, Paper } from '@mui/material';
 import logo from '../recipelogos/thinky.png'
@@ -18,14 +19,15 @@ class LoadingPage extends LCUComponent {
     this.state = {
       LoadingMessageIndex: 0,
       LoadingMessage: '',
-      CurrentImage: logo
+      CurrentImage: logo,
+      navigate: null
     };
     this.handleContinueClick = this.handleContinueClick.bind(this);
+    this.handleTryAgain = this.handleTryAgain.bind(this);
   }
 
   componentDidMount() {
     this.lcu.track('project_deploying', 'setup/deploying', null);
-    console.log(`the recipe is ${this.props.recipe}`)
 
     if (this.props.loadingMessages?.length > 0) {
       this.setState({
@@ -69,6 +71,12 @@ class LoadingPage extends LCUComponent {
     window.open(`/dashboard?direct=true`, '_top').focus();
   }
 
+  handleTryAgain() {
+    this.setState({
+      navigate: <Navigate to={`/`} />
+    })
+  }
+
   render() {
     let content;
     if (!this.props.isProjectLoaded) {
@@ -107,6 +115,21 @@ class LoadingPage extends LCUComponent {
           <h4>Captcha failed, please try again. </h4>
         </Box>
       </Box>
+    } else {
+      content = (
+        <Box>
+          <h4>Oops, Something went wrong! Please try again. </h4>
+          <StyledButton
+            variant="contained"
+            sx={{ mt: 4, textTransform: 'none' }}
+            size="large"
+            onClick={this.handleTryAgain}
+          >
+            Try Again
+          </StyledButton>
+          {this.state.navigate}
+        </Box>
+      )
     }
 
     return (
