@@ -25,6 +25,9 @@ export default function DeployDialog(props) {
     // if (props.authStatus !== 1) {
     //   navigate()
     // }
+    if(props.ButtonLabel === "Launch" && window.self !== window.top && ){
+      navigate(`/$`)
+    }
   }
   );
 
@@ -34,7 +37,7 @@ export default function DeployDialog(props) {
 
   function handleSubmit(value) {
     let obj = props.data;
-    obj = {...obj, captchaValue: value};
+    obj = { ...obj, captchaValue: value };
     fetch('/api/lowcodeunit/create/project', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -45,7 +48,7 @@ export default function DeployDialog(props) {
     });
     handleClose();
     navigate(props.deployPage);
-    
+
   }
 
   const handleClose = () => {
@@ -55,14 +58,15 @@ export default function DeployDialog(props) {
   return (
     <div>
       <StyledButton
+        id="deploy"
         variant="contained"
-        sx={{ textTransform: 'none'}}
+        sx={{ textTransform: 'none' }}
         onClick={handleClickOpen}
         disabled={props.IsDisabled}
       >
         {props.ButtonLabel}
       </StyledButton>
-     
+
       <Dialog
         open={open}
         TransitionComponent={Transition}
