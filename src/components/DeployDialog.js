@@ -25,14 +25,15 @@ export default function DeployDialog(props) {
     // if (props.authStatus !== 1) {
     //   navigate()
     // }
-    if(props.ButtonLabel === "Launch" && window.self !== window.top && ){
-      navigate(`/$`)
+    if(props.ButtonLabel === "Launch" && window.self !== window.top ){
+      navigate(`/${props.recipe.ID}/launch`)
     }
   }
   );
 
   const handleClickOpen = () => {
     setOpen(true);
+    console.log("THE RECIPE LOOKUP IS " + props.recipe.Lookup);
   };
 
   function handleSubmit(value) {
