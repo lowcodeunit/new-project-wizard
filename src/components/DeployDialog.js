@@ -22,19 +22,20 @@ export default function DeployDialog(props) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // if (props.authStatus !== 1) {
-    //   navigate()
-    // }
+    if (props.ButtonLabel === "Launch" && window.self !== window.top) {
+      window.open(window.self.location.href + `create-project/recipe/${props.recipe.ID}/launch`, '_top').focus();
+    }
   }
   );
 
   const handleClickOpen = () => {
     setOpen(true);
+    console.log("THE RECIPE LOOKUP IS " + props.recipe.Lookup);
   };
 
   function handleSubmit(value) {
     let obj = props.data;
-    obj = {...obj, captchaValue: value};
+    obj = { ...obj, captchaValue: value };
     fetch('/api/lowcodeunit/create/project', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -45,7 +46,7 @@ export default function DeployDialog(props) {
     });
     handleClose();
     navigate(props.deployPage);
-    
+
   }
 
   const handleClose = () => {
@@ -55,14 +56,15 @@ export default function DeployDialog(props) {
   return (
     <div>
       <StyledButton
+        id="deploy"
         variant="contained"
-        sx={{ textTransform: 'none'}}
+        sx={{ textTransform: 'none' }}
         onClick={handleClickOpen}
         disabled={props.IsDisabled}
       >
         {props.ButtonLabel}
       </StyledButton>
-     
+
       <Dialog
         open={open}
         TransitionComponent={Transition}
