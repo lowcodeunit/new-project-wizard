@@ -23,7 +23,7 @@ export default function DeployDialog(props) {
 
   useEffect(() => {
     if (props.ButtonLabel === "Launch" && window.self !== window.top) {
-      window.open(window.self.location.href + "create-project/recipe" + `/${props.recipe.ID}/launch`, '_top').focus();
+      window.open(window.self.location.href + `create-project/recipe/${props.recipe.ID}/launch`, '_top').focus();
     }
   }
   );
