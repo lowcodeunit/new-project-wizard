@@ -22,11 +22,8 @@ export default function DeployDialog(props) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // if (props.authStatus !== 1) {
-    //   navigate()
-    // }
-    if(props.ButtonLabel === "Launch" && window.self !== window.top ){
-      navigate(`/${props.recipe.ID}/launch`)
+    if (props.ButtonLabel === "Launch" && window.self !== window.top) {
+      window.open(window.self.location.href + "create-project/recipe" + `/${props.recipe.ID}/launch`, '_top').focus();
     }
   }
   );
