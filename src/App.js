@@ -13,7 +13,8 @@ import GithubConnect from './components/GithubConnect';
 import LoadingPage from './components/LoadingPage';
 import { createTheme } from '@mui/material/styles';
 import logo from './recipelogos/thinky.png'
-import ScrollToTop from './components/ScrollToTop'
+import ScrollToTop from './components/ScrollToTop';
+import  RecipeLaunch from './components/RecipeLaunch';
 
 const theme = createTheme({
   palette: {
@@ -143,12 +144,12 @@ class HomeComponent extends LCUComponent {
   render() {
     let content;
     let header;
-    if(window.self === window.top) {
+    if (window.self === window.top) {
       header = <Header />
     }
     if (!this.state.gitHubAuthStatus || !this.state.recipesLoaded) {
       content =
-        <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', height:'80vh'}}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
           <Box sx={{ position: 'abosolute' }}>
             <img className='loaderImage' src={logo} alt="Fathym logo" />
           </Box>
@@ -232,6 +233,17 @@ class HomeComponent extends LCUComponent {
               }
             />
             <Route
+              path=":id/launch"
+              element={
+                <RecipeLaunch
+                  projectIsLoaded={this.projectCreated}
+                  orgs={this.state.orgs}
+                  recipeList={this.state.recipeList}
+                  selectedRecipe={this.getCurrentRecipe}
+                />
+              }
+            />
+            <Route
               path=":id/connect"
               element={<GithubConnect base={this.state.basename} />}
             />
@@ -272,7 +284,7 @@ class HomeComponent extends LCUComponent {
             </Helmet>
             {header}
             <Box>
-              <ScrollToTop/>
+              <ScrollToTop />
               {content}
             </Box>
           </ThemeProvider>
