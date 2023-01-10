@@ -21,14 +21,13 @@ export default function DeployDialog(props) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (props.ButtonLabel === "Launch" && window.self !== window.top) {
-      window.open(window.self.location.href + `create-project/recipe/${props.recipe.ID}/launch`, '_top').focus();
-    }
-  }
-  );
 
   const handleClickOpen = () => {
+    if (props.ButtonLabel === "Launch" && window.self !== window.top) {
+      console.log("selected launch within iframe");
+      console.log("window.location.href is " + window.location.href)
+      window.open(window.location.href + `create-project/recipe/${props.recipe.ID}/launch`, '_top').focus();
+    }
     setOpen(true);
     console.log("THE RECIPE LOOKUP IS " + props.recipe.Lookup);
   };
