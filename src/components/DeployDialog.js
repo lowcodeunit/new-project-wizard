@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
@@ -21,20 +21,21 @@ export default function DeployDialog(props) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // if (props.authStatus !== 1) {
-    //   navigate()
-    // }
-  }
-  );
 
   const handleClickOpen = () => {
-    setOpen(true);
+    if (props.ButtonLabel === "Launch" && window.self !== window.top) {
+      console.log("selected launch within iframe");
+      console.log("window.location.href is " + window.location.href)
+      window.open(window.location.origin + `/dashboard/create-project/recipe/${props.recipe.Lookup}/launch`, '_top').focus();
+    } else {
+      setOpen(true);
+      console.log("THE RECIPE LOOKUP IS " + props.recipe.Lookup);
+    }
   };
 
   function handleSubmit(value) {
     let obj = props.data;
-    obj = {...obj, captchaValue: value};
+    obj = { ...obj, captchaValue: value };
     fetch('/api/lowcodeunit/create/project', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -45,7 +46,7 @@ export default function DeployDialog(props) {
     });
     handleClose();
     navigate(props.deployPage);
-    
+
   }
 
   const handleClose = () => {
@@ -55,14 +56,15 @@ export default function DeployDialog(props) {
   return (
     <div>
       <StyledButton
+        id="deploy"
         variant="contained"
-        sx={{ textTransform: 'none'}}
+        sx={{ textTransform: 'none' }}
         onClick={handleClickOpen}
         disabled={props.IsDisabled}
       >
         {props.ButtonLabel}
       </StyledButton>
-     
+
       <Dialog
         open={open}
         TransitionComponent={Transition}
