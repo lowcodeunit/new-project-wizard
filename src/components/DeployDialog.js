@@ -26,7 +26,7 @@ export default function DeployDialog(props) {
     if (props.ButtonLabel === "Launch" && window.self !== window.top) {
       console.log("selected launch within iframe");
       console.log("window.location.href is " + window.location.href)
-      window.open(window.location.origin + `/dashboard/create-project/recipe/${props.recipe.ID}/launch`, '_top').focus();
+      window.open(window.location.origin + `/dashboard/create-project/recipe/${props.recipe.Lookup}/launch`, '_top').focus();
     } else {
       setOpen(true);
       console.log("THE RECIPE LOOKUP IS " + props.recipe.Lookup);
